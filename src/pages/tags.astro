@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const posts = await getCollection('blog')
+const groups = [
+  {
+    name: 'Mathematics',
+    ids: ['amicable-pairs', 'circulant-matrices-1', 'graph', 'markovian-property-and-markov-chain'],
+  },
+  {
+    name: 'Data',
+    ids: ['acid', 'data-roles', 'optimized-file-formats', 'sql-statement-types'],
+  },
+  {
+    name: 'General',
+    ids: ['hello-world'],
+  },
+]
+---
+<BaseLayout title="Tags">
+  <section class="about">
+    <p class="eyebrow">Topics</p>
+    <h1>Tags</h1>
+    <p>Browse the ideas I have been writing about.</p>
+    <div class="tag-groups">
+      {groups.map((group) => {
+        const groupPosts = posts.filter((post) => group.ids.includes(post.id))
+        return (
+          <section class="tag-group">
+            <h2>{group.name}</h2>
+            {groupPosts.map((post) => (
+              <a class="post-row" href={`/posts/${post.id}/`}>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </a>
+            ))}
+          </section>
+        )
+      })}
+    </div>
+  </section>
+</BaseLayout>

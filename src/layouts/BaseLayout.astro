@@ -16,8 +16,8 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
         <nav aria-label="Primary navigation">
           <a href="/posts/">Posts</a>
           <a href="/about/">About</a>
-          <a href="/posts/">Tags</a>
-          <a href="/about/">Search</a>
+          <a href="/tags/">Tags</a>
+          <a href="/search/">Search</a>
         </nav>
       </header>
       <main>
@@ -79,5 +79,12 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
   .about { max-width:720px; margin:80px auto 0; }
   .about h1 { max-width:none; }
   .about p { max-width:620px; font-family:'Source Serif 4', serif; font-size:1.2rem; line-height:1.7; }
+  .tag-groups { margin-top:48px; }
+  .tag-group { margin-top:44px; }
+  .tag-group h2 { color:var(--accent); font-size:1.25rem; }
+  .search-label { display:block; margin-top:40px; margin-bottom:10px; color:var(--muted); font-size:.82rem; }
+  .search-input { width:100%; padding:14px 16px; border:1px solid var(--line); border-radius:0; background:var(--wash); color:var(--ink); font:inherit; }
+  .search-input:focus { outline:2px solid var(--accent); outline-offset:2px; }
+  .search-status { color:var(--muted); font-family:'DM Sans', sans-serif !important; font-size:.82rem !important; }
   @media (max-width: 640px) { .site-shell { padding:20px 18px 10px; } .site-header, .site-footer { align-items:flex-start; flex-direction:column; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } }
 </style>

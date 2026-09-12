@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+---
+<BaseLayout title="Search">
+  <section class="about search-page">
+    <p class="eyebrow">Find a post</p>
+    <h1>Search</h1>
+    <label class="search-label" for="post-search">Search posts</label>
+    <input id="post-search" class="search-input" type="search" placeholder="Try mathematics, data, or a title" />
+    <p id="search-status" class="search-status">Showing all {posts.length} posts.</p>
+    <div id="search-results" class="posts">
+      {posts.map((post) => (
+        <a class="post-row search-result" data-search={`${post.data.title} ${post.data.description ?? ''}`} href={`/posts/${post.id}/`}>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+<script>
+  const input = document.querySelector<HTMLInputElement>('#post-search')
+  const results = [...document.querySelectorAll<HTMLElement>('.search-result')]
+  const status = document.querySelector<HTMLElement>('#search-status')
+
+  input?.addEventListener('input', (event) => {
+    const query = (event.currentTarget as HTMLInputElement).value.trim().toLowerCase()
+    let visible = 0
+    results.forEach((result) => {
+      const matches = !query || (result.dataset.search ?? '').toLowerCase().includes(query)
+      result.hidden = !matches
+      if (matches) visible += 1
+    })
+    if (status) {
+      status.textContent = query ? `${visible} matching post${visible === 1 ? '' : 's'}.` : `Showing all ${results.length} posts.`
+    }
+  })
+</script>
