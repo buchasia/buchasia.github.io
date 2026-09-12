@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import PostRow from '../components/PostRow.astro'
-import { PAGE_SIZE, getBlogPosts, sortPostsByDate } from '../utils/posts'
-import { t } from '../utils/i18n'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostRow from '../../components/PostRow.astro'
+import { PAGE_SIZE, getBlogPosts, sortPostsByDate } from '../../utils/posts'
+import { t } from '../../utils/i18n'
 
-const dict = t('en')
-const posts = sortPostsByDate(await getBlogPosts('en'))
+const dict = t('de')
+const posts = sortPostsByDate(await getBlogPosts('de'))
 ---
-<BaseLayout lang="en" altPath="/">
+<BaseLayout lang="de" altPath="/">
   <section class="hero">
     <div>
       <h1>{dict.home.title}</h1>
@@ -23,6 +23,6 @@ const posts = sortPostsByDate(await getBlogPosts('en'))
   </section>
   <section class="posts">
     <div class="section-label">{dict.home.recentPosts}</div>
-    {posts.slice(0, PAGE_SIZE).map((post) => <PostRow post={post} lang="en" />)}
+    {posts.slice(0, PAGE_SIZE).map((post) => <PostRow post={post} lang="de" />)}
   </section>
 </BaseLayout>

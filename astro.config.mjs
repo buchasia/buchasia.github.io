@@ -5,6 +5,13 @@ import rehypeKatex from 'rehype-katex'
 
 export default defineConfig({
   site: 'https://www.chhitizbuchasia.com',
+  i18n: {
+    locales: ['en', 'de'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   markdown: {
     processor: unified({
       remarkPlugins: [remarkMath],

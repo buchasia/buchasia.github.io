@@ -2,18 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { slugifyTag } from '../utils/tags'
 import { getBlogPosts, getUniqueTags } from '../utils/posts'
+import { localizedPath, t } from '../utils/i18n'
 
-const posts = await getBlogPosts()
+const dict = t('en')
+const posts = await getBlogPosts('en')
 const tags = getUniqueTags(posts)
 ---
-<BaseLayout title="Tags">
+<BaseLayout title={dict.tagsPage.title} lang="en" altPath="/tags/">
   <section class="about">
-    <p class="eyebrow">Topics</p>
-    <h1>Tags</h1>
-    <p>Browse the ideas I have been writing about.</p>
+    <p class="eyebrow">{dict.tagsPage.eyebrow}</p>
+    <h1>{dict.tagsPage.title}</h1>
+    <p>{dict.tagsPage.intro}</p>
     <div class="tag-groups">
       {tags.map((tag) => (
-        <a class="tag-link" href={`/tags/${slugifyTag(tag)}/`}>{tag}</a>
+        <a class="tag-link" href={localizedPath('en', `/tags/${slugifyTag(tag)}/`)}>{tag}</a>
       ))}
     </div>
   </section>

@@ -1,13 +1,13 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import PostRow from '../components/PostRow.astro'
-import { getBlogPosts, sortPostsByDate } from '../utils/posts'
-import { t } from '../utils/i18n'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostRow from '../../components/PostRow.astro'
+import { getBlogPosts, sortPostsByDate } from '../../utils/posts'
+import { t } from '../../utils/i18n'
 
-const dict = t('en')
-const posts = sortPostsByDate(await getBlogPosts('en'))
+const dict = t('de')
+const posts = sortPostsByDate(await getBlogPosts('de'))
 ---
-<BaseLayout title={dict.search.title} lang="en" altPath="/search/">
+<BaseLayout title={dict.search.title} lang="de" altPath="/search/">
   <section class="about search-page">
     <p class="eyebrow">{dict.search.eyebrow}</p>
     <h1>{dict.search.title}</h1>
@@ -15,7 +15,7 @@ const posts = sortPostsByDate(await getBlogPosts('en'))
     <input id="post-search" class="search-input" type="search" placeholder={dict.search.placeholder} />
     <p id="search-status" class="search-status">{dict.search.showingAllTemplate.replace('{n}', String(posts.length))}</p>
     <div id="search-results" class="posts">
-      {posts.map((post) => <PostRow post={post} lang="en" className="search-result" searchable />)}
+      {posts.map((post) => <PostRow post={post} lang="de" className="search-result" searchable />)}
     </div>
   </section>
 </BaseLayout>

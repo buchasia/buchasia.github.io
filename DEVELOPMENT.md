@@ -65,6 +65,19 @@ breaking existing links.
 
 ## Mathematics
 
+### Localized images
+
+Translated posts should reuse the English post images instead of copying them.
+After translating a post, run:
+
+```sh
+npm run share-localized-images
+```
+
+The command updates German image links to the matching English post asset and
+removes only duplicate German files when the English file exists. Use
+`npm run check:shared-images` to preview the changes without modifying files.
+
 Inline mathematics uses single dollar signs:
 
 ```md

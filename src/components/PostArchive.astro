@@ -1,22 +1,29 @@
 ---
 import type { BlogPost } from '../utils/posts'
+import { localizedPath, t, type Lang } from '../utils/i18n'
 import PostRow from './PostRow.astro'
 
 type Props = {
   posts: BlogPost[]
   currentPage: number
   totalPages: number
+  lang?: Lang
 }
 
-const { posts, currentPage, totalPages } = Astro.props
+const { posts, currentPage, totalPages, lang = 'en' as Lang } = Astro.props
+const dict = t(lang)
 ---
 <div class="posts">
-  {posts.map((post) => <PostRow post={post} />)}
+  {posts.map((post) => <PostRow post={post} lang={lang} />)}
 </div>
 {totalPages > 1 && (
   <nav class="pagination" aria-label="Post archive pages">
-    {currentPage > 1 ? <a href={currentPage === 2 ? '/posts/' : `/posts/${currentPage - 1}/`}>Previous</a> : <span />}
-    <span>Page {currentPage} of {totalPages}</span>
-    {currentPage < totalPages ? <a href={`/posts/${currentPage + 1}/`}>Next</a> : <span />}
+    {currentPage > 1 ? (
+      <a href={localizedPath(lang, currentPage === 2 ? '/posts/' : `/posts/${currentPage - 1}/`)}>{dict.pagination.previous}</a>
+    ) : <span />}
+    <span>{dict.pagination.pageOf(currentPage, totalPages)}</span>
+    {currentPage < totalPages ? (
+      <a href={localizedPath(lang, `/posts/${currentPage + 1}/`)}>{dict.pagination.next}</a>
+    ) : <span />}
   </nav>
 )}

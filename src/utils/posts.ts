@@ -1,11 +1,15 @@
 import { getCollection, type CollectionEntry } from 'astro:content'
+import { t, type Lang } from './i18n'
 
 export type BlogPost = CollectionEntry<'blog'>
 
 export const PAGE_SIZE = 6
 
-export const formatDate = (date: Date) =>
-  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+// Post ids are prefixed with their locale folder, e.g. "en/acid".
+export const getPostSlug = (post: BlogPost) => post.id.split('/').slice(1).join('/')
+
+export const formatDate = (date: Date, lang: Lang = 'en') =>
+  date.toLocaleDateString(t(lang).dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })
 
 export const isPublished = (post: BlogPost) =>
   import.meta.env.DEV || !post.data.draft
@@ -55,14 +59,18 @@ export const getReadingTime = (post: BlogPost): ReadingTime => {
   return { words, minutes: Math.max(1, Math.round(seconds / 60)) }
 }
 
-export const formatReadingTime = ({ words, minutes }: ReadingTime, withWords = false) =>
+export const formatReadingTime = ({ words, minutes }: ReadingTime, withWords = false, lang: Lang = 'en') =>
   withWords
-    ? `${words.toLocaleString('en-US')} words · ${minutes} min read`
-    : `${minutes} min read`
+    ? lang === 'de'
+      ? `${words.toLocaleString('de-DE')} Wörter · ${minutes} Min. Lesezeit`
+      : `${words.toLocaleString('en-US')} words · ${minutes} min read`
+    : lang === 'de'
+      ? `${minutes} Min. Lesezeit`
+      : `${minutes} min read`
 
-export const getBlogPosts = async () => {
+export const getBlogPosts = async (lang: Lang = 'en') => {
   const posts = await getCollection('blog')
-  return posts.filter(isPublished)
+  return posts.filter((post) => post.id.startsWith(`${lang}/`)).filter(isPublished)
 }
 
 export const sortPostsByDate = (posts: BlogPost[]) =>

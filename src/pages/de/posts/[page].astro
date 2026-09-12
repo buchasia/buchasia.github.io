@@ -1,11 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import PostArchive from '../../components/PostArchive.astro'
-import { PAGE_SIZE, getBlogPosts, sortPostsByDate } from '../../utils/posts'
-import { t } from '../../utils/i18n'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import PostArchive from '../../../components/PostArchive.astro'
+import { PAGE_SIZE, getBlogPosts, sortPostsByDate } from '../../../utils/posts'
+import { t } from '../../../utils/i18n'
 
 export async function getStaticPaths() {
-  const posts = sortPostsByDate(await getBlogPosts('en'))
+  const posts = sortPostsByDate(await getBlogPosts('de'))
   const totalPages = Math.ceil(posts.length / PAGE_SIZE)
 
   return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
@@ -22,12 +22,12 @@ export async function getStaticPaths() {
 }
 
 const { posts, currentPage, totalPages } = Astro.props
-const dict = t('en')
+const dict = t('de')
 ---
-<BaseLayout title={dict.postsPage.titlePage(currentPage)} lang="en" altPath={`/posts/${currentPage}/`}>
+<BaseLayout title={dict.postsPage.titlePage(currentPage)} lang="de" altPath={`/posts/${currentPage}/`}>
   <section class="about">
     <p class="eyebrow">{dict.postsPage.eyebrow}</p>
     <h1>{dict.postsPage.title}</h1>
-    <PostArchive posts={posts} currentPage={currentPage} totalPages={totalPages} lang="en" />
+    <PostArchive posts={posts} currentPage={currentPage} totalPages={totalPages} lang="de" />
   </section>
 </BaseLayout>

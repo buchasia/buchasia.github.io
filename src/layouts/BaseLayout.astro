@@ -1,10 +1,25 @@
 ---
 import SocialLinks from '../components/SocialLinks.astro'
+import { localizedPath, t, type Lang } from '../utils/i18n'
 
-const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhitiz Buchasia.' } = Astro.props
+type Props = {
+  title?: string
+  description?: string
+  lang?: Lang
+  altPath?: string
+}
+
+const {
+  title = 'Cogito Ergo Sum',
+  description = 'The personal blog of Dr. Chhitiz Buchasia.',
+  lang = 'en' as Lang,
+  altPath = '/',
+} = Astro.props
+const dict = t(lang)
+const otherLang: Lang = lang === 'en' ? 'de' : 'en'
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -14,22 +29,28 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="/">Dr. Chhitiz Buchasia</a>
+        <a class="brand" href={localizedPath(lang, '/')}>Dr. Chhitiz Buchasia</a>
         <div class="header-actions">
           <nav aria-label="Primary navigation">
-            <a href="/posts/">Posts</a>
-            <a href="/about/">About</a>
-            <a href="/tags/">Tags</a>
-            <a href="/search/">Search</a>
+            <a href={localizedPath(lang, '/posts/')}>{dict.nav.posts}</a>
+            <a href={localizedPath(lang, '/about/')}>{dict.nav.about}</a>
+            <a href={localizedPath(lang, '/tags/')}>{dict.nav.tags}</a>
+            <a href={localizedPath(lang, '/search/')}>{dict.nav.search}</a>
+            <a href={localizedPath(otherLang, altPath)} aria-label={t(otherLang).langSwitch.ariaLabel} hreflang={otherLang}>
+              {t(otherLang).langSwitch.label}
+            </a>
           </nav>
           <SocialLinks size="large" />
         </div>
       </header>
+      {dict.translationNotice && (
+        <p class="translation-notice" role="note">{dict.translationNotice}</p>
+      )}
       <main>
         <slot />
       </main>
       <footer class="site-footer">
-        <span>Copyright © {new Date().getFullYear()} | All rights reserved.</span>
+        <span>{dict.footer(new Date().getFullYear())}</span>
         <SocialLinks className="footer-social-links" />
       </footer>
     </div>
@@ -45,6 +66,7 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
   a { color:inherit; }
   .site-shell { width:min(100% - 64px, var(--page-width)); margin:auto; padding:24px 0 16px; }
   .site-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-bottom:22px; border-bottom:1px solid var(--line); }
+  .translation-notice { margin:18px 0 0; padding:10px 14px; border:1px solid var(--line); background:var(--wash); color:var(--muted); font-size:var(--font-size-small); }
   .header-actions { display:flex; align-items:center; gap:24px; }
   .social-links { display:flex; gap:10px; }
   .social-links a { display:grid; place-items:center; width:32px; height:32px; border:1px solid var(--line); }

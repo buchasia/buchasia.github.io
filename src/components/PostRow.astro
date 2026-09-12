@@ -1,8 +1,10 @@
 ---
-import { formatDate, formatReadingTime, getReadingTime, type BlogPost } from '../utils/posts'
+import { formatDate, formatReadingTime, getPostSlug, getReadingTime, type BlogPost } from '../utils/posts'
+import { localizedPath, type Lang } from '../utils/i18n'
 
 type Props = {
   post: BlogPost
+  lang?: Lang
   showDate?: boolean
   showReadingTime?: boolean
   headingLevel?: 'h2' | 'h3'
@@ -12,6 +14,7 @@ type Props = {
 
 const {
   post,
+  lang = 'en' as Lang,
   showDate = true,
   showReadingTime = true,
   headingLevel = 'h3',
@@ -24,13 +27,13 @@ const readingTime = getReadingTime(post)
 <a
   class={`post-row${className ? ` ${className}` : ''}`}
   data-search={searchable ? searchText : undefined}
-  href={`/posts/${post.id}/`}
+  href={localizedPath(lang, `/posts/${getPostSlug(post)}/`)}
 >
   {(showDate || showReadingTime) && (
     <p class="post-meta">
-      {showDate && <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>}
+      {showDate && <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, lang)}</time>}
       {showReadingTime && readingTime.minutes > 0 && (
-        <span class="reading-time">{formatReadingTime(readingTime)}</span>
+        <span class="reading-time">{formatReadingTime(readingTime, false, lang)}</span>
       )}
     </p>
   )}

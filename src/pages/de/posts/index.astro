@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import PostArchive from '../../../components/PostArchive.astro'
+import { PAGE_SIZE, getBlogPosts, sortPostsByDate } from '../../../utils/posts'
+import { t } from '../../../utils/i18n'
+
+const dict = t('de')
+const posts = sortPostsByDate(await getBlogPosts('de'))
+---
+<BaseLayout title={dict.postsPage.title} lang="de" altPath="/posts/">
+  <section class="about">
+    <p class="eyebrow">{dict.postsPage.eyebrow}</p>
+    <h1>{dict.postsPage.title}</h1>
+    <PostArchive posts={posts.slice(0, PAGE_SIZE)} currentPage={1} totalPages={Math.ceil(posts.length / PAGE_SIZE)} lang="de" />
+  </section>
+</BaseLayout>

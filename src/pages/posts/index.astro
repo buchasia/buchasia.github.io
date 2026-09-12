@@ -2,13 +2,15 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostArchive from '../../components/PostArchive.astro'
 import { PAGE_SIZE, getBlogPosts, sortPostsByDate } from '../../utils/posts'
+import { t } from '../../utils/i18n'
 
-const posts = sortPostsByDate(await getBlogPosts())
+const dict = t('en')
+const posts = sortPostsByDate(await getBlogPosts('en'))
 ---
-<BaseLayout title="Posts">
+<BaseLayout title={dict.postsPage.title} lang="en" altPath="/posts/">
   <section class="about">
-    <p class="eyebrow">Archive</p>
-    <h1>All posts</h1>
-    <PostArchive posts={posts.slice(0, PAGE_SIZE)} currentPage={1} totalPages={Math.ceil(posts.length / PAGE_SIZE)} />
+    <p class="eyebrow">{dict.postsPage.eyebrow}</p>
+    <h1>{dict.postsPage.title}</h1>
+    <PostArchive posts={posts.slice(0, PAGE_SIZE)} currentPage={1} totalPages={Math.ceil(posts.length / PAGE_SIZE)} lang="en" />
   </section>
 </BaseLayout>

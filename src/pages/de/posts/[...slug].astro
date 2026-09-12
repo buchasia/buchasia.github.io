@@ -1,0 +1,40 @@
+---
+import { render } from 'astro:content'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { slugifyTag } from '../../../utils/tags'
+import { formatDate, formatReadingTime, getBlogPosts, getPostSlug, getReadingTime } from '../../../utils/posts'
+import { localizedPath, t } from '../../../utils/i18n'
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts('de')
+  return posts.map((post) => ({
+    params: { slug: getPostSlug(post) },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content } = await render(post)
+const readingTime = getReadingTime(post)
+const dict = t('de')
+---
+<BaseLayout title={post.data.title} description={post.data.description} lang="de" altPath={`/posts/${getPostSlug(post)}/`}>
+  <article class="article">
+    <header class="article-header">
+      <p class="eyebrow">{dict.article.eyebrow}</p>
+      <h1>{post.data.title}</h1>
+      <p class="article-date">
+        <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, 'de')}</time>
+        {readingTime.minutes > 0 && (
+          <span class="reading-time">{formatReadingTime(readingTime, true, 'de')}</span>
+        )}
+      </p>
+      {post.data.tags.length > 0 && (
+        <nav class="post-tags" aria-label="Post tags">
+          {post.data.tags.map((tag) => <a href={localizedPath('de', `/tags/${slugifyTag(tag)}/`)}>{tag}</a>)}
+        </nav>
+      )}
+    </header>
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>

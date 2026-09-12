@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { t } from '../../utils/i18n'
+
+const dict = t('de')
+---
+<BaseLayout title={dict.about.title} lang="de" altPath="/about/">
+  <section class="about">
+    <p class="eyebrow">{dict.about.eyebrow}</p>
+    <h1>{dict.about.title}</h1>
+    <p>{dict.about.p1}</p>
+    <p>{dict.about.p2}</p>
+    <p>{dict.about.p3Prefix} <a href="https://www.linkedin.com/in/chhitizbuchasia/">LinkedIn</a>, <a href="https://www.strava.com/athletes/64546861">Strava</a> oder <a href="https://github.com/buchasia">GitHub</a>.</p>
+  </section>
+</BaseLayout>

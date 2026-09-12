@@ -3,9 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import { slugifyTag } from '../../utils/tags'
 import PostRow from '../../components/PostRow.astro'
 import { getBlogPosts, getUniqueTags } from '../../utils/posts'
+import { t } from '../../utils/i18n'
 
 export async function getStaticPaths() {
-  const posts = await getBlogPosts()
+  const posts = await getBlogPosts('en')
   const tags = getUniqueTags(posts)
 
   return tags.map((tag) => ({
@@ -18,13 +19,14 @@ export async function getStaticPaths() {
 }
 
 const { tag, posts } = Astro.props
+const dict = t('en')
 ---
-<BaseLayout title={`Tag: ${tag}`}>
+<BaseLayout title={`Tag: ${tag}`} lang="en" altPath={`/tags/${slugifyTag(tag)}/`}>
   <section class="about">
-    <p class="eyebrow">Topic</p>
+    <p class="eyebrow">{dict.tagPage.eyebrow}</p>
     <h1>{tag}</h1>
     <div class="posts">
-      {posts.map((post) => <PostRow post={post} headingLevel="h2" />)}
+      {posts.map((post) => <PostRow post={post} lang="en" headingLevel="h2" />)}
     </div>
   </section>
 </BaseLayout>
