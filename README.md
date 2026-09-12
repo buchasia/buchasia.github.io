@@ -1,38 +1,31 @@
 # Cogito Ergo Sum
 
-Personal blog of Dr. Chhitiz Buchasia, built with Astro and deployed to GitHub Pages.
+Personal blog of **Dr. Chhitiz Buchasia**, built with Astro and deployed to
+GitHub Pages at [buchasia.github.io](https://buchasia.github.io/).
 
-## Local development
+## About me
 
-```sh
-npm install
-npm run dev
-```
+A father, wanderer, lifelong learner, runner, and software engineer.
 
-Add Markdown posts under `content/blog`. The GitHub Pages workflow deploys the site from `main`.
+This blog is a place for notes, ideas, experiments, and lessons learned across
+technology, data, mathematics, and life.
 
-## Writing mathematics
+## Current focus
 
-Use standard KaTeX-compatible Markdown notation for mathematics. Wrap inline
-expressions in single dollar signs:
+- Microsoft Fabric and Power BI
+- Data engineering, analytics, and optimized file formats
+- Artificial intelligence and practical software engineering
+- Mathematics, algorithms, and number theory
+- Running and the habits that support lifelong learning
 
-```md
-The area is $A = \pi r^2$.
-```
+## Around the web
 
-Use double dollar signs for a centered display equation:
+- [GitHub](https://github.com/buchasia)
+- [LinkedIn](https://www.linkedin.com/in/chhitizbuchasia/)
+- [Strava](https://www.strava.com/athletes/64546861)
+- [Credly certificates](https://www.credly.com/users/chhitiz-buchasia/badges/credly)
 
-```md
-$$
-\sigma(n) = \sum_{d \mid n} d
-$$
-```
+## Development
 
-The site processes these expressions with `remark-math` and `rehype-katex`.
-After changing the Astro configuration or Markdown pipeline, restart the local
-development server so it loads the updated processor:
-
-```sh
-npx astro dev stop
-npm run dev -- --host localhost
-```
+See [DEVELOPMENT.md](DEVELOPMENT.md) for local setup, writing posts, Markdown
+math, pagination, naming conventions, and deployment instructions.

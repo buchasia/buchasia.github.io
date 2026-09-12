@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostArchive from '../../components/PostArchive.astro'
+
+export async function getStaticPaths() {
+  const pageSize = 6
+  const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  const totalPages = Math.ceil(posts.length / pageSize)
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const currentPage = index + 2
+    return {
+      params: { page: String(currentPage) },
+      props: {
+        posts: posts.slice(index * pageSize + pageSize, currentPage * pageSize),
+        currentPage,
+        totalPages,
+      },
+    }
+  })
+}
+
+const { posts, currentPage, totalPages } = Astro.props
+---
+<BaseLayout title={`Posts - Page ${currentPage}`}>
+  <section class="about">
+    <p class="eyebrow">Archive</p>
+    <h1>All posts</h1>
+    <PostArchive posts={posts} currentPage={currentPage} totalPages={totalPages} />
+  </section>
+</BaseLayout>

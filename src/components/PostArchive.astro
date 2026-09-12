@@ -1,0 +1,20 @@
+---
+const { posts, currentPage, totalPages } = Astro.props
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+type BlogPost = { id: string; data: { date: Date; title: string; description?: string } }
+---
+<div class="posts">
+  {posts.map((post: BlogPost) => (
+    <a class="post-row" href={`/posts/${post.id}/`}>
+      <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+      <div><h3>{post.data.title}</h3><p>{post.data.description}</p></div>
+    </a>
+  ))}
+</div>
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Post archive pages">
+    {currentPage > 1 ? <a href={currentPage === 2 ? '/posts/' : `/posts/${currentPage - 1}/`}>Previous</a> : <span />}
+    <span>Page {currentPage} of {totalPages}</span>
+    {currentPage < totalPages ? <a href={`/posts/${currentPage + 1}/`}>Next</a> : <span />}
+  </nav>
+)}
