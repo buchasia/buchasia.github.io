@@ -37,12 +37,12 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
 <style is:global>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap');
   @import url('https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css');
-  :root { color-scheme:dark; --ink:#f1f3f2; --muted:#a5afab; --line:#34403d; --paper:#111716; --accent:#65b5e8; --wash:#1d2927; }
+  :root { color-scheme:dark; --page-width:1040px; --ink:#f1f3f2; --muted:#a5afab; --line:#34403d; --paper:#111716; --accent:#65b5e8; --wash:#1d2927; }
   * { box-sizing:border-box; }
   html { background:var(--paper); color:var(--ink); font-family:'DM Sans', sans-serif; }
   body { margin:0; }
   a { color:inherit; }
-  .site-shell { max-width:1040px; margin:auto; padding:24px 32px 16px; }
+  .site-shell { width:min(100% - 64px, var(--page-width)); margin:auto; padding:24px 0 16px; }
   .site-header { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-bottom:22px; border-bottom:1px solid var(--line); }
   .brand { color:var(--ink); font-weight:700; text-decoration:none; letter-spacing:-.02em; }
   nav, .site-footer div { display:flex; gap:22px; font-size:.82rem; }
@@ -66,7 +66,7 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
   .post-row h3 { margin:8px 0; font-size:1.2rem; letter-spacing:-.025em; }
   .post-row p { margin:0; max-width:600px; color:var(--muted); line-height:1.55; }
   .post-row:hover h3 { color:var(--accent); }
-  .article { max-width:880px; margin:76px auto 0; }
+  .article { width:100%; margin:76px auto 0; }
   .article-header { margin-bottom:48px; }
   .article h1 { max-width:16ch; font-size:clamp(2.4rem,6vw,4.5rem); }
   .article-date { color:var(--accent); font-size:.78rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
@@ -76,7 +76,7 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
   .prose pre { overflow:auto; padding:20px; background:#202c2a; color:#eef5f2; font-size:.86rem; }
   .prose blockquote { margin:24px 0; padding-left:20px; border-left:3px solid var(--accent); color:var(--muted); }
   .katex { color:var(--ink); }
-  .about { max-width:720px; margin:80px auto 0; }
+  .about { width:100%; margin:80px auto 0; }
   .about h1 { max-width:none; }
   .about p { max-width:620px; font-family:'Source Serif 4', serif; font-size:1.2rem; line-height:1.7; }
   .tag-groups { margin-top:48px; }
@@ -86,5 +86,5 @@ const { title = 'Cogito Ergo Sum', description = 'The personal blog of Dr. Chhit
   .search-input { width:100%; padding:14px 16px; border:1px solid var(--line); border-radius:0; background:var(--wash); color:var(--ink); font:inherit; }
   .search-input:focus { outline:2px solid var(--accent); outline-offset:2px; }
   .search-status { color:var(--muted); font-family:'DM Sans', sans-serif !important; font-size:.82rem !important; }
-  @media (max-width: 640px) { .site-shell { padding:20px 18px 10px; } .site-header, .site-footer { align-items:flex-start; flex-direction:column; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } }
+  @media (max-width: 640px) { .site-shell { width:calc(100% - 36px); } .site-header, .site-footer { align-items:flex-start; flex-direction:column; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } }
 </style>
