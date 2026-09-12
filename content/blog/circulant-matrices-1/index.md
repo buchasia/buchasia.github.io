@@ -2,6 +2,7 @@
 title: Circulant Matrices - Part I
 date: "2025-03-29T13:32:03.284Z"
 description: "What are circulant matrices and their relevance in geometric deep learning."
+tags: [mathematics, machine learning]
 ---
 
 Recently, I attended a lecture on geometric deep learning. The lecture was really amazing. Came to learn about a completely different perspective about methods that I already knew, like CNNs, Transformers. In this lecture I came across the concept of `circulant matrices`. 

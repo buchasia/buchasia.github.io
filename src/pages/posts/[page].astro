@@ -2,18 +2,18 @@
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostArchive from '../../components/PostArchive.astro'
+import { PAGE_SIZE, sortPostsByDate } from '../../utils/posts'
 
 export async function getStaticPaths() {
-  const pageSize = 6
-  const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  const totalPages = Math.ceil(posts.length / pageSize)
+  const posts = sortPostsByDate(await getCollection('blog'))
+  const totalPages = Math.ceil(posts.length / PAGE_SIZE)
 
   return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
     const currentPage = index + 2
     return {
       params: { page: String(currentPage) },
       props: {
-        posts: posts.slice(index * pageSize + pageSize, currentPage * pageSize),
+        posts: posts.slice(index * PAGE_SIZE + PAGE_SIZE, currentPage * PAGE_SIZE),
         currentPage,
         totalPages,
       },

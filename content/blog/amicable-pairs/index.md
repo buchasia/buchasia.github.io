@@ -2,6 +2,7 @@
 title: Amicable Pairs
 date: "2025-03-30T15:13:03.284Z"
 description: "Amicable numbers are two numbers where the sum of the proper divisors of each equals the other, revealing a fascinating symmetry in number theory."
+tags: [mathematics, number theory]
 ---
 
 I have always been fascinated by numbers and their properties and how they are related to one another. During my student life I have spent hundreds of hours reading about different properties of numbers, implementing algorithms to find these numbers for myself and optimizing these algorithms to be faster as I moved to bigger numbers with more digits.

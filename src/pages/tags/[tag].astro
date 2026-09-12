@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { slugifyTag } from '../../utils/tags'
+import PostRow from '../../components/PostRow.astro'
+import { getUniqueTags } from '../../utils/posts'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  const tags = getUniqueTags(posts)
+
+  return tags.map((tag) => ({
+    params: { tag: slugifyTag(tag) },
+    props: {
+      tag,
+      posts: posts.filter((post) => post.data.tags.includes(tag)),
+    },
+  }))
+}
+
+const { tag, posts } = Astro.props
+---
+<BaseLayout title={`Tag: ${tag}`}>
+  <section class="about">
+    <p class="eyebrow">Topic</p>
+    <h1>{tag}</h1>
+    <div class="posts">
+      {posts.map((post) => <PostRow post={post} headingLevel="h2" />)}
+    </div>
+  </section>
+</BaseLayout>

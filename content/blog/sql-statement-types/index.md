@@ -2,6 +2,7 @@
 title: SQL statement types
 date: "2025-04-03T15:13:03.284Z"
 description: "SQL statements are categorized into three main types: DDL (Data Definition Language), DCL (Data Control Language), and DML (Data Manipulation Language)."
+tags: [databases, sql]
 ---
 
 SQL stands for _Structured Query Language_ and can be used to communicate with a relational database. Almost every backend developer should have had contact with one or other form of SQL depening on the underlying database system.

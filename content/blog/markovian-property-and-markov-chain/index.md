@@ -2,6 +2,7 @@
 title: Markovian Property and Markov Chain 
 date: "2025-04-04T22:18:03.284Z"
 description: "The Markovian property states that the future state of a process depends only on the present state, not the past, and a Markov Chain is a sequence of states following this property with defined transition probabilities."
+tags: [mathematics, probability, machine learning]
 ---
 
 In Reinforcement Learning (RL) there is a big area of interest namely Markov Decision Processes (MDPS). In MDPS we are interested in processes that have Markov property. 

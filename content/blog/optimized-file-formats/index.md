@@ -2,6 +2,7 @@
 title: Optimized file formats
 date: "2025-03-31T20:17:03.284Z"
 description: "File formats like Avro, Optimized Row Columnar (ORC) and Parquet"
+tags: [data, databases]
 ---
 
 We have many file formats that are desgined to be readable by human beings. These formats are not optimal for storage or processing of large amounts of data. JavaScript Object Notation (JSON) and Extensible Markup Language (XML) are examples of human readable file formats. 

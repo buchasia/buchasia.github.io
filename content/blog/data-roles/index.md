@@ -2,6 +2,7 @@
 title: Data Roles
 date: "2025-04-02T15:13:03.284Z"
 description: "A Database Administrator (DBA) manages and secures databases, a Data Engineer builds data pipelines and infrastructure, and a Data Analyst interprets and visualizes data to extract insights."
+tags: [data, careers]
 ---
 
 The amount of data that is being generated everyday by every organization has been growing since last few years. There are many roles involved in managing, controlling and using the data. Let us discuss the three roles dealing with data that are common in most organization these days:

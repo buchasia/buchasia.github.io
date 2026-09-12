@@ -1,0 +1,29 @@
+---
+type Props = {
+  size?: 'small' | 'large'
+  className?: string
+}
+
+type SocialLink = {
+  href: string
+  label: string
+  icon: string
+  className: string
+}
+
+const { size = 'small', className = 'social-links' } = Astro.props
+const iconSize = size === 'large' ? 20 : 18
+const socialLinks: SocialLink[] = [
+  { href: 'https://github.com/buchasia', label: 'GitHub', icon: 'github.svg', className: 'github-icon' },
+  { href: 'https://www.linkedin.com/in/chhitizbuchasia/', label: 'LinkedIn', icon: 'linkedin.svg', className: 'linkedin-icon' },
+  { href: 'https://www.strava.com/athletes/64546861', label: 'Strava', icon: 'strava.svg', className: 'strava-icon' },
+  { href: 'https://www.credly.com/users/chhitiz-buchasia/badges/credly', label: 'Credly', icon: 'credly.svg', className: 'credly-icon' },
+]
+---
+<div class={className} aria-label="Social profiles">
+  {socialLinks.map((link) => (
+    <a href={link.href} aria-label={link.label} title={link.label}>
+      <img class={link.className} src={`/icons/${link.icon}`} alt="" width={iconSize} height={iconSize} />
+    </a>
+  ))}
+</div>

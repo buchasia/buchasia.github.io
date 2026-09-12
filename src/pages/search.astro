@@ -1,8 +1,10 @@
 ---
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import PostRow from '../components/PostRow.astro'
+import { sortPostsByDate } from '../utils/posts'
 
-const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+const posts = sortPostsByDate(await getCollection('blog'))
 ---
 <BaseLayout title="Search">
   <section class="about search-page">
@@ -12,12 +14,7 @@ const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf()
     <input id="post-search" class="search-input" type="search" placeholder="Try mathematics, data, or a title" />
     <p id="search-status" class="search-status">Showing all {posts.length} posts.</p>
     <div id="search-results" class="posts">
-      {posts.map((post) => (
-        <a class="post-row search-result" data-search={`${post.data.title} ${post.data.description ?? ''}`} href={`/posts/${post.id}/`}>
-          <h3>{post.data.title}</h3>
-          <p>{post.data.description}</p>
-        </a>
-      ))}
+      {posts.map((post) => <PostRow post={post} className="search-result" searchable />)}
     </div>
   </section>
 </BaseLayout>

@@ -1,0 +1,31 @@
+---
+import { formatDate, type BlogPost } from '../utils/posts'
+
+type Props = {
+  post: BlogPost
+  showDate?: boolean
+  headingLevel?: 'h2' | 'h3'
+  className?: string
+  searchable?: boolean
+}
+
+const {
+  post,
+  showDate = true,
+  headingLevel = 'h3',
+  className = '',
+  searchable = false,
+} = Astro.props
+const searchText = `${post.data.title} ${post.data.description ?? ''}`
+---
+<a
+  class={`post-row${className ? ` ${className}` : ''}`}
+  data-search={searchable ? searchText : undefined}
+  href={`/posts/${post.id}/`}
+>
+  {showDate && <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>}
+  <div>
+    {headingLevel === 'h2' ? <h2>{post.data.title}</h2> : <h3>{post.data.title}</h3>}
+    <p>{post.data.description}</p>
+  </div>
+</a>

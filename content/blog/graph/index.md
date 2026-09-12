@@ -2,6 +2,7 @@
 title: Graphs
 date: "2025-04-05T22:53:03.284Z"
 description: "A graph is a collection of nodes (vertices) connected by edges (lines)"
+tags: [mathematics, computer science]
 ---
 
 Have you ever used Google Maps, followed people on Instagram, or browsed Wikipedia? Then you've interacted with graphs - even if you didn't realize it!

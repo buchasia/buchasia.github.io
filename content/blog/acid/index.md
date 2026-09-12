@@ -2,6 +2,7 @@
 title: The ACID Principle
 date: "2025-04-01T15:13:03.284Z"
 description: "ACID ensures database transactions are Atomic (all or nothing), Consistent (valid state maintained), Isolated (independent execution), and Durable (permanent after commit)."
+tags: [databases, transactions]
 ---
 
 Almost everyone of us uses database systems in one way or other. The database systems could be part of the apps that we have on our phone or websites that we use through our browsers. 
