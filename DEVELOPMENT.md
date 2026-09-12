@@ -35,8 +35,18 @@ frontmatter:
 title: Your post title
 date: "2026-09-12"
 description: A short summary for archive pages and search.
+tags: [fabric, data]
+draft: true
 ---
 ```
+
+### Draft posts
+
+Set `draft: true` in the frontmatter while working on a post. Draft posts:
+- Are visible during local development (`npm run dev`) so you can preview your changes.
+- Are excluded automatically from production builds (`npm run build`), including post pages, archives, tags, and search.
+
+When you are ready to publish, set `draft: false` (or remove the `draft` property).
 
 Use stable, lowercase kebab-case folder names. For example:
 

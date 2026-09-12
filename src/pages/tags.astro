@@ -1,10 +1,9 @@
 ---
-import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { slugifyTag } from '../utils/tags'
-import { getUniqueTags } from '../utils/posts'
+import { getBlogPosts, getUniqueTags } from '../utils/posts'
 
-const posts = await getCollection('blog')
+const posts = await getBlogPosts()
 const tags = getUniqueTags(posts)
 ---
 <BaseLayout title="Tags">

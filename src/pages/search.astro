@@ -1,10 +1,9 @@
 ---
-import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import PostRow from '../components/PostRow.astro'
-import { sortPostsByDate } from '../utils/posts'
+import { getBlogPosts, sortPostsByDate } from '../utils/posts'
 
-const posts = sortPostsByDate(await getCollection('blog'))
+const posts = sortPostsByDate(await getBlogPosts())
 ---
 <BaseLayout title="Search">
   <section class="about search-page">
