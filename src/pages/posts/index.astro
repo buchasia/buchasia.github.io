@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+---
+<BaseLayout title="Posts">
+  <section class="about">
+    <p class="eyebrow">Archive</p>
+    <h1>All posts</h1>
+    <div class="posts">
+      {posts.map((post) => (
+        <a class="post-row" href={`/posts/${post.id}/`}>
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+          <div><h3>{post.data.title}</h3><p>{post.data.description}</p></div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

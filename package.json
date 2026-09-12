@@ -1,0 +1,19 @@
+{
+  "name": "buchasia.github.io",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/markdown-remark": "^7.3.1",
+    "astro": "^7.3.2",
+    "katex": "^0.18.7",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "typescript": "^5.9.2"
+  }
+}

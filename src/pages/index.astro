@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+---
+<BaseLayout>
+  <section class="hero">
+    <div>
+      <h1>Cogito Ergo Sum</h1>
+    </div>
+    <div class="hero-copy">
+      <p>Hello and welcome to my blog.</p>
+      <p>A father, wanderer, lifelong learner, runner, and software engineer writing about technology, data, mathematics, and the spaces between them.</p>
+    </div>
+  </section>
+  <section class="intro">
+    <span class="section-label">Current interests</span>
+    <p>Fabric · Power BI · Running · Numbers · AI · Mathematics</p>
+  </section>
+  <section class="posts">
+    <div class="section-label">Recent posts</div>
+    {posts.slice(0, 6).map((post) => (
+      <a class="post-row" href={`/posts/${post.id}/`}>
+        <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+        <div>
+          <h3>{post.data.title}</h3>
+          <p>{post.data.description}</p>
+        </div>
+      </a>
+    ))}
+  </section>
+</BaseLayout>
