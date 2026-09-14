@@ -1,0 +1,40 @@
+[
+  {
+    "id": "2026-09-13-berlin",
+    "date": "2026-09-13T08:00:00Z",
+    "distance": 15240,
+    "duration": 3120,
+    "location": {
+      "id": "berlin",
+      "name": "Berlin, Germany"
+    },
+    "notes": "Morning run in the park.",
+    "eventName": "Berlin City Run",
+    "isVirtual": false
+  },
+  {
+    "id": "2026-09-14-munich",
+    "date": "2026-09-14T10:30:00Z",
+    "distance": 10000,
+    "duration": 2100,
+    "location": {
+      "id": "munich",
+      "name": "Munich, Germany"
+    },
+    "notes": "Short and fast.",
+    "isVirtual": true
+  },
+  {
+    "id": "2025-12-20-berlin",
+    "date": "2025-12-20T09:00:00Z",
+    "distance": 12000,
+    "duration": 2800,
+    "location": {
+      "id": "berlin",
+      "name": "Berlin, Germany"
+    },
+    "notes": "Holiday run.",
+    "eventName": "Christmas Run",
+    "isVirtual": false
+  }
+]
