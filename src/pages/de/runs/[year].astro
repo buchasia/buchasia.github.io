@@ -43,11 +43,11 @@ const types = [...new Set(runs.map(run => run.activityType).filter(Boolean))]
   .run-dashboard{padding:2rem 0}.year-nav{display:flex;justify-content:space-between;gap:1rem;margin:1.5rem 0;color:var(--accent);font-size:var(--font-size-small)}.year-nav a{color:inherit}.highlights{margin:2rem 0}.highlight-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}.highlight-grid div{display:flex;flex-direction:column;gap:.3rem;padding-top:.65rem;border-top:1px solid var(--line)}.highlight-grid span,.list-heading>span,.run-row time,.run-row small,.run-row p{color:var(--muted);font-size:var(--font-size-small)}.highlight-grid strong{color:var(--ink);font-weight:500}.run-list{margin-top:2.5rem}.list-heading{display:flex;justify-content:space-between;align-items:baseline}.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}.filters input,.filters select{padding:.45rem .55rem;border:1px solid var(--line);background:var(--wash);color:inherit;font:inherit}.runs{border-top:1px solid var(--line)}.run-row{display:grid;grid-template-columns:8rem auto auto;justify-content:start;gap:.75rem;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--line)}.run-row div{display:grid;grid-template-columns:6rem 5rem;gap:1rem;justify-content:start}.run-row strong{text-align:right}.run-row p{grid-column:2/-1;margin:0}.empty-state{color:var(--muted)}.run-row.is-hidden{display:none}@media(max-width:640px){.highlight-grid{grid-template-columns:repeat(2,1fr)}.run-row{grid-template-columns:1fr}.run-row time,.run-row p,.run-row small{grid-column:1}.run-row div{grid-column:1}}
 </style>
 <script>
-  const rows = [...document.querySelectorAll('[data-run-row]')]
-  const search = document.querySelector('#run-search')
-  const month = document.querySelector('#run-month')
-  const type = document.querySelector('#run-type'); const min = document.querySelector('#run-min'); const max = document.querySelector('#run-max')
-  const count = document.querySelector('#run-count')
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-run-row]')]
+  const search = document.querySelector<HTMLInputElement>('#run-search')
+  const month = document.querySelector<HTMLSelectElement>('#run-month')
+  const type = document.querySelector<HTMLSelectElement>('#run-type'); const min = document.querySelector<HTMLInputElement>('#run-min'); const max = document.querySelector<HTMLInputElement>('#run-max')
+  const count = document.querySelector<HTMLElement>('#run-count')
   const filter = () => { const query = (search?.value ?? '').toLowerCase(); const minValue = min?.value ? Number(min.value) : 0; const maxValue = max?.value ? Number(max.value) : Infinity; let visible = 0; rows.forEach(row => { const distance = Number(row.dataset.distance); const match = (!month?.value || row.dataset.month === month.value) && (!type?.value || row.dataset.type === type.value) && (!query || (row.dataset.search ?? '').toLowerCase().includes(query)) && distance >= minValue && distance <= maxValue; row.classList.toggle('is-hidden', !match); if (match) visible++ }); if (count) count.textContent = `${visible} Läufe` }
   ;[search, month, type, min, max].forEach(control => control?.addEventListener('input', filter)); filter()
 </script>

@@ -27,7 +27,7 @@ const dictionaries = {
       intro: 'Explore my running data and progress.',
       list: 'Runs', totalDistance: 'Total distance', totalTime: 'Total time', totalRuns: 'Total runs',
       selectYear: 'Select a year', noData: 'No running data is available right now.', noRuns: 'No runs recorded for this year.',
-      newerYear: 'Newer year', olderYear: 'Older year', allYears: 'All years', highlights: 'Year highlights', fastestRun: 'Fastest pace', busiestMonth: 'Busiest month', longestWeek: 'Longest week', filters: 'Filter runs', allMonths: 'All months', allTypes: 'All activity types', searchRuns: 'Search runs', minDistance: 'Min km', maxDistance: 'Max km', runCount: (n: number) => `${n} runs`, annualComparison: 'Year-by-year comparison', year: 'Year', averageRun: 'Average run', noValue: '—', months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+      newerYear: 'Newer year', olderYear: 'Older year', allYears: 'All years', highlights: 'Year highlights', longestRun: 'Longest run', fastestRun: 'Fastest pace', busiestMonth: 'Busiest month', longestWeek: 'Longest week', filters: 'Filter runs', allMonths: 'All months', allTypes: 'All activity types', searchRuns: 'Search runs', minDistance: 'Min km', maxDistance: 'Max km', runCount: (n: number) => `${n} runs`, annualComparison: 'Year-by-year comparison', year: 'Year', averageRun: 'Average run', noValue: '—', months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
     },
     about: {
       eyebrow: 'About',
@@ -73,7 +73,7 @@ const dictionaries = {
       intro: 'Entdecke meine Laufdaten und Fortschritte.',
       list: 'Läufe', totalDistance: 'Gesamtdistanz', totalTime: 'Gesamtzeit', totalRuns: 'Läufe insgesamt',
       selectYear: 'Jahr auswählen', noData: 'Derzeit sind keine Laufdaten verfügbar.', noRuns: 'Für dieses Jahr sind keine Läufe erfasst.',
-      newerYear: 'Neueres Jahr', olderYear: 'Älteres Jahr', allYears: 'Alle Jahre', highlights: 'Jahreshöhepunkte', fastestRun: 'Schnellstes Tempo', busiestMonth: 'Aktivster Monat', longestWeek: 'Längste Woche', filters: 'Läufe filtern', allMonths: 'Alle Monate', allTypes: 'Alle Aktivitätsarten', searchRuns: 'Läufe durchsuchen', minDistance: 'Min. km', maxDistance: 'Max. km', runCount: (n: number) => `${n} Läufe`, annualComparison: 'Jahresvergleich', year: 'Jahr', averageRun: 'Durchschnittlicher Lauf', noValue: '—', months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+      newerYear: 'Neueres Jahr', olderYear: 'Älteres Jahr', allYears: 'Alle Jahre', highlights: 'Jahreshöhepunkte', longestRun: 'Längster Lauf', fastestRun: 'Schnellstes Tempo', busiestMonth: 'Aktivster Monat', longestWeek: 'Längste Woche', filters: 'Läufe filtern', allMonths: 'Alle Monate', allTypes: 'Alle Aktivitätsarten', searchRuns: 'Läufe durchsuchen', minDistance: 'Min. km', maxDistance: 'Max. km', runCount: (n: number) => `${n} Läufe`, annualComparison: 'Jahresvergleich', year: 'Jahr', averageRun: 'Durchschnittlicher Lauf', noValue: '—', months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
     },
     about: {
       eyebrow: 'Über mich',

@@ -1,6 +1,6 @@
 ---
 import { type Lang } from '../utils/i18n'
-const { intensity = [], year, lang = 'en' as Lang } = Astro.props
+const { intensity = [], year, lang = 'en' as Lang } = Astro.props as { intensity?: number[]; year: string | number; lang?: Lang }
 const labels = lang === 'de'
   ? { consistency: 'Jährliche Konstanz', activity: 'Laufaktivitäten für', meters: 'Meter', less: 'Weniger', more: 'Mehr', activeDays: 'aktive Tage' }
   : { consistency: 'Yearly Consistency', activity: 'Running activity for', meters: 'meters', less: 'Less', more: 'More', activeDays: 'active days' }

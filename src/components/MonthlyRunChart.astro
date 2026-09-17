@@ -2,18 +2,19 @@
 import { formatDistance, formatDuration } from '../utils/runs'
 import { type Lang } from '../utils/i18n'
 
-type MonthStats = { month: number; distance: number; duration: number; count: number }
-const { data = [] as MonthStats[], year, lang = 'en' as Lang } = Astro.props
-const maxDistance = Math.max(...data.map(item => item.distance), 1)
-const maxDuration = Math.max(...data.map(item => item.duration), 1)
+type MonthStats = { month: number; distance: number; duration: number; count: number; byType?: Record<string, { distance: number; duration: number; count: number }> }
+const { data = [], year, lang = 'en' as Lang } = Astro.props as { data?: MonthStats[]; year: string | number; lang?: Lang }
+const chartData = data as MonthStats[]
+const maxDistance = Math.max(...chartData.map(item => item.distance), 1)
+const maxDuration = Math.max(...chartData.map(item => item.duration), 1)
 const monthNames = lang === 'de' ? ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'] : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const labels = lang === 'de'
   ? { title: 'Monatliche Summen', metric: 'Monatliche Diagrammkennzahl', distance: 'Distanz', duration: 'Dauer', legend: 'Legende der Laufarten', distanceScale: 'Distanzskala', timeScale: 'Zeitskala', note: 'Mit dem Schalter kannst du die monatliche Distanz oder Dauer vergleichen. Die Balken sind nach Laufart gestapelt; die Zahl unter jedem Monat zeigt die Anzahl der Läufe.' }
   : { title: 'Monthly totals', metric: 'Monthly chart metric', distance: 'Distance', duration: 'Duration', legend: 'Run type legend', distanceScale: 'Distance scale', timeScale: 'Time scale', note: 'Use the toggle to compare monthly distance or duration. Bars are stacked by run type; the number below each month is the run count.' }
 const displayType = (type: string) => lang === 'de' && type === 'Running' ? 'Laufen' : lang === 'de' && type === 'Treadmill Running' ? 'Laufband' : type
-const types = [...new Set(data.flatMap(item => Object.keys(item.byType ?? {})))].sort()
+const types: string[] = [...new Set(chartData.flatMap(item => Object.keys(item.byType ?? {})))].sort()
 const colors = ['#65b5e8', '#e8a865', '#b890e8', '#73c98b', '#e8799b']
-const colorFor = type => colors[types.indexOf(type) % colors.length]
+const colorFor = (type: string) => colors[types.indexOf(type) % colors.length]
 ---
 
 <section class="monthly-chart" aria-labelledby="monthly-chart-title">
@@ -30,7 +31,7 @@ const colorFor = type => colors[types.indexOf(type) % colors.length]
       <span>{formatDistance(maxDistance, lang)}</span><span>{formatDistance(maxDistance / 2, lang)}</span><span>{formatDistance(0, lang)}</span>
     </div>
     <div class="chart-grid" style="display:grid;grid-template-columns:repeat(12,minmax(1.5rem,1fr));gap:.5rem;align-items:end;min-height:12rem;padding:1rem 0 0;border-bottom:1px solid var(--line)">
-      {data.map(item => (
+      {chartData.map((item: MonthStats) => (
         <div class="month-column" style="display:flex;flex-direction:column;align-items:center;height:11rem;min-width:0">
           <div class="bars" style="position:relative;display:flex;align-items:flex-end;justify-content:center;gap:2px;width:100%;height:9rem" title={`${monthNames[item.month]} ${year}: ${formatDistance(item.distance, lang)}, ${formatDuration(item.duration, lang)}`}>
             <span class="bar-stack distance-stack" data-chart-metric="distance" style={`position:relative;display:flex;flex:0 0 38%;flex-direction:column;width:38%;height:${(item.distance / maxDistance) * 100}%;background:transparent`}>
@@ -57,11 +58,11 @@ const colorFor = type => colors[types.indexOf(type) % colors.length]
     const chart = document.querySelector('.monthly-chart')
     if (!chart) return
 
-    const buttons = chart.querySelectorAll('[data-monthly-metric]')
-    const stacks = chart.querySelectorAll('[data-chart-metric]')
-    const axes = chart.querySelectorAll('[data-chart-axis]')
+    const buttons = chart.querySelectorAll<HTMLButtonElement>('[data-monthly-metric]')
+    const stacks = chart.querySelectorAll<HTMLElement>('[data-chart-metric]')
+    const axes = chart.querySelectorAll<HTMLElement>('[data-chart-axis]')
 
-    const setMetric = (metric) => {
+    const setMetric = (metric: string) => {
       stacks.forEach((stack) => {
         stack.hidden = stack.dataset.chartMetric !== metric
       })

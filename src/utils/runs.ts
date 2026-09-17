@@ -123,6 +123,7 @@ export const formatDuration = (seconds = 0, lang: 'en' | 'de' = 'en') => {
 }
 
 export const formatPace = (secondsPerKm = 0, lang: 'en' | 'de' = 'en') => {
+  void lang
   if (!secondsPerKm) return '—'
   const minutes = Math.floor(secondsPerKm / 60)
   const seconds = Math.round(secondsPerKm % 60).toString().padStart(2, '0')
