@@ -19,8 +19,8 @@ const monthPositions = monthNames.map((name, month) => ({ name, week: Math.floor
     <h2 id="heatmap-title" class="label">{labels.consistency}</h2>
     <span class="heatmap-summary">{activeDays} {labels.activeDays} · {Math.round(totalDistance).toLocaleString(lang === 'de' ? 'de-DE' : 'en-US')} {labels.meters}</span>
   </div>
-  <div class="heatmap-months" aria-hidden="true" style="display:grid;grid-template-columns:repeat(53,12px);gap:2px;width:max-content">{monthPositions.map(month => <span style={`grid-column:${month.week + 1}`}>{month.name}</span>)}</div>
   <div class="heatmap-legend" aria-label={`${labels.consistency} legend`}><span>{labels.less}</span><i class="legend-cell is-empty"></i><i class="legend-cell is-light"></i><i class="legend-cell is-full"></i><span>{labels.more}</span></div>
+  <div class="heatmap-scroll"><div class="heatmap-months" aria-hidden="true" style="display:grid;grid-template-columns:repeat(53,12px);gap:2px;width:max-content">{monthPositions.map(month => <span style={`grid-column:${month.week + 1}`}>{month.name}</span>)}</div>
   <div class="heatmap-body"><div class="weekday-labels" aria-hidden="true">{weekdayNames.map(day => <span>{day}</span>)}</div><div class="heatmap-grid" role="img" aria-label={`${labels.activity} ${year}: ${activeDays} ${labels.activeDays}`} style="display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;width:max-content;gap:2px;padding:10px 0">
       {paddedIntensity.map((distance, i) => (
         <div 
@@ -30,7 +30,7 @@ const monthPositions = monthNames.map((name, month) => ({ name, week: Math.floor
           title={distance !== null ? `${dateFormatter.format(new Date(Date.UTC(Number(year), 0, i - startOffset + 1)))}: ${distance} ${labels.meters}` : undefined}
         ></div>
       ))}
-  </div></div>
+  </div></div></div>
 </section>
 
 <style>
@@ -63,7 +63,8 @@ const monthPositions = monthNames.map((name, month) => ({ name, week: Math.floor
     gap: 2px;
     padding: 10px 0;
   }
-  .heatmap-body { display:flex; gap:.35rem; overflow-x:auto; }
+  .heatmap-scroll { overflow-x:auto; }
+  .heatmap-body { display:flex; gap:.35rem; overflow:visible; }
   .weekday-labels { display:grid; grid-template-rows:repeat(7, 12px); gap:2px; padding:10px 0; color:var(--muted); font-size:.6rem; line-height:12px; }
   .heatmap-cell {
     width: 12px;
