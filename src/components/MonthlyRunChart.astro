@@ -1,0 +1,118 @@
+---
+import { formatDistance, formatDuration } from '../utils/runs'
+import { type Lang } from '../utils/i18n'
+
+type MonthStats = { month: number; distance: number; duration: number; count: number }
+const { data = [] as MonthStats[], year, lang = 'en' as Lang } = Astro.props
+const maxDistance = Math.max(...data.map(item => item.distance), 1)
+const maxDuration = Math.max(...data.map(item => item.duration), 1)
+const monthNames = lang === 'de' ? ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'] : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const labels = lang === 'de'
+  ? { title: 'Monatliche Summen', metric: 'Monatliche Diagrammkennzahl', distance: 'Distanz', duration: 'Dauer', legend: 'Legende der Laufarten', distanceScale: 'Distanzskala', timeScale: 'Zeitskala', note: 'Mit dem Schalter kannst du die monatliche Distanz oder Dauer vergleichen. Die Balken sind nach Laufart gestapelt; die Zahl unter jedem Monat zeigt die Anzahl der Läufe.' }
+  : { title: 'Monthly totals', metric: 'Monthly chart metric', distance: 'Distance', duration: 'Duration', legend: 'Run type legend', distanceScale: 'Distance scale', timeScale: 'Time scale', note: 'Use the toggle to compare monthly distance or duration. Bars are stacked by run type; the number below each month is the run count.' }
+const displayType = (type: string) => lang === 'de' && type === 'Running' ? 'Laufen' : lang === 'de' && type === 'Treadmill Running' ? 'Laufband' : type
+const types = [...new Set(data.flatMap(item => Object.keys(item.byType ?? {})))].sort()
+const colors = ['#65b5e8', '#e8a865', '#b890e8', '#73c98b', '#e8799b']
+const colorFor = type => colors[types.indexOf(type) % colors.length]
+---
+
+<section class="monthly-chart" aria-labelledby="monthly-chart-title">
+  <div class="chart-heading">
+    <h2 id="monthly-chart-title" class="section-label">{labels.title}</h2>
+    <div class="metric-toggle" role="group" aria-label={labels.metric}>
+      <button type="button" class="toggle-button is-active" data-monthly-metric="distance" aria-pressed="true">{labels.distance}</button>
+      <button type="button" class="toggle-button" data-monthly-metric="duration" aria-pressed="false">{labels.duration}</button>
+    </div>
+  </div>
+  <div class="chart-legend" aria-label={labels.legend}>{types.map(type => <span><i style={`background-color:${colorFor(type)}`}></i>{displayType(type)}</span>)}</div>
+  <div class="chart-wrap" style="display:grid;grid-template-columns:4rem minmax(0,1fr) 4rem;gap:.5rem;align-items:start">
+    <div class="axis distance-axis" aria-label={labels.distanceScale} data-chart-axis="distance">
+      <span>{formatDistance(maxDistance, lang)}</span><span>{formatDistance(maxDistance / 2, lang)}</span><span>{formatDistance(0, lang)}</span>
+    </div>
+    <div class="chart-grid" style="display:grid;grid-template-columns:repeat(12,minmax(1.5rem,1fr));gap:.5rem;align-items:end;min-height:12rem;padding:1rem 0 0;border-bottom:1px solid var(--line)">
+      {data.map(item => (
+        <div class="month-column" style="display:flex;flex-direction:column;align-items:center;height:11rem;min-width:0">
+          <div class="bars" style="position:relative;display:flex;align-items:flex-end;justify-content:center;gap:2px;width:100%;height:9rem" title={`${monthNames[item.month]} ${year}: ${formatDistance(item.distance, lang)}, ${formatDuration(item.duration, lang)}`}>
+            <span class="bar-stack distance-stack" data-chart-metric="distance" style={`position:relative;display:flex;flex:0 0 38%;flex-direction:column;width:38%;height:${(item.distance / maxDistance) * 100}%;background:transparent`}>
+              {types.map(type => item.byType?.[type] && <span class="bar-segment" title={`${displayType(type)} — ${monthNames[item.month]} ${year}: ${formatDistance(item.byType[type].distance, lang)}, ${formatDuration(item.byType[type].duration, lang)}`} style={`display:block;width:100%;height:${(item.byType[type].distance / item.distance) * 100}%;min-height:1px;background-color:${colorFor(type)}`}></span>)}
+            </span>
+            <span class="bar-stack time-stack" data-chart-metric="duration" hidden style={`position:relative;display:flex;flex:0 0 38%;flex-direction:column;width:38%;height:${(item.duration / maxDuration) * 100}%;background:transparent`}>
+              {types.map(type => item.byType?.[type] && <span class="bar-segment" title={`${displayType(type)} — ${monthNames[item.month]} ${year}: ${formatDistance(item.byType[type].distance, lang)}, ${formatDuration(item.byType[type].duration, lang)}`} style={`display:block;width:100%;height:${(item.byType[type].duration / item.duration) * 100}%;min-height:1px;background-color:${colorFor(type)}`}></span>)}
+            </span>
+          </div>
+          <span class="month-label">{monthNames[item.month]}</span>
+          <span class="run-count">{item.count}</span>
+        </div>
+      ))}
+    </div>
+    <div class="axis time-axis is-hidden" aria-label={labels.timeScale} data-chart-axis="duration" aria-hidden="true">
+      <span>{formatDuration(maxDuration, lang)}</span><span>{formatDuration(maxDuration / 2, lang)}</span><span>{formatDuration(0, lang)}</span>
+    </div>
+  </div>
+  <p class="chart-note">{labels.note}</p>
+</section>
+
+<script>
+  const initMonthlyChart = () => {
+    const chart = document.querySelector('.monthly-chart')
+    if (!chart) return
+
+    const buttons = chart.querySelectorAll('[data-monthly-metric]')
+    const stacks = chart.querySelectorAll('[data-chart-metric]')
+    const axes = chart.querySelectorAll('[data-chart-axis]')
+
+    const setMetric = (metric) => {
+      stacks.forEach((stack) => {
+        stack.hidden = stack.dataset.chartMetric !== metric
+      })
+      axes.forEach((axis) => {
+        const active = axis.dataset.chartAxis === metric
+        axis.classList.toggle('is-hidden', !active)
+        axis.setAttribute('aria-hidden', String(!active))
+      })
+      buttons.forEach((button) => {
+        const active = button.dataset.monthlyMetric === metric
+        button.classList.toggle('is-active', active)
+        button.setAttribute('aria-pressed', String(active))
+      })
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => setMetric(button.dataset.monthlyMetric ?? 'distance'))
+    })
+
+    setMetric('distance')
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initMonthlyChart)
+  else initMonthlyChart()
+</script>
+
+<style>
+  .monthly-chart { margin: 3rem 0 0; overflow-x:auto; }
+  .chart-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+  .chart-heading .section-label { margin:0; }
+  .metric-toggle { display:inline-flex; border:1px solid var(--line); border-radius:.35rem; overflow:hidden; }
+  .toggle-button { border:0; border-right:1px solid var(--line); padding:.35rem .65rem; color:var(--muted); background:transparent; font:inherit; font-size:var(--font-size-small); cursor:pointer; }
+  .toggle-button:last-child { border-right:0; }
+  .toggle-button.is-active { color:var(--text); background:var(--line); }
+  .toggle-button:focus-visible { outline:2px solid currentColor; outline-offset:-2px; }
+  .chart-legend { display:flex; gap:1rem; margin:1rem 0; color:var(--muted); font-size:var(--font-size-small); }
+  .chart-legend span { display:flex; align-items:center; gap:.35rem; }
+  .chart-legend i { display:inline-block; width:.65rem; height:.65rem; }
+  .chart-legend i { border-radius:50%; }
+  .chart-grid { display:grid !important; grid-template-columns:repeat(12, minmax(1.5rem, 1fr)) !important; gap:.5rem; align-items:end; min-height:12rem; padding:1rem 0 0; border-bottom:1px solid var(--line); }
+  .chart-wrap { display:grid; grid-template-columns:4rem minmax(24rem, 1fr) 4rem; gap:.5rem; align-items:start; min-width:33rem; }
+  .axis { display:flex; flex-direction:column; justify-content:space-between; height:9rem; margin-top:1rem; color:var(--muted); font-size:.65rem; line-height:1; }
+  .axis.is-hidden { visibility:hidden; }
+  .time-axis { text-align:right; }
+  .month-column { display:flex !important; flex-direction:column; align-items:center; min-width:0; height:11rem; }
+  .bars { position:relative; display:flex !important; align-items:end; justify-content:center; gap:2px; width:100%; height:9rem; border-bottom:1px solid var(--line); background:repeating-linear-gradient(to bottom, transparent 0, transparent calc(25% - 1px), var(--line) 25%); }
+  .bar-stack { position:relative; z-index:1; display:flex !important; flex:0 0 38%; flex-direction:column; justify-content:flex-start; width:38%; min-height:2px; opacity:1; }
+  .bar-stack[hidden] { display:none !important; }
+  .bar-segment { display:block !important; flex:0 0 auto; width:100%; min-height:1px; }
+  .month-label { margin-top:.5rem; color:var(--muted); font-size:var(--font-size-label); }
+  .run-count { color:var(--muted); font-size:.65rem; }
+  .chart-note { margin:.75rem 0 0; color:var(--muted); font-size:var(--font-size-small); }
+  @media (max-width:640px) { .chart-heading { align-items:flex-start; flex-direction:column; } .chart-wrap { grid-template-columns:3rem minmax(0, 1fr) 3rem; gap:.25rem; } .chart-grid { gap:2px; } .month-label { font-size:.65rem; } }
+</style>

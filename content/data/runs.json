@@ -1,40 +1,6057 @@
 [
   {
-    "id": "2026-09-13-berlin",
-    "date": "2026-09-13T08:00:00Z",
-    "distance": 15240,
-    "duration": 3120,
-    "location": {
-      "id": "berlin",
-      "name": "Berlin, Germany"
-    },
-    "notes": "Morning run in the park.",
-    "eventName": "Berlin City Run",
-    "isVirtual": false
+    "id": "garmin-2015-12-08",
+    "date": "2015-12-08",
+    "activityType": "Running",
+    "distance": 6970,
+    "duration": 3009
   },
   {
-    "id": "2026-09-14-munich",
-    "date": "2026-09-14T10:30:00Z",
-    "distance": 10000,
-    "duration": 2100,
-    "location": {
-      "id": "munich",
-      "name": "Munich, Germany"
-    },
-    "notes": "Short and fast.",
-    "isVirtual": true
+    "id": "garmin-2015-12-17",
+    "date": "2015-12-17",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1361
   },
   {
-    "id": "2025-12-20-berlin",
-    "date": "2025-12-20T09:00:00Z",
-    "distance": 12000,
-    "duration": 2800,
-    "location": {
-      "id": "berlin",
-      "name": "Berlin, Germany"
-    },
-    "notes": "Holiday run.",
-    "eventName": "Christmas Run",
-    "isVirtual": false
+    "id": "garmin-2015-12-18",
+    "date": "2015-12-18",
+    "activityType": "Running",
+    "distance": 1290,
+    "duration": 634
+  },
+  {
+    "id": "garmin-2015-12-19",
+    "date": "2015-12-19",
+    "activityType": "Running",
+    "distance": 1140,
+    "duration": 488.7
+  },
+  {
+    "id": "garmin-2015-12-23",
+    "date": "2015-12-23",
+    "activityType": "Running",
+    "distance": 1230,
+    "duration": 565.9
+  },
+  {
+    "id": "garmin-2015-12-31",
+    "date": "2015-12-31",
+    "activityType": "Running",
+    "distance": 300,
+    "duration": 180.1
+  },
+  {
+    "id": "garmin-2015-12-31-2",
+    "date": "2015-12-31",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1305
+  },
+  {
+    "id": "garmin-2016-01-09",
+    "date": "2016-01-09",
+    "activityType": "Running",
+    "distance": 3270,
+    "duration": 1484
+  },
+  {
+    "id": "garmin-2016-01-20",
+    "date": "2016-01-20",
+    "activityType": "Running",
+    "distance": 6790,
+    "duration": 3156
+  },
+  {
+    "id": "garmin-2016-01-27",
+    "date": "2016-01-27",
+    "activityType": "Running",
+    "distance": 7270,
+    "duration": 3397
+  },
+  {
+    "id": "garmin-2016-02-04",
+    "date": "2016-02-04",
+    "activityType": "Running",
+    "distance": 6950,
+    "duration": 3155
+  },
+  {
+    "id": "garmin-2016-02-08",
+    "date": "2016-02-08",
+    "activityType": "Running",
+    "distance": 4330,
+    "duration": 1863
+  },
+  {
+    "id": "garmin-2016-02-17",
+    "date": "2016-02-17",
+    "activityType": "Running",
+    "distance": 6980,
+    "duration": 3265
+  },
+  {
+    "id": "garmin-2016-02-21",
+    "date": "2016-02-21",
+    "activityType": "Running",
+    "distance": 2780,
+    "duration": 1343
+  },
+  {
+    "id": "garmin-2016-02-24",
+    "date": "2016-02-24",
+    "activityType": "Running",
+    "distance": 6970,
+    "duration": 3251
+  },
+  {
+    "id": "garmin-2016-03-03",
+    "date": "2016-03-03",
+    "activityType": "Running",
+    "distance": 6690,
+    "duration": 2971
+  },
+  {
+    "id": "garmin-2016-03-09",
+    "date": "2016-03-09",
+    "activityType": "Running",
+    "distance": 6600,
+    "duration": 3094
+  },
+  {
+    "id": "garmin-2016-03-16",
+    "date": "2016-03-16",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3019
+  },
+  {
+    "id": "garmin-2016-03-20",
+    "date": "2016-03-20",
+    "activityType": "Running",
+    "distance": 3160,
+    "duration": 1538
+  },
+  {
+    "id": "garmin-2016-03-23",
+    "date": "2016-03-23",
+    "activityType": "Running",
+    "distance": 6720,
+    "duration": 3135
+  },
+  {
+    "id": "garmin-2016-03-31",
+    "date": "2016-03-31",
+    "activityType": "Running",
+    "distance": 7860,
+    "duration": 3508
+  },
+  {
+    "id": "garmin-2016-04-02",
+    "date": "2016-04-02",
+    "activityType": "Running",
+    "distance": 3220,
+    "duration": 1459
+  },
+  {
+    "id": "garmin-2016-04-08",
+    "date": "2016-04-08",
+    "activityType": "Running",
+    "distance": 7180,
+    "duration": 3231
+  },
+  {
+    "id": "garmin-2016-04-10",
+    "date": "2016-04-10",
+    "activityType": "Running",
+    "distance": 1620,
+    "duration": 778
+  },
+  {
+    "id": "garmin-2016-04-14",
+    "date": "2016-04-14",
+    "activityType": "Running",
+    "distance": 2540,
+    "duration": 1076
+  },
+  {
+    "id": "garmin-2016-04-15",
+    "date": "2016-04-15",
+    "activityType": "Running",
+    "distance": 7060,
+    "duration": 3054
+  },
+  {
+    "id": "garmin-2016-04-17",
+    "date": "2016-04-17",
+    "activityType": "Running",
+    "distance": 2090,
+    "duration": 898
+  },
+  {
+    "id": "garmin-2016-04-21",
+    "date": "2016-04-21",
+    "activityType": "Running",
+    "distance": 8000,
+    "duration": 3351
+  },
+  {
+    "id": "garmin-2016-04-22",
+    "date": "2016-04-22",
+    "activityType": "Running",
+    "distance": 3040,
+    "duration": 1391
+  },
+  {
+    "id": "garmin-2016-04-28",
+    "date": "2016-04-28",
+    "activityType": "Running",
+    "distance": 5290,
+    "duration": 2424
+  },
+  {
+    "id": "garmin-2016-05-04",
+    "date": "2016-05-04",
+    "activityType": "Running",
+    "distance": 6590,
+    "duration": 3149
+  },
+  {
+    "id": "garmin-2016-05-19",
+    "date": "2016-05-19",
+    "activityType": "Running",
+    "distance": 6640,
+    "duration": 3073
+  },
+  {
+    "id": "garmin-2016-06-01",
+    "date": "2016-06-01",
+    "activityType": "Running",
+    "distance": 6810,
+    "duration": 3175
+  },
+  {
+    "id": "garmin-2016-06-14",
+    "date": "2016-06-14",
+    "activityType": "Running",
+    "distance": 6550,
+    "duration": 3035
+  },
+  {
+    "id": "garmin-2016-06-23",
+    "date": "2016-06-23",
+    "activityType": "Running",
+    "distance": 6390,
+    "duration": 3014
+  },
+  {
+    "id": "garmin-2016-06-28",
+    "date": "2016-06-28",
+    "activityType": "Running",
+    "distance": 4010,
+    "duration": 3905
+  },
+  {
+    "id": "garmin-2016-06-30",
+    "date": "2016-06-30",
+    "activityType": "Running",
+    "distance": 6570,
+    "duration": 3072
+  },
+  {
+    "id": "garmin-2016-07-06",
+    "date": "2016-07-06",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 2945
+  },
+  {
+    "id": "garmin-2016-07-10",
+    "date": "2016-07-10",
+    "activityType": "Running",
+    "distance": 3490,
+    "duration": 1644
+  },
+  {
+    "id": "garmin-2016-07-13",
+    "date": "2016-07-13",
+    "activityType": "Running",
+    "distance": 6590,
+    "duration": 2978
+  },
+  {
+    "id": "garmin-2016-07-21",
+    "date": "2016-07-21",
+    "activityType": "Running",
+    "distance": 290,
+    "duration": 114.7
+  },
+  {
+    "id": "garmin-2016-07-24",
+    "date": "2016-07-24",
+    "activityType": "Running",
+    "distance": 1710,
+    "duration": 660
+  },
+  {
+    "id": "garmin-2016-08-19",
+    "date": "2016-08-19",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3190
+  },
+  {
+    "id": "garmin-2016-08-25",
+    "date": "2016-08-25",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 2959
+  },
+  {
+    "id": "garmin-2016-08-28",
+    "date": "2016-08-28",
+    "activityType": "Running",
+    "distance": 7040,
+    "duration": 3123
+  },
+  {
+    "id": "garmin-2016-09-01",
+    "date": "2016-09-01",
+    "activityType": "Running",
+    "distance": 5190,
+    "duration": 2405
+  },
+  {
+    "id": "garmin-2016-09-16",
+    "date": "2016-09-16",
+    "activityType": "Running",
+    "distance": 6540,
+    "duration": 3055
+  },
+  {
+    "id": "garmin-2016-09-25",
+    "date": "2016-09-25",
+    "activityType": "Running",
+    "distance": 5870,
+    "duration": 6240
+  },
+  {
+    "id": "garmin-2016-09-29",
+    "date": "2016-09-29",
+    "activityType": "Running",
+    "distance": 4930,
+    "duration": 2300
+  },
+  {
+    "id": "garmin-2016-10-06",
+    "date": "2016-10-06",
+    "activityType": "Running",
+    "distance": 6490,
+    "duration": 3050
+  },
+  {
+    "id": "garmin-2016-10-19",
+    "date": "2016-10-19",
+    "activityType": "Running",
+    "distance": 6470,
+    "duration": 3020
+  },
+  {
+    "id": "garmin-2016-10-27",
+    "date": "2016-10-27",
+    "activityType": "Running",
+    "distance": 6520,
+    "duration": 3095
+  },
+  {
+    "id": "garmin-2016-11-10",
+    "date": "2016-11-10",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3038
+  },
+  {
+    "id": "garmin-2016-11-17",
+    "date": "2016-11-17",
+    "activityType": "Running",
+    "distance": 6970,
+    "duration": 3239
+  },
+  {
+    "id": "garmin-2016-11-30",
+    "date": "2016-11-30",
+    "activityType": "Running",
+    "distance": 6650,
+    "duration": 3005
+  },
+  {
+    "id": "garmin-2017-01-12",
+    "date": "2017-01-12",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3415
+  },
+  {
+    "id": "garmin-2017-01-20",
+    "date": "2017-01-20",
+    "activityType": "Running",
+    "distance": 6520,
+    "duration": 3135
+  },
+  {
+    "id": "garmin-2017-01-25",
+    "date": "2017-01-25",
+    "activityType": "Running",
+    "distance": 6610,
+    "duration": 3101
+  },
+  {
+    "id": "garmin-2017-03-03",
+    "date": "2017-03-03",
+    "activityType": "Running",
+    "distance": 6570,
+    "duration": 3126
+  },
+  {
+    "id": "garmin-2017-03-17",
+    "date": "2017-03-17",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3078
+  },
+  {
+    "id": "garmin-2017-03-22",
+    "date": "2017-03-22",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3033
+  },
+  {
+    "id": "garmin-2017-03-25",
+    "date": "2017-03-25",
+    "activityType": "Running",
+    "distance": 3570,
+    "duration": 1544
+  },
+  {
+    "id": "garmin-2017-03-29",
+    "date": "2017-03-29",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3039
+  },
+  {
+    "id": "garmin-2017-04-21",
+    "date": "2017-04-21",
+    "activityType": "Running",
+    "distance": 2240,
+    "duration": 1086
+  },
+  {
+    "id": "garmin-2017-05-04",
+    "date": "2017-05-04",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3143
+  },
+  {
+    "id": "garmin-2017-05-09",
+    "date": "2017-05-09",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 2994
+  },
+  {
+    "id": "garmin-2017-05-22",
+    "date": "2017-05-22",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3187
+  },
+  {
+    "id": "garmin-2017-06-08",
+    "date": "2017-06-08",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3201
+  },
+  {
+    "id": "garmin-2017-06-14",
+    "date": "2017-06-14",
+    "activityType": "Running",
+    "distance": 4910,
+    "duration": 2326
+  },
+  {
+    "id": "garmin-2017-06-30",
+    "date": "2017-06-30",
+    "activityType": "Running",
+    "distance": 6680,
+    "duration": 2357
+  },
+  {
+    "id": "garmin-2017-07-07",
+    "date": "2017-07-07",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3100
+  },
+  {
+    "id": "garmin-2017-07-14",
+    "date": "2017-07-14",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3115
+  },
+  {
+    "id": "garmin-2017-07-20",
+    "date": "2017-07-20",
+    "activityType": "Running",
+    "distance": 6520,
+    "duration": 3151
+  },
+  {
+    "id": "garmin-2017-07-26",
+    "date": "2017-07-26",
+    "activityType": "Running",
+    "distance": 6520,
+    "duration": 3118
+  },
+  {
+    "id": "garmin-2017-08-23",
+    "date": "2017-08-23",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3141
+  },
+  {
+    "id": "garmin-2017-09-01",
+    "date": "2017-09-01",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3055
+  },
+  {
+    "id": "garmin-2017-09-05",
+    "date": "2017-09-05",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3013
+  },
+  {
+    "id": "garmin-2017-09-09",
+    "date": "2017-09-09",
+    "activityType": "Running",
+    "distance": 8200,
+    "duration": 3505
+  },
+  {
+    "id": "garmin-2017-09-10",
+    "date": "2017-09-10",
+    "activityType": "Running",
+    "distance": 16610,
+    "duration": 7375
+  },
+  {
+    "id": "garmin-2017-09-24",
+    "date": "2017-09-24",
+    "activityType": "Running",
+    "distance": 6630,
+    "duration": 4475
+  },
+  {
+    "id": "garmin-2017-09-28",
+    "date": "2017-09-28",
+    "activityType": "Running",
+    "distance": 6490,
+    "duration": 2991
+  },
+  {
+    "id": "garmin-2017-10-05",
+    "date": "2017-10-05",
+    "activityType": "Running",
+    "distance": 3690,
+    "duration": 1635
+  },
+  {
+    "id": "garmin-2017-10-12",
+    "date": "2017-10-12",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3029
+  },
+  {
+    "id": "garmin-2017-10-24",
+    "date": "2017-10-24",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3230
+  },
+  {
+    "id": "garmin-2017-11-03",
+    "date": "2017-11-03",
+    "activityType": "Running",
+    "distance": 4670,
+    "duration": 2330
+  },
+  {
+    "id": "garmin-2017-11-10",
+    "date": "2017-11-10",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3036
+  },
+  {
+    "id": "garmin-2017-11-17",
+    "date": "2017-11-17",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3129
+  },
+  {
+    "id": "garmin-2017-12-08",
+    "date": "2017-12-08",
+    "activityType": "Running",
+    "distance": 4700,
+    "duration": 2291
+  },
+  {
+    "id": "garmin-2017-12-14",
+    "date": "2017-12-14",
+    "activityType": "Running",
+    "distance": 3660,
+    "duration": 1774
+  },
+  {
+    "id": "garmin-2017-12-19",
+    "date": "2017-12-19",
+    "activityType": "Running",
+    "distance": 6690,
+    "duration": 3179
+  },
+  {
+    "id": "garmin-2018-01-12",
+    "date": "2018-01-12",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3236
+  },
+  {
+    "id": "garmin-2018-05-24",
+    "date": "2018-05-24",
+    "activityType": "Running",
+    "distance": 5180,
+    "duration": 1970
+  },
+  {
+    "id": "garmin-2018-06-19",
+    "date": "2018-06-19",
+    "activityType": "Running",
+    "distance": 6480,
+    "duration": 3141
+  },
+  {
+    "id": "garmin-2018-06-21",
+    "date": "2018-06-21",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 1832
+  },
+  {
+    "id": "garmin-2018-07-05",
+    "date": "2018-07-05",
+    "activityType": "Running",
+    "distance": 6540,
+    "duration": 3129
+  },
+  {
+    "id": "garmin-2018-07-11",
+    "date": "2018-07-11",
+    "activityType": "Running",
+    "distance": 6600,
+    "duration": 3107
+  },
+  {
+    "id": "garmin-2018-08-14",
+    "date": "2018-08-14",
+    "activityType": "Running",
+    "distance": 6510,
+    "duration": 3241
+  },
+  {
+    "id": "garmin-2018-08-31",
+    "date": "2018-08-31",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 3186
+  },
+  {
+    "id": "garmin-2018-09-06",
+    "date": "2018-09-06",
+    "activityType": "Running",
+    "distance": 6540,
+    "duration": 3146
+  },
+  {
+    "id": "garmin-2018-09-08",
+    "date": "2018-09-08",
+    "activityType": "Running",
+    "distance": 17880,
+    "duration": 8389
+  },
+  {
+    "id": "garmin-2018-10-18",
+    "date": "2018-10-18",
+    "activityType": "Running",
+    "distance": 6550,
+    "duration": 3425
+  },
+  {
+    "id": "garmin-2018-12-14",
+    "date": "2018-12-14",
+    "activityType": "Running",
+    "distance": 5680,
+    "duration": 2795
+  },
+  {
+    "id": "garmin-2019-01-24",
+    "date": "2019-01-24",
+    "activityType": "Running",
+    "distance": 6460,
+    "duration": 3048
+  },
+  {
+    "id": "garmin-2020-06-20",
+    "date": "2020-06-20",
+    "activityType": "Running",
+    "distance": 310,
+    "duration": 198.1
+  },
+  {
+    "id": "garmin-2020-06-24",
+    "date": "2020-06-24",
+    "activityType": "Running",
+    "distance": 8590,
+    "duration": 4115
+  },
+  {
+    "id": "garmin-2020-06-27",
+    "date": "2020-06-27",
+    "activityType": "Running",
+    "distance": 5630,
+    "duration": 2492
+  },
+  {
+    "id": "garmin-2020-07-01",
+    "date": "2020-07-01",
+    "activityType": "Running",
+    "distance": 5250,
+    "duration": 2158
+  },
+  {
+    "id": "garmin-2020-07-02",
+    "date": "2020-07-02",
+    "activityType": "Running",
+    "distance": 5090,
+    "duration": 2102
+  },
+  {
+    "id": "garmin-2020-07-19",
+    "date": "2020-07-19",
+    "activityType": "Running",
+    "distance": 10010,
+    "duration": 4494
+  },
+  {
+    "id": "garmin-2020-07-25",
+    "date": "2020-07-25",
+    "activityType": "Running",
+    "distance": 7390,
+    "duration": 2893
+  },
+  {
+    "id": "garmin-2020-07-30",
+    "date": "2020-07-30",
+    "activityType": "Running",
+    "distance": 1630,
+    "duration": 564.9
+  },
+  {
+    "id": "garmin-2020-08-01",
+    "date": "2020-08-01",
+    "activityType": "Running",
+    "distance": 6410,
+    "duration": 2583
+  },
+  {
+    "id": "garmin-2020-08-02",
+    "date": "2020-08-02",
+    "activityType": "Running",
+    "distance": 3370,
+    "duration": 1619
+  },
+  {
+    "id": "garmin-2020-08-03",
+    "date": "2020-08-03",
+    "activityType": "Running",
+    "distance": 1030,
+    "duration": 341.8
+  },
+  {
+    "id": "garmin-2020-08-04",
+    "date": "2020-08-04",
+    "activityType": "Running",
+    "distance": 3830,
+    "duration": 1470
+  },
+  {
+    "id": "garmin-2020-08-05",
+    "date": "2020-08-05",
+    "activityType": "Running",
+    "distance": 5630,
+    "duration": 2085
+  },
+  {
+    "id": "garmin-2020-08-07",
+    "date": "2020-08-07",
+    "activityType": "Running",
+    "distance": 250,
+    "duration": 93
+  },
+  {
+    "id": "garmin-2020-08-07-2",
+    "date": "2020-08-07",
+    "activityType": "Running",
+    "distance": 10020,
+    "duration": 4010
+  },
+  {
+    "id": "garmin-2020-08-09",
+    "date": "2020-08-09",
+    "activityType": "Running",
+    "distance": 3510,
+    "duration": 1265
+  },
+  {
+    "id": "garmin-2020-08-12",
+    "date": "2020-08-12",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1811
+  },
+  {
+    "id": "garmin-2020-08-13",
+    "date": "2020-08-13",
+    "activityType": "Running",
+    "distance": 1430,
+    "duration": 547.2
+  },
+  {
+    "id": "garmin-2020-08-13-2",
+    "date": "2020-08-13",
+    "activityType": "Running",
+    "distance": 8070,
+    "duration": 3422
+  },
+  {
+    "id": "garmin-2020-08-16",
+    "date": "2020-08-16",
+    "activityType": "Running",
+    "distance": 10200,
+    "duration": 3682
+  },
+  {
+    "id": "garmin-2020-08-17",
+    "date": "2020-08-17",
+    "activityType": "Running",
+    "distance": 4180,
+    "duration": 1903
+  },
+  {
+    "id": "garmin-2020-08-20",
+    "date": "2020-08-20",
+    "activityType": "Running",
+    "distance": 5120,
+    "duration": 2110
+  },
+  {
+    "id": "garmin-2020-08-20-2",
+    "date": "2020-08-20",
+    "activityType": "Running",
+    "distance": 6450,
+    "duration": 2708
+  },
+  {
+    "id": "garmin-2020-08-21",
+    "date": "2020-08-21",
+    "activityType": "Running",
+    "distance": 4440,
+    "duration": 1638
+  },
+  {
+    "id": "garmin-2020-08-23",
+    "date": "2020-08-23",
+    "activityType": "Running",
+    "distance": 8140,
+    "duration": 3078
+  },
+  {
+    "id": "garmin-2020-08-25",
+    "date": "2020-08-25",
+    "activityType": "Running",
+    "distance": 10010,
+    "duration": 3533
+  },
+  {
+    "id": "garmin-2020-08-26",
+    "date": "2020-08-26",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 2141
+  },
+  {
+    "id": "garmin-2020-08-28",
+    "date": "2020-08-28",
+    "activityType": "Running",
+    "distance": 4840,
+    "duration": 2033
+  },
+  {
+    "id": "garmin-2020-08-29",
+    "date": "2020-08-29",
+    "activityType": "Running",
+    "distance": 11300,
+    "duration": 4795
+  },
+  {
+    "id": "garmin-2020-08-31",
+    "date": "2020-08-31",
+    "activityType": "Running",
+    "distance": 10120,
+    "duration": 3565
+  },
+  {
+    "id": "garmin-2020-09-03",
+    "date": "2020-09-03",
+    "activityType": "Running",
+    "distance": 5010,
+    "duration": 1764
+  },
+  {
+    "id": "garmin-2020-09-04",
+    "date": "2020-09-04",
+    "activityType": "Running",
+    "distance": 3250,
+    "duration": 1235
+  },
+  {
+    "id": "garmin-2020-09-06",
+    "date": "2020-09-06",
+    "activityType": "Running",
+    "distance": 18000,
+    "duration": 7262
+  },
+  {
+    "id": "garmin-2020-09-08",
+    "date": "2020-09-08",
+    "activityType": "Running",
+    "distance": 5340,
+    "duration": 1865
+  },
+  {
+    "id": "garmin-2020-09-09",
+    "date": "2020-09-09",
+    "activityType": "Running",
+    "distance": 10050,
+    "duration": 4169
+  },
+  {
+    "id": "garmin-2020-09-11",
+    "date": "2020-09-11",
+    "activityType": "Running",
+    "distance": 3250,
+    "duration": 1150
+  },
+  {
+    "id": "garmin-2020-09-12",
+    "date": "2020-09-12",
+    "activityType": "Running",
+    "distance": 21210,
+    "duration": 8016
+  },
+  {
+    "id": "garmin-2020-09-14",
+    "date": "2020-09-14",
+    "activityType": "Running",
+    "distance": 4390,
+    "duration": 1923
+  },
+  {
+    "id": "garmin-2020-09-19",
+    "date": "2020-09-19",
+    "activityType": "Running",
+    "distance": 5110,
+    "duration": 1907
+  },
+  {
+    "id": "garmin-2020-09-20",
+    "date": "2020-09-20",
+    "activityType": "Running",
+    "distance": 28030,
+    "duration": 11260
+  },
+  {
+    "id": "garmin-2020-09-23",
+    "date": "2020-09-23",
+    "activityType": "Running",
+    "distance": 1030,
+    "duration": 588
+  },
+  {
+    "id": "garmin-2020-09-23-2",
+    "date": "2020-09-23",
+    "activityType": "Running",
+    "distance": 5560,
+    "duration": 1969
+  },
+  {
+    "id": "garmin-2020-10-03",
+    "date": "2020-10-03",
+    "activityType": "Running",
+    "distance": 1620,
+    "duration": 917
+  },
+  {
+    "id": "garmin-2020-10-04",
+    "date": "2020-10-04",
+    "activityType": "Running",
+    "distance": 42220,
+    "duration": 20319
+  },
+  {
+    "id": "garmin-2020-10-10",
+    "date": "2020-10-10",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 2013
+  },
+  {
+    "id": "garmin-2020-10-10-2",
+    "date": "2020-10-10",
+    "activityType": "Running",
+    "distance": 820,
+    "duration": 390.4
+  },
+  {
+    "id": "garmin-2020-10-10-3",
+    "date": "2020-10-10",
+    "activityType": "Running",
+    "distance": 500,
+    "duration": 132.8
+  },
+  {
+    "id": "garmin-2020-10-14",
+    "date": "2020-10-14",
+    "activityType": "Running",
+    "distance": 4310,
+    "duration": 1691
+  },
+  {
+    "id": "garmin-2020-10-17",
+    "date": "2020-10-17",
+    "activityType": "Running",
+    "distance": 8120,
+    "duration": 3095
+  },
+  {
+    "id": "garmin-2020-10-22",
+    "date": "2020-10-22",
+    "activityType": "Running",
+    "distance": 2500,
+    "duration": 922
+  },
+  {
+    "id": "garmin-2020-10-25",
+    "date": "2020-10-25",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3472
+  },
+  {
+    "id": "garmin-2020-11-01",
+    "date": "2020-11-01",
+    "activityType": "Running",
+    "distance": 3260,
+    "duration": 1425
+  },
+  {
+    "id": "garmin-2020-11-14",
+    "date": "2020-11-14",
+    "activityType": "Running",
+    "distance": 2010,
+    "duration": 703
+  },
+  {
+    "id": "garmin-2020-11-21",
+    "date": "2020-11-21",
+    "activityType": "Running",
+    "distance": 5080,
+    "duration": 1980
+  },
+  {
+    "id": "garmin-2020-12-19",
+    "date": "2020-12-19",
+    "activityType": "Running",
+    "distance": 1020,
+    "duration": 504.5
+  },
+  {
+    "id": "garmin-2021-01-01",
+    "date": "2021-01-01",
+    "activityType": "Running",
+    "distance": 1820,
+    "duration": 721
+  },
+  {
+    "id": "garmin-2021-01-02",
+    "date": "2021-01-02",
+    "activityType": "Running",
+    "distance": 1870,
+    "duration": 761
+  },
+  {
+    "id": "garmin-2021-01-03",
+    "date": "2021-01-03",
+    "activityType": "Running",
+    "distance": 2230,
+    "duration": 866
+  },
+  {
+    "id": "garmin-2021-01-04",
+    "date": "2021-01-04",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 789
+  },
+  {
+    "id": "garmin-2021-01-05",
+    "date": "2021-01-05",
+    "activityType": "Running",
+    "distance": 3030,
+    "duration": 1189
+  },
+  {
+    "id": "garmin-2021-01-06",
+    "date": "2021-01-06",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 732
+  },
+  {
+    "id": "garmin-2021-01-07",
+    "date": "2021-01-07",
+    "activityType": "Running",
+    "distance": 3260,
+    "duration": 1271
+  },
+  {
+    "id": "garmin-2021-01-08",
+    "date": "2021-01-08",
+    "activityType": "Running",
+    "distance": 3530,
+    "duration": 1371
+  },
+  {
+    "id": "garmin-2021-01-09",
+    "date": "2021-01-09",
+    "activityType": "Running",
+    "distance": 4060,
+    "duration": 1543
+  },
+  {
+    "id": "garmin-2021-01-10",
+    "date": "2021-01-10",
+    "activityType": "Running",
+    "distance": 5070,
+    "duration": 2037
+  },
+  {
+    "id": "garmin-2021-01-11",
+    "date": "2021-01-11",
+    "activityType": "Running",
+    "distance": 2360,
+    "duration": 978
+  },
+  {
+    "id": "garmin-2021-01-12",
+    "date": "2021-01-12",
+    "activityType": "Running",
+    "distance": 2070,
+    "duration": 721
+  },
+  {
+    "id": "garmin-2021-01-13",
+    "date": "2021-01-13",
+    "activityType": "Running",
+    "distance": 4280,
+    "duration": 1812
+  },
+  {
+    "id": "garmin-2021-01-14",
+    "date": "2021-01-14",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 770
+  },
+  {
+    "id": "garmin-2021-01-15",
+    "date": "2021-01-15",
+    "activityType": "Running",
+    "distance": 3040,
+    "duration": 1246
+  },
+  {
+    "id": "garmin-2021-01-16",
+    "date": "2021-01-16",
+    "activityType": "Running",
+    "distance": 3770,
+    "duration": 1732
+  },
+  {
+    "id": "garmin-2021-01-17",
+    "date": "2021-01-17",
+    "activityType": "Running",
+    "distance": 2550,
+    "duration": 1107
+  },
+  {
+    "id": "garmin-2021-01-18",
+    "date": "2021-01-18",
+    "activityType": "Running",
+    "distance": 3060,
+    "duration": 1224
+  },
+  {
+    "id": "garmin-2021-01-19",
+    "date": "2021-01-19",
+    "activityType": "Running",
+    "distance": 3060,
+    "duration": 1181
+  },
+  {
+    "id": "garmin-2021-01-20",
+    "date": "2021-01-20",
+    "activityType": "Running",
+    "distance": 3110,
+    "duration": 1279
+  },
+  {
+    "id": "garmin-2021-01-21",
+    "date": "2021-01-21",
+    "activityType": "Running",
+    "distance": 3280,
+    "duration": 1278
+  },
+  {
+    "id": "garmin-2021-01-22",
+    "date": "2021-01-22",
+    "activityType": "Running",
+    "distance": 5160,
+    "duration": 2231
+  },
+  {
+    "id": "garmin-2021-01-23",
+    "date": "2021-01-23",
+    "activityType": "Running",
+    "distance": 5410,
+    "duration": 2133
+  },
+  {
+    "id": "garmin-2021-01-24",
+    "date": "2021-01-24",
+    "activityType": "Running",
+    "distance": 3590,
+    "duration": 1442
+  },
+  {
+    "id": "garmin-2021-01-25",
+    "date": "2021-01-25",
+    "activityType": "Running",
+    "distance": 1700,
+    "duration": 778
+  },
+  {
+    "id": "garmin-2021-01-26",
+    "date": "2021-01-26",
+    "activityType": "Running",
+    "distance": 6040,
+    "duration": 2418
+  },
+  {
+    "id": "garmin-2021-01-27",
+    "date": "2021-01-27",
+    "activityType": "Running",
+    "distance": 4120,
+    "duration": 1482
+  },
+  {
+    "id": "garmin-2021-01-28",
+    "date": "2021-01-28",
+    "activityType": "Running",
+    "distance": 1740,
+    "duration": 787
+  },
+  {
+    "id": "garmin-2021-01-29",
+    "date": "2021-01-29",
+    "activityType": "Running",
+    "distance": 3060,
+    "duration": 1157
+  },
+  {
+    "id": "garmin-2021-01-30",
+    "date": "2021-01-30",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1688
+  },
+  {
+    "id": "garmin-2021-01-31",
+    "date": "2021-01-31",
+    "activityType": "Running",
+    "distance": 3050,
+    "duration": 1203
+  },
+  {
+    "id": "garmin-2021-02-01",
+    "date": "2021-02-01",
+    "activityType": "Running",
+    "distance": 5060,
+    "duration": 2099
+  },
+  {
+    "id": "garmin-2021-02-02",
+    "date": "2021-02-02",
+    "activityType": "Running",
+    "distance": 3280,
+    "duration": 1332
+  },
+  {
+    "id": "garmin-2021-02-03",
+    "date": "2021-02-03",
+    "activityType": "Running",
+    "distance": 4050,
+    "duration": 1590
+  },
+  {
+    "id": "garmin-2021-02-04",
+    "date": "2021-02-04",
+    "activityType": "Running",
+    "distance": 1740,
+    "duration": 705
+  },
+  {
+    "id": "garmin-2021-02-05",
+    "date": "2021-02-05",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 708
+  },
+  {
+    "id": "garmin-2021-02-06",
+    "date": "2021-02-06",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3627
+  },
+  {
+    "id": "garmin-2021-02-07",
+    "date": "2021-02-07",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1287
+  },
+  {
+    "id": "garmin-2021-02-08",
+    "date": "2021-02-08",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 826
+  },
+  {
+    "id": "garmin-2021-02-09",
+    "date": "2021-02-09",
+    "activityType": "Running",
+    "distance": 4130,
+    "duration": 1531
+  },
+  {
+    "id": "garmin-2021-02-10",
+    "date": "2021-02-10",
+    "activityType": "Running",
+    "distance": 4080,
+    "duration": 1458
+  },
+  {
+    "id": "garmin-2021-02-11",
+    "date": "2021-02-11",
+    "activityType": "Running",
+    "distance": 2070,
+    "duration": 797
+  },
+  {
+    "id": "garmin-2021-02-12",
+    "date": "2021-02-12",
+    "activityType": "Running",
+    "distance": 2540,
+    "duration": 875
+  },
+  {
+    "id": "garmin-2021-02-13",
+    "date": "2021-02-13",
+    "activityType": "Running",
+    "distance": 10050,
+    "duration": 4563
+  },
+  {
+    "id": "garmin-2021-02-14",
+    "date": "2021-02-14",
+    "activityType": "Running",
+    "distance": 1790,
+    "duration": 615
+  },
+  {
+    "id": "garmin-2021-02-15",
+    "date": "2021-02-15",
+    "activityType": "Running",
+    "distance": 3350,
+    "duration": 1265
+  },
+  {
+    "id": "garmin-2021-02-16",
+    "date": "2021-02-16",
+    "activityType": "Running",
+    "distance": 3340,
+    "duration": 1292
+  },
+  {
+    "id": "garmin-2021-02-17",
+    "date": "2021-02-17",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1248
+  },
+  {
+    "id": "garmin-2021-02-18",
+    "date": "2021-02-18",
+    "activityType": "Running",
+    "distance": 3230,
+    "duration": 1288
+  },
+  {
+    "id": "garmin-2021-02-19",
+    "date": "2021-02-19",
+    "activityType": "Running",
+    "distance": 1640,
+    "duration": 518.1
+  },
+  {
+    "id": "garmin-2021-02-20",
+    "date": "2021-02-20",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3623
+  },
+  {
+    "id": "garmin-2021-02-20-2",
+    "date": "2021-02-20",
+    "activityType": "Running",
+    "distance": 2020,
+    "duration": 913
+  },
+  {
+    "id": "garmin-2021-02-21",
+    "date": "2021-02-21",
+    "activityType": "Running",
+    "distance": 1720,
+    "duration": 648
+  },
+  {
+    "id": "garmin-2021-02-22",
+    "date": "2021-02-22",
+    "activityType": "Running",
+    "distance": 3410,
+    "duration": 1283
+  },
+  {
+    "id": "garmin-2021-02-23",
+    "date": "2021-02-23",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 737
+  },
+  {
+    "id": "garmin-2021-02-24",
+    "date": "2021-02-24",
+    "activityType": "Running",
+    "distance": 3580,
+    "duration": 1407
+  },
+  {
+    "id": "garmin-2021-02-25",
+    "date": "2021-02-25",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1868
+  },
+  {
+    "id": "garmin-2021-02-26",
+    "date": "2021-02-26",
+    "activityType": "Running",
+    "distance": 4030,
+    "duration": 1565
+  },
+  {
+    "id": "garmin-2021-02-27",
+    "date": "2021-02-27",
+    "activityType": "Running",
+    "distance": 9310,
+    "duration": 4234
+  },
+  {
+    "id": "garmin-2021-02-28",
+    "date": "2021-02-28",
+    "activityType": "Running",
+    "distance": 2250,
+    "duration": 728
+  },
+  {
+    "id": "garmin-2021-03-01",
+    "date": "2021-03-01",
+    "activityType": "Running",
+    "distance": 3280,
+    "duration": 1296
+  },
+  {
+    "id": "garmin-2021-03-02",
+    "date": "2021-03-02",
+    "activityType": "Running",
+    "distance": 3030,
+    "duration": 1301
+  },
+  {
+    "id": "garmin-2021-03-03",
+    "date": "2021-03-03",
+    "activityType": "Running",
+    "distance": 6010,
+    "duration": 2489
+  },
+  {
+    "id": "garmin-2021-03-04",
+    "date": "2021-03-04",
+    "activityType": "Running",
+    "distance": 2130,
+    "duration": 901
+  },
+  {
+    "id": "garmin-2021-03-05",
+    "date": "2021-03-05",
+    "activityType": "Running",
+    "distance": 3280,
+    "duration": 1209
+  },
+  {
+    "id": "garmin-2021-03-06",
+    "date": "2021-03-06",
+    "activityType": "Running",
+    "distance": 1630,
+    "duration": 634
+  },
+  {
+    "id": "garmin-2021-03-06-2",
+    "date": "2021-03-06",
+    "activityType": "Running",
+    "distance": 5420,
+    "duration": 2108
+  },
+  {
+    "id": "garmin-2021-03-07",
+    "date": "2021-03-07",
+    "activityType": "Running",
+    "distance": 10160,
+    "duration": 4466
+  },
+  {
+    "id": "garmin-2021-03-08",
+    "date": "2021-03-08",
+    "activityType": "Running",
+    "distance": 3300,
+    "duration": 1231
+  },
+  {
+    "id": "garmin-2021-03-09",
+    "date": "2021-03-09",
+    "activityType": "Running",
+    "distance": 3340,
+    "duration": 1246
+  },
+  {
+    "id": "garmin-2021-03-10",
+    "date": "2021-03-10",
+    "activityType": "Running",
+    "distance": 4980,
+    "duration": 1996
+  },
+  {
+    "id": "garmin-2021-03-11",
+    "date": "2021-03-11",
+    "activityType": "Running",
+    "distance": 3440,
+    "duration": 1347
+  },
+  {
+    "id": "garmin-2021-03-12",
+    "date": "2021-03-12",
+    "activityType": "Running",
+    "distance": 1650,
+    "duration": 533.8
+  },
+  {
+    "id": "garmin-2021-03-13",
+    "date": "2021-03-13",
+    "activityType": "Running",
+    "distance": 2630,
+    "duration": 943
+  },
+  {
+    "id": "garmin-2021-03-13-2",
+    "date": "2021-03-13",
+    "activityType": "Running",
+    "distance": 7550,
+    "duration": 3086
+  },
+  {
+    "id": "garmin-2021-03-14",
+    "date": "2021-03-14",
+    "activityType": "Running",
+    "distance": 5350,
+    "duration": 1800
+  },
+  {
+    "id": "garmin-2021-03-15",
+    "date": "2021-03-15",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1869
+  },
+  {
+    "id": "garmin-2021-03-16",
+    "date": "2021-03-16",
+    "activityType": "Running",
+    "distance": 2500,
+    "duration": 1000
+  },
+  {
+    "id": "garmin-2021-03-17",
+    "date": "2021-03-17",
+    "activityType": "Running",
+    "distance": 5330,
+    "duration": 2118
+  },
+  {
+    "id": "garmin-2021-03-18",
+    "date": "2021-03-18",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 740
+  },
+  {
+    "id": "garmin-2021-03-19",
+    "date": "2021-03-19",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 1752
+  },
+  {
+    "id": "garmin-2021-03-19-2",
+    "date": "2021-03-19",
+    "activityType": "Running",
+    "distance": 2540,
+    "duration": 855
+  },
+  {
+    "id": "garmin-2021-03-20",
+    "date": "2021-03-20",
+    "activityType": "Running",
+    "distance": 15050,
+    "duration": 6302
+  },
+  {
+    "id": "garmin-2021-03-21",
+    "date": "2021-03-21",
+    "activityType": "Running",
+    "distance": 3230,
+    "duration": 1340
+  },
+  {
+    "id": "garmin-2021-03-22",
+    "date": "2021-03-22",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 2659
+  },
+  {
+    "id": "garmin-2021-03-23",
+    "date": "2021-03-23",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1804
+  },
+  {
+    "id": "garmin-2021-03-24",
+    "date": "2021-03-24",
+    "activityType": "Running",
+    "distance": 5270,
+    "duration": 2026
+  },
+  {
+    "id": "garmin-2021-03-25",
+    "date": "2021-03-25",
+    "activityType": "Running",
+    "distance": 5190,
+    "duration": 2114
+  },
+  {
+    "id": "garmin-2021-03-26",
+    "date": "2021-03-26",
+    "activityType": "Running",
+    "distance": 4240,
+    "duration": 1711
+  },
+  {
+    "id": "garmin-2021-03-27",
+    "date": "2021-03-27",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 1078
+  },
+  {
+    "id": "garmin-2021-03-27-2",
+    "date": "2021-03-27",
+    "activityType": "Running",
+    "distance": 2840,
+    "duration": 1118
+  },
+  {
+    "id": "garmin-2021-03-28",
+    "date": "2021-03-28",
+    "activityType": "Running",
+    "distance": 3020,
+    "duration": 1229
+  },
+  {
+    "id": "garmin-2021-03-29",
+    "date": "2021-03-29",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 2011
+  },
+  {
+    "id": "garmin-2021-03-30",
+    "date": "2021-03-30",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 863
+  },
+  {
+    "id": "garmin-2021-03-31",
+    "date": "2021-03-31",
+    "activityType": "Running",
+    "distance": 1660,
+    "duration": 622
+  },
+  {
+    "id": "garmin-2021-04-01",
+    "date": "2021-04-01",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 867
+  },
+  {
+    "id": "garmin-2021-04-02",
+    "date": "2021-04-02",
+    "activityType": "Running",
+    "distance": 2220,
+    "duration": 794
+  },
+  {
+    "id": "garmin-2021-04-03",
+    "date": "2021-04-03",
+    "activityType": "Running",
+    "distance": 2350,
+    "duration": 849
+  },
+  {
+    "id": "garmin-2021-04-04",
+    "date": "2021-04-04",
+    "activityType": "Running",
+    "distance": 15050,
+    "duration": 5314
+  },
+  {
+    "id": "garmin-2021-04-05",
+    "date": "2021-04-05",
+    "activityType": "Running",
+    "distance": 2510,
+    "duration": 1098
+  },
+  {
+    "id": "garmin-2021-04-06",
+    "date": "2021-04-06",
+    "activityType": "Running",
+    "distance": 2670,
+    "duration": 1143
+  },
+  {
+    "id": "garmin-2021-04-07",
+    "date": "2021-04-07",
+    "activityType": "Running",
+    "distance": 3020,
+    "duration": 1221
+  },
+  {
+    "id": "garmin-2021-04-08",
+    "date": "2021-04-08",
+    "activityType": "Running",
+    "distance": 2120,
+    "duration": 943
+  },
+  {
+    "id": "garmin-2021-04-09",
+    "date": "2021-04-09",
+    "activityType": "Running",
+    "distance": 2350,
+    "duration": 936
+  },
+  {
+    "id": "garmin-2021-04-10",
+    "date": "2021-04-10",
+    "activityType": "Running",
+    "distance": 12040,
+    "duration": 4694
+  },
+  {
+    "id": "garmin-2021-04-11",
+    "date": "2021-04-11",
+    "activityType": "Running",
+    "distance": 2690,
+    "duration": 1083
+  },
+  {
+    "id": "garmin-2021-04-12",
+    "date": "2021-04-12",
+    "activityType": "Running",
+    "distance": 7730,
+    "duration": 3026
+  },
+  {
+    "id": "garmin-2021-04-13",
+    "date": "2021-04-13",
+    "activityType": "Running",
+    "distance": 6620,
+    "duration": 2458
+  },
+  {
+    "id": "garmin-2021-04-14",
+    "date": "2021-04-14",
+    "activityType": "Running",
+    "distance": 4250,
+    "duration": 1714
+  },
+  {
+    "id": "garmin-2021-04-15",
+    "date": "2021-04-15",
+    "activityType": "Running",
+    "distance": 7730,
+    "duration": 2985
+  },
+  {
+    "id": "garmin-2021-04-16",
+    "date": "2021-04-16",
+    "activityType": "Running",
+    "distance": 3540,
+    "duration": 1240
+  },
+  {
+    "id": "garmin-2021-04-17",
+    "date": "2021-04-17",
+    "activityType": "Running",
+    "distance": 13450,
+    "duration": 5039
+  },
+  {
+    "id": "garmin-2021-04-18",
+    "date": "2021-04-18",
+    "activityType": "Running",
+    "distance": 6630,
+    "duration": 2805
+  },
+  {
+    "id": "garmin-2021-04-19",
+    "date": "2021-04-19",
+    "activityType": "Running",
+    "distance": 3420,
+    "duration": 1261
+  },
+  {
+    "id": "garmin-2021-04-20",
+    "date": "2021-04-20",
+    "activityType": "Running",
+    "distance": 3400,
+    "duration": 1353
+  },
+  {
+    "id": "garmin-2021-04-21",
+    "date": "2021-04-21",
+    "activityType": "Running",
+    "distance": 5190,
+    "duration": 2177
+  },
+  {
+    "id": "garmin-2021-04-22",
+    "date": "2021-04-22",
+    "activityType": "Running",
+    "distance": 6450,
+    "duration": 2494
+  },
+  {
+    "id": "garmin-2021-04-23",
+    "date": "2021-04-23",
+    "activityType": "Running",
+    "distance": 3040,
+    "duration": 1099
+  },
+  {
+    "id": "garmin-2021-04-24",
+    "date": "2021-04-24",
+    "activityType": "Running",
+    "distance": 10730,
+    "duration": 4492
+  },
+  {
+    "id": "garmin-2021-04-25",
+    "date": "2021-04-25",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 784
+  },
+  {
+    "id": "garmin-2021-04-26",
+    "date": "2021-04-26",
+    "activityType": "Running",
+    "distance": 580,
+    "duration": 317.9
+  },
+  {
+    "id": "garmin-2021-04-26-2",
+    "date": "2021-04-26",
+    "activityType": "Running",
+    "distance": 3360,
+    "duration": 1266
+  },
+  {
+    "id": "garmin-2021-04-27",
+    "date": "2021-04-27",
+    "activityType": "Running",
+    "distance": 4060,
+    "duration": 1575
+  },
+  {
+    "id": "garmin-2021-04-28",
+    "date": "2021-04-28",
+    "activityType": "Running",
+    "distance": 4070,
+    "duration": 1580
+  },
+  {
+    "id": "garmin-2021-04-29",
+    "date": "2021-04-29",
+    "activityType": "Running",
+    "distance": 16170,
+    "duration": 6336
+  },
+  {
+    "id": "garmin-2021-04-30",
+    "date": "2021-04-30",
+    "activityType": "Running",
+    "distance": 2070,
+    "duration": 722
+  },
+  {
+    "id": "garmin-2021-05-01",
+    "date": "2021-05-01",
+    "activityType": "Running",
+    "distance": 1260,
+    "duration": 637
+  },
+  {
+    "id": "garmin-2021-05-01-2",
+    "date": "2021-05-01",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1741
+  },
+  {
+    "id": "garmin-2021-05-02",
+    "date": "2021-05-02",
+    "activityType": "Running",
+    "distance": 16450,
+    "duration": 6019
+  },
+  {
+    "id": "garmin-2021-05-03",
+    "date": "2021-05-03",
+    "activityType": "Running",
+    "distance": 240,
+    "duration": 131.6
+  },
+  {
+    "id": "garmin-2021-05-03-2",
+    "date": "2021-05-03",
+    "activityType": "Running",
+    "distance": 4290,
+    "duration": 1815
+  },
+  {
+    "id": "garmin-2021-05-04",
+    "date": "2021-05-04",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1408
+  },
+  {
+    "id": "garmin-2021-05-05",
+    "date": "2021-05-05",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 2620
+  },
+  {
+    "id": "garmin-2021-05-06",
+    "date": "2021-05-06",
+    "activityType": "Running",
+    "distance": 4040,
+    "duration": 1873
+  },
+  {
+    "id": "garmin-2021-05-07",
+    "date": "2021-05-07",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 2194
+  },
+  {
+    "id": "garmin-2021-05-08",
+    "date": "2021-05-08",
+    "activityType": "Running",
+    "distance": 3250,
+    "duration": 985
+  },
+  {
+    "id": "garmin-2021-05-09",
+    "date": "2021-05-09",
+    "activityType": "Running",
+    "distance": 8090,
+    "duration": 3107
+  },
+  {
+    "id": "garmin-2021-05-10",
+    "date": "2021-05-10",
+    "activityType": "Running",
+    "distance": 5250,
+    "duration": 2562
+  },
+  {
+    "id": "garmin-2021-05-11",
+    "date": "2021-05-11",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 1758
+  },
+  {
+    "id": "garmin-2021-05-12",
+    "date": "2021-05-12",
+    "activityType": "Running",
+    "distance": 2450,
+    "duration": 863
+  },
+  {
+    "id": "garmin-2021-05-13",
+    "date": "2021-05-13",
+    "activityType": "Running",
+    "distance": 21140,
+    "duration": 7551
+  },
+  {
+    "id": "garmin-2021-05-14",
+    "date": "2021-05-14",
+    "activityType": "Running",
+    "distance": 4040,
+    "duration": 1854
+  },
+  {
+    "id": "garmin-2021-05-15",
+    "date": "2021-05-15",
+    "activityType": "Running",
+    "distance": 5070,
+    "duration": 2355
+  },
+  {
+    "id": "garmin-2021-05-16",
+    "date": "2021-05-16",
+    "activityType": "Running",
+    "distance": 10510,
+    "duration": 4858
+  },
+  {
+    "id": "garmin-2021-05-17",
+    "date": "2021-05-17",
+    "activityType": "Running",
+    "distance": 3680,
+    "duration": 1685
+  },
+  {
+    "id": "garmin-2021-05-18",
+    "date": "2021-05-18",
+    "activityType": "Running",
+    "distance": 5690,
+    "duration": 2461
+  },
+  {
+    "id": "garmin-2021-05-19",
+    "date": "2021-05-19",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 924
+  },
+  {
+    "id": "garmin-2021-05-20",
+    "date": "2021-05-20",
+    "activityType": "Running",
+    "distance": 2140,
+    "duration": 886
+  },
+  {
+    "id": "garmin-2021-05-21",
+    "date": "2021-05-21",
+    "activityType": "Running",
+    "distance": 2060,
+    "duration": 948
+  },
+  {
+    "id": "garmin-2021-05-22",
+    "date": "2021-05-22",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 638
+  },
+  {
+    "id": "garmin-2021-05-23",
+    "date": "2021-05-23",
+    "activityType": "Treadmill Running",
+    "distance": 3550,
+    "duration": 1548
+  },
+  {
+    "id": "garmin-2021-05-23-2",
+    "date": "2021-05-23",
+    "activityType": "Treadmill Running",
+    "distance": 0,
+    "duration": 1479
+  },
+  {
+    "id": "garmin-2021-05-23-3",
+    "date": "2021-05-23",
+    "activityType": "Running",
+    "distance": 1660,
+    "duration": 493
+  },
+  {
+    "id": "garmin-2021-05-24",
+    "date": "2021-05-24",
+    "activityType": "Running",
+    "distance": 21140,
+    "duration": 8295
+  },
+  {
+    "id": "garmin-2021-05-25",
+    "date": "2021-05-25",
+    "activityType": "Running",
+    "distance": 3510,
+    "duration": 1580
+  },
+  {
+    "id": "garmin-2021-05-26",
+    "date": "2021-05-26",
+    "activityType": "Running",
+    "distance": 2020,
+    "duration": 934
+  },
+  {
+    "id": "garmin-2021-05-27",
+    "date": "2021-05-27",
+    "activityType": "Running",
+    "distance": 1680,
+    "duration": 559.2
+  },
+  {
+    "id": "garmin-2021-05-28",
+    "date": "2021-05-28",
+    "activityType": "Running",
+    "distance": 2580,
+    "duration": 1187
+  },
+  {
+    "id": "garmin-2021-05-29",
+    "date": "2021-05-29",
+    "activityType": "Running",
+    "distance": 5120,
+    "duration": 2295
+  },
+  {
+    "id": "garmin-2021-05-30",
+    "date": "2021-05-30",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3348
+  },
+  {
+    "id": "garmin-2021-05-31",
+    "date": "2021-05-31",
+    "activityType": "Running",
+    "distance": 2090,
+    "duration": 967
+  },
+  {
+    "id": "garmin-2021-06-01",
+    "date": "2021-06-01",
+    "activityType": "Running",
+    "distance": 2140,
+    "duration": 998
+  },
+  {
+    "id": "garmin-2021-06-02",
+    "date": "2021-06-02",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1783
+  },
+  {
+    "id": "garmin-2021-06-03",
+    "date": "2021-06-03",
+    "activityType": "Running",
+    "distance": 5490,
+    "duration": 2177
+  },
+  {
+    "id": "garmin-2021-06-04",
+    "date": "2021-06-04",
+    "activityType": "Running",
+    "distance": 3620,
+    "duration": 1363
+  },
+  {
+    "id": "garmin-2021-06-04-2",
+    "date": "2021-06-04",
+    "activityType": "Running",
+    "distance": 1690,
+    "duration": 754
+  },
+  {
+    "id": "garmin-2021-06-05",
+    "date": "2021-06-05",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 886
+  },
+  {
+    "id": "garmin-2021-06-06",
+    "date": "2021-06-06",
+    "activityType": "Running",
+    "distance": 1650,
+    "duration": 696
+  },
+  {
+    "id": "garmin-2021-06-07",
+    "date": "2021-06-07",
+    "activityType": "Running",
+    "distance": 6470,
+    "duration": 2785
+  },
+  {
+    "id": "garmin-2021-06-08",
+    "date": "2021-06-08",
+    "activityType": "Running",
+    "distance": 6040,
+    "duration": 2636
+  },
+  {
+    "id": "garmin-2021-06-09",
+    "date": "2021-06-09",
+    "activityType": "Running",
+    "distance": 1780,
+    "duration": 818
+  },
+  {
+    "id": "garmin-2021-06-10",
+    "date": "2021-06-10",
+    "activityType": "Running",
+    "distance": 1660,
+    "duration": 722
+  },
+  {
+    "id": "garmin-2021-06-11",
+    "date": "2021-06-11",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 606
+  },
+  {
+    "id": "garmin-2021-06-11-2",
+    "date": "2021-06-11",
+    "activityType": "Running",
+    "distance": 1030,
+    "duration": 385.2
+  },
+  {
+    "id": "garmin-2021-06-12",
+    "date": "2021-06-12",
+    "activityType": "Running",
+    "distance": 16370,
+    "duration": 5656
+  },
+  {
+    "id": "garmin-2021-06-12-2",
+    "date": "2021-06-12",
+    "activityType": "Running",
+    "distance": 2570,
+    "duration": 1061
+  },
+  {
+    "id": "garmin-2021-06-13",
+    "date": "2021-06-13",
+    "activityType": "Running",
+    "distance": 1890,
+    "duration": 810
+  },
+  {
+    "id": "garmin-2021-06-14",
+    "date": "2021-06-14",
+    "activityType": "Running",
+    "distance": 2470,
+    "duration": 1108
+  },
+  {
+    "id": "garmin-2021-06-15",
+    "date": "2021-06-15",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 2225
+  },
+  {
+    "id": "garmin-2021-06-16",
+    "date": "2021-06-16",
+    "activityType": "Running",
+    "distance": 1640,
+    "duration": 535.3
+  },
+  {
+    "id": "garmin-2021-06-17",
+    "date": "2021-06-17",
+    "activityType": "Running",
+    "distance": 1730,
+    "duration": 680
+  },
+  {
+    "id": "garmin-2021-06-18",
+    "date": "2021-06-18",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1655
+  },
+  {
+    "id": "garmin-2021-06-19",
+    "date": "2021-06-19",
+    "activityType": "Running",
+    "distance": 2620,
+    "duration": 1097
+  },
+  {
+    "id": "garmin-2021-06-20",
+    "date": "2021-06-20",
+    "activityType": "Running",
+    "distance": 6090,
+    "duration": 2392
+  },
+  {
+    "id": "garmin-2021-06-21",
+    "date": "2021-06-21",
+    "activityType": "Running",
+    "distance": 1830,
+    "duration": 758
+  },
+  {
+    "id": "garmin-2021-06-22",
+    "date": "2021-06-22",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3818
+  },
+  {
+    "id": "garmin-2021-06-23",
+    "date": "2021-06-23",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 4105
+  },
+  {
+    "id": "garmin-2021-06-24",
+    "date": "2021-06-24",
+    "activityType": "Running",
+    "distance": 5250,
+    "duration": 2038
+  },
+  {
+    "id": "garmin-2021-06-25",
+    "date": "2021-06-25",
+    "activityType": "Running",
+    "distance": 5760,
+    "duration": 2398
+  },
+  {
+    "id": "garmin-2021-06-26",
+    "date": "2021-06-26",
+    "activityType": "Running",
+    "distance": 4770,
+    "duration": 1877
+  },
+  {
+    "id": "garmin-2021-06-27",
+    "date": "2021-06-27",
+    "activityType": "Running",
+    "distance": 8750,
+    "duration": 3417
+  },
+  {
+    "id": "garmin-2021-06-28",
+    "date": "2021-06-28",
+    "activityType": "Running",
+    "distance": 15050,
+    "duration": 6207
+  },
+  {
+    "id": "garmin-2021-06-29",
+    "date": "2021-06-29",
+    "activityType": "Running",
+    "distance": 11050,
+    "duration": 4577
+  },
+  {
+    "id": "garmin-2021-06-30",
+    "date": "2021-06-30",
+    "activityType": "Running",
+    "distance": 8080,
+    "duration": 2750
+  },
+  {
+    "id": "garmin-2021-07-01",
+    "date": "2021-07-01",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 891
+  },
+  {
+    "id": "garmin-2021-07-02",
+    "date": "2021-07-02",
+    "activityType": "Running",
+    "distance": 2600,
+    "duration": 1168
+  },
+  {
+    "id": "garmin-2021-07-03",
+    "date": "2021-07-03",
+    "activityType": "Running",
+    "distance": 3360,
+    "duration": 1499
+  },
+  {
+    "id": "garmin-2021-07-04",
+    "date": "2021-07-04",
+    "activityType": "Virtual Running",
+    "distance": 1100,
+    "duration": 419
+  },
+  {
+    "id": "garmin-2021-07-04-2",
+    "date": "2021-07-04",
+    "activityType": "Running",
+    "distance": 2590,
+    "duration": 1122
+  },
+  {
+    "id": "garmin-2021-07-05",
+    "date": "2021-07-05",
+    "activityType": "Running",
+    "distance": 3220,
+    "duration": 1387
+  },
+  {
+    "id": "garmin-2021-07-06",
+    "date": "2021-07-06",
+    "activityType": "Running",
+    "distance": 5400,
+    "duration": 2184
+  },
+  {
+    "id": "garmin-2021-07-07",
+    "date": "2021-07-07",
+    "activityType": "Running",
+    "distance": 1630,
+    "duration": 691
+  },
+  {
+    "id": "garmin-2021-07-08",
+    "date": "2021-07-08",
+    "activityType": "Running",
+    "distance": 2060,
+    "duration": 797
+  },
+  {
+    "id": "garmin-2021-07-09",
+    "date": "2021-07-09",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1394
+  },
+  {
+    "id": "garmin-2021-07-10",
+    "date": "2021-07-10",
+    "activityType": "Running",
+    "distance": 10280,
+    "duration": 4053
+  },
+  {
+    "id": "garmin-2021-07-11",
+    "date": "2021-07-11",
+    "activityType": "Running",
+    "distance": 5060,
+    "duration": 2255
+  },
+  {
+    "id": "garmin-2021-07-12",
+    "date": "2021-07-12",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 2109
+  },
+  {
+    "id": "garmin-2021-07-13",
+    "date": "2021-07-13",
+    "activityType": "Running",
+    "distance": 5060,
+    "duration": 1914
+  },
+  {
+    "id": "garmin-2021-07-14",
+    "date": "2021-07-14",
+    "activityType": "Running",
+    "distance": 2270,
+    "duration": 954
+  },
+  {
+    "id": "garmin-2021-07-15",
+    "date": "2021-07-15",
+    "activityType": "Running",
+    "distance": 1860,
+    "duration": 786
+  },
+  {
+    "id": "garmin-2021-07-16",
+    "date": "2021-07-16",
+    "activityType": "Running",
+    "distance": 2530,
+    "duration": 749
+  },
+  {
+    "id": "garmin-2021-07-17",
+    "date": "2021-07-17",
+    "activityType": "Running",
+    "distance": 2470,
+    "duration": 987
+  },
+  {
+    "id": "garmin-2021-07-18",
+    "date": "2021-07-18",
+    "activityType": "Running",
+    "distance": 3540,
+    "duration": 1437
+  },
+  {
+    "id": "garmin-2021-07-19",
+    "date": "2021-07-19",
+    "activityType": "Running",
+    "distance": 2510,
+    "duration": 978
+  },
+  {
+    "id": "garmin-2021-07-20",
+    "date": "2021-07-20",
+    "activityType": "Running",
+    "distance": 1650,
+    "duration": 488.9
+  },
+  {
+    "id": "garmin-2021-07-21",
+    "date": "2021-07-21",
+    "activityType": "Running",
+    "distance": 3670,
+    "duration": 1449
+  },
+  {
+    "id": "garmin-2021-07-22",
+    "date": "2021-07-22",
+    "activityType": "Running",
+    "distance": 3390,
+    "duration": 1426
+  },
+  {
+    "id": "garmin-2021-07-23",
+    "date": "2021-07-23",
+    "activityType": "Running",
+    "distance": 2260,
+    "duration": 930
+  },
+  {
+    "id": "garmin-2021-07-24",
+    "date": "2021-07-24",
+    "activityType": "Running",
+    "distance": 1730,
+    "duration": 640
+  },
+  {
+    "id": "garmin-2021-07-25",
+    "date": "2021-07-25",
+    "activityType": "Running",
+    "distance": 2510,
+    "duration": 1042
+  },
+  {
+    "id": "garmin-2021-07-26",
+    "date": "2021-07-26",
+    "activityType": "Running",
+    "distance": 3620,
+    "duration": 1368
+  },
+  {
+    "id": "garmin-2021-07-27",
+    "date": "2021-07-27",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1818
+  },
+  {
+    "id": "garmin-2021-07-28",
+    "date": "2021-07-28",
+    "activityType": "Running",
+    "distance": 2110,
+    "duration": 664
+  },
+  {
+    "id": "garmin-2021-07-29",
+    "date": "2021-07-29",
+    "activityType": "Running",
+    "distance": 2090,
+    "duration": 606
+  },
+  {
+    "id": "garmin-2021-07-30",
+    "date": "2021-07-30",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1353
+  },
+  {
+    "id": "garmin-2021-07-31",
+    "date": "2021-07-31",
+    "activityType": "Running",
+    "distance": 2510,
+    "duration": 970
+  },
+  {
+    "id": "garmin-2021-08-01",
+    "date": "2021-08-01",
+    "activityType": "Running",
+    "distance": 7460,
+    "duration": 2959
+  },
+  {
+    "id": "garmin-2021-08-02",
+    "date": "2021-08-02",
+    "activityType": "Running",
+    "distance": 6520,
+    "duration": 2614
+  },
+  {
+    "id": "garmin-2021-08-03",
+    "date": "2021-08-03",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 1985
+  },
+  {
+    "id": "garmin-2021-08-04",
+    "date": "2021-08-04",
+    "activityType": "Running",
+    "distance": 2290,
+    "duration": 907
+  },
+  {
+    "id": "garmin-2021-08-05",
+    "date": "2021-08-05",
+    "activityType": "Running",
+    "distance": 7250,
+    "duration": 2950
+  },
+  {
+    "id": "garmin-2021-08-06",
+    "date": "2021-08-06",
+    "activityType": "Running",
+    "distance": 2450,
+    "duration": 1001
+  },
+  {
+    "id": "garmin-2021-08-07",
+    "date": "2021-08-07",
+    "activityType": "Running",
+    "distance": 6650,
+    "duration": 2719
+  },
+  {
+    "id": "garmin-2021-08-08",
+    "date": "2021-08-08",
+    "activityType": "Running",
+    "distance": 4340,
+    "duration": 1846
+  },
+  {
+    "id": "garmin-2021-08-09",
+    "date": "2021-08-09",
+    "activityType": "Running",
+    "distance": 7430,
+    "duration": 3000
+  },
+  {
+    "id": "garmin-2021-08-10",
+    "date": "2021-08-10",
+    "activityType": "Running",
+    "distance": 5170,
+    "duration": 2169
+  },
+  {
+    "id": "garmin-2021-08-11",
+    "date": "2021-08-11",
+    "activityType": "Running",
+    "distance": 2470,
+    "duration": 943
+  },
+  {
+    "id": "garmin-2021-08-12",
+    "date": "2021-08-12",
+    "activityType": "Running",
+    "distance": 4480,
+    "duration": 1947
+  },
+  {
+    "id": "garmin-2021-08-13",
+    "date": "2021-08-13",
+    "activityType": "Running",
+    "distance": 2890,
+    "duration": 1164
+  },
+  {
+    "id": "garmin-2021-08-14",
+    "date": "2021-08-14",
+    "activityType": "Running",
+    "distance": 2180,
+    "duration": 645
+  },
+  {
+    "id": "garmin-2021-08-15",
+    "date": "2021-08-15",
+    "activityType": "Running",
+    "distance": 1690,
+    "duration": 536.3
+  },
+  {
+    "id": "garmin-2021-08-16",
+    "date": "2021-08-16",
+    "activityType": "Running",
+    "distance": 7610,
+    "duration": 3313
+  },
+  {
+    "id": "garmin-2021-08-17",
+    "date": "2021-08-17",
+    "activityType": "Running",
+    "distance": 2130,
+    "duration": 898
+  },
+  {
+    "id": "garmin-2021-08-18",
+    "date": "2021-08-18",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 2178
+  },
+  {
+    "id": "garmin-2021-08-19",
+    "date": "2021-08-19",
+    "activityType": "Running",
+    "distance": 8030,
+    "duration": 3578
+  },
+  {
+    "id": "garmin-2021-08-20",
+    "date": "2021-08-20",
+    "activityType": "Running",
+    "distance": 2100,
+    "duration": 856
+  },
+  {
+    "id": "garmin-2021-08-21",
+    "date": "2021-08-21",
+    "activityType": "Running",
+    "distance": 16100,
+    "duration": 6555
+  },
+  {
+    "id": "garmin-2021-08-22",
+    "date": "2021-08-22",
+    "activityType": "Running",
+    "distance": 1710,
+    "duration": 731
+  },
+  {
+    "id": "garmin-2021-08-23",
+    "date": "2021-08-23",
+    "activityType": "Running",
+    "distance": 3020,
+    "duration": 1192
+  },
+  {
+    "id": "garmin-2021-08-24",
+    "date": "2021-08-24",
+    "activityType": "Running",
+    "distance": 2760,
+    "duration": 1122
+  },
+  {
+    "id": "garmin-2021-08-25",
+    "date": "2021-08-25",
+    "activityType": "Running",
+    "distance": 2180,
+    "duration": 883
+  },
+  {
+    "id": "garmin-2021-08-26",
+    "date": "2021-08-26",
+    "activityType": "Running",
+    "distance": 4210,
+    "duration": 1684
+  },
+  {
+    "id": "garmin-2021-08-27",
+    "date": "2021-08-27",
+    "activityType": "Running",
+    "distance": 3060,
+    "duration": 1138
+  },
+  {
+    "id": "garmin-2021-08-28",
+    "date": "2021-08-28",
+    "activityType": "Running",
+    "distance": 1660,
+    "duration": 670
+  },
+  {
+    "id": "garmin-2021-08-29",
+    "date": "2021-08-29",
+    "activityType": "Running",
+    "distance": 12800,
+    "duration": 5431
+  },
+  {
+    "id": "garmin-2021-08-30",
+    "date": "2021-08-30",
+    "activityType": "Running",
+    "distance": 4150,
+    "duration": 1850
+  },
+  {
+    "id": "garmin-2021-08-31",
+    "date": "2021-08-31",
+    "activityType": "Running",
+    "distance": 2120,
+    "duration": 886
+  },
+  {
+    "id": "garmin-2021-09-01",
+    "date": "2021-09-01",
+    "activityType": "Running",
+    "distance": 21140,
+    "duration": 8499
+  },
+  {
+    "id": "garmin-2021-09-02",
+    "date": "2021-09-02",
+    "activityType": "Running",
+    "distance": 4300,
+    "duration": 1925
+  },
+  {
+    "id": "garmin-2021-09-03",
+    "date": "2021-09-03",
+    "activityType": "Running",
+    "distance": 2470,
+    "duration": 1042
+  },
+  {
+    "id": "garmin-2021-09-04",
+    "date": "2021-09-04",
+    "activityType": "Running",
+    "distance": 10320,
+    "duration": 3975
+  },
+  {
+    "id": "garmin-2021-09-05",
+    "date": "2021-09-05",
+    "activityType": "Running",
+    "distance": 1020,
+    "duration": 533.8
+  },
+  {
+    "id": "garmin-2021-09-05-2",
+    "date": "2021-09-05",
+    "activityType": "Running",
+    "distance": 1640,
+    "duration": 670
+  },
+  {
+    "id": "garmin-2021-09-06",
+    "date": "2021-09-06",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 848
+  },
+  {
+    "id": "garmin-2021-09-07",
+    "date": "2021-09-07",
+    "activityType": "Running",
+    "distance": 5090,
+    "duration": 2056
+  },
+  {
+    "id": "garmin-2021-09-08",
+    "date": "2021-09-08",
+    "activityType": "Running",
+    "distance": 5420,
+    "duration": 1948
+  },
+  {
+    "id": "garmin-2021-09-09",
+    "date": "2021-09-09",
+    "activityType": "Running",
+    "distance": 3230,
+    "duration": 1324
+  },
+  {
+    "id": "garmin-2021-09-10",
+    "date": "2021-09-10",
+    "activityType": "Running",
+    "distance": 7380,
+    "duration": 2832
+  },
+  {
+    "id": "garmin-2021-09-10-2",
+    "date": "2021-09-10",
+    "activityType": "Running",
+    "distance": 6190,
+    "duration": 2125
+  },
+  {
+    "id": "garmin-2021-09-10-3",
+    "date": "2021-09-10",
+    "activityType": "Running",
+    "distance": 4490,
+    "duration": 1891
+  },
+  {
+    "id": "garmin-2021-09-11",
+    "date": "2021-09-11",
+    "activityType": "Running",
+    "distance": 5320,
+    "duration": 2021
+  },
+  {
+    "id": "garmin-2021-09-11-2",
+    "date": "2021-09-11",
+    "activityType": "Running",
+    "distance": 14660,
+    "duration": 5675
+  },
+  {
+    "id": "garmin-2021-09-12",
+    "date": "2021-09-12",
+    "activityType": "Running",
+    "distance": 20470,
+    "duration": 9324
+  },
+  {
+    "id": "garmin-2021-09-13",
+    "date": "2021-09-13",
+    "activityType": "Running",
+    "distance": 1710,
+    "duration": 728
+  },
+  {
+    "id": "garmin-2021-09-14",
+    "date": "2021-09-14",
+    "activityType": "Running",
+    "distance": 1730,
+    "duration": 758
+  },
+  {
+    "id": "garmin-2021-09-15",
+    "date": "2021-09-15",
+    "activityType": "Virtual Running",
+    "distance": 1670,
+    "duration": 759
+  },
+  {
+    "id": "garmin-2021-09-15-2",
+    "date": "2021-09-15",
+    "activityType": "Running",
+    "distance": 1840,
+    "duration": 759
+  },
+  {
+    "id": "garmin-2021-09-16",
+    "date": "2021-09-16",
+    "activityType": "Running",
+    "distance": 1840,
+    "duration": 772
+  },
+  {
+    "id": "garmin-2021-09-17",
+    "date": "2021-09-17",
+    "activityType": "Running",
+    "distance": 1220,
+    "duration": 587.1
+  },
+  {
+    "id": "garmin-2021-09-17-2",
+    "date": "2021-09-17",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 809
+  },
+  {
+    "id": "garmin-2021-09-18",
+    "date": "2021-09-18",
+    "activityType": "Running",
+    "distance": 3390,
+    "duration": 1398
+  },
+  {
+    "id": "garmin-2021-09-19",
+    "date": "2021-09-19",
+    "activityType": "Running",
+    "distance": 1870,
+    "duration": 804
+  },
+  {
+    "id": "garmin-2021-09-20",
+    "date": "2021-09-20",
+    "activityType": "Running",
+    "distance": 2100,
+    "duration": 819
+  },
+  {
+    "id": "garmin-2021-09-21",
+    "date": "2021-09-21",
+    "activityType": "Running",
+    "distance": 6710,
+    "duration": 2605
+  },
+  {
+    "id": "garmin-2021-09-22",
+    "date": "2021-09-22",
+    "activityType": "Running",
+    "distance": 1030,
+    "duration": 492.7
+  },
+  {
+    "id": "garmin-2021-09-22-2",
+    "date": "2021-09-22",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 877
+  },
+  {
+    "id": "garmin-2021-09-23",
+    "date": "2021-09-23",
+    "activityType": "Running",
+    "distance": 1690,
+    "duration": 732
+  },
+  {
+    "id": "garmin-2021-09-24",
+    "date": "2021-09-24",
+    "activityType": "Running",
+    "distance": 5180,
+    "duration": 1859
+  },
+  {
+    "id": "garmin-2021-09-25",
+    "date": "2021-09-25",
+    "activityType": "Running",
+    "distance": 11300,
+    "duration": 3784
+  },
+  {
+    "id": "garmin-2021-09-25-2",
+    "date": "2021-09-25",
+    "activityType": "Running",
+    "distance": 1070,
+    "duration": 371.2
+  },
+  {
+    "id": "garmin-2021-09-26",
+    "date": "2021-09-26",
+    "activityType": "Running",
+    "distance": 7490,
+    "duration": 3322
+  },
+  {
+    "id": "garmin-2021-09-27",
+    "date": "2021-09-27",
+    "activityType": "Running",
+    "distance": 4790,
+    "duration": 1967
+  },
+  {
+    "id": "garmin-2021-09-28",
+    "date": "2021-09-28",
+    "activityType": "Running",
+    "distance": 8070,
+    "duration": 3388
+  },
+  {
+    "id": "garmin-2021-09-29",
+    "date": "2021-09-29",
+    "activityType": "Running",
+    "distance": 7330,
+    "duration": 2875
+  },
+  {
+    "id": "garmin-2021-09-30",
+    "date": "2021-09-30",
+    "activityType": "Running",
+    "distance": 9030,
+    "duration": 3561
+  },
+  {
+    "id": "garmin-2021-10-01",
+    "date": "2021-10-01",
+    "activityType": "Running",
+    "distance": 1760,
+    "duration": 766
+  },
+  {
+    "id": "garmin-2021-10-02",
+    "date": "2021-10-02",
+    "activityType": "Running",
+    "distance": 6850,
+    "duration": 3153
+  },
+  {
+    "id": "garmin-2021-10-02-2",
+    "date": "2021-10-02",
+    "activityType": "Running",
+    "distance": 18600,
+    "duration": 8230
+  },
+  {
+    "id": "garmin-2021-10-03",
+    "date": "2021-10-03",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 862
+  },
+  {
+    "id": "garmin-2021-10-04",
+    "date": "2021-10-04",
+    "activityType": "Running",
+    "distance": 1690,
+    "duration": 726
+  },
+  {
+    "id": "garmin-2021-10-05",
+    "date": "2021-10-05",
+    "activityType": "Running",
+    "distance": 2060,
+    "duration": 821
+  },
+  {
+    "id": "garmin-2021-10-06",
+    "date": "2021-10-06",
+    "activityType": "Running",
+    "distance": 1670,
+    "duration": 531.4
+  },
+  {
+    "id": "garmin-2021-10-07",
+    "date": "2021-10-07",
+    "activityType": "Running",
+    "distance": 1700,
+    "duration": 499.5
+  },
+  {
+    "id": "garmin-2021-10-08",
+    "date": "2021-10-08",
+    "activityType": "Running",
+    "distance": 2170,
+    "duration": 888
+  },
+  {
+    "id": "garmin-2021-10-09",
+    "date": "2021-10-09",
+    "activityType": "Running",
+    "distance": 2530,
+    "duration": 1017
+  },
+  {
+    "id": "garmin-2021-10-10",
+    "date": "2021-10-10",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 825
+  },
+  {
+    "id": "garmin-2021-10-11",
+    "date": "2021-10-11",
+    "activityType": "Running",
+    "distance": 2180,
+    "duration": 862
+  },
+  {
+    "id": "garmin-2021-10-12",
+    "date": "2021-10-12",
+    "activityType": "Running",
+    "distance": 2530,
+    "duration": 963
+  },
+  {
+    "id": "garmin-2021-10-13",
+    "date": "2021-10-13",
+    "activityType": "Running",
+    "distance": 2830,
+    "duration": 1057
+  },
+  {
+    "id": "garmin-2021-10-14",
+    "date": "2021-10-14",
+    "activityType": "Running",
+    "distance": 4040,
+    "duration": 1471
+  },
+  {
+    "id": "garmin-2021-10-15",
+    "date": "2021-10-15",
+    "activityType": "Running",
+    "distance": 4150,
+    "duration": 1661
+  },
+  {
+    "id": "garmin-2021-10-16",
+    "date": "2021-10-16",
+    "activityType": "Running",
+    "distance": 1640,
+    "duration": 521.8
+  },
+  {
+    "id": "garmin-2021-10-17",
+    "date": "2021-10-17",
+    "activityType": "Running",
+    "distance": 10040,
+    "duration": 3847
+  },
+  {
+    "id": "garmin-2021-10-18",
+    "date": "2021-10-18",
+    "activityType": "Running",
+    "distance": 3300,
+    "duration": 1190
+  },
+  {
+    "id": "garmin-2021-10-19",
+    "date": "2021-10-19",
+    "activityType": "Running",
+    "distance": 2020,
+    "duration": 715
+  },
+  {
+    "id": "garmin-2021-10-20",
+    "date": "2021-10-20",
+    "activityType": "Running",
+    "distance": 2020,
+    "duration": 706
+  },
+  {
+    "id": "garmin-2021-10-21",
+    "date": "2021-10-21",
+    "activityType": "Running",
+    "distance": 2240,
+    "duration": 845
+  },
+  {
+    "id": "garmin-2021-10-22",
+    "date": "2021-10-22",
+    "activityType": "Running",
+    "distance": 1820,
+    "duration": 785
+  },
+  {
+    "id": "garmin-2021-10-23",
+    "date": "2021-10-23",
+    "activityType": "Running",
+    "distance": 3030,
+    "duration": 1357
+  },
+  {
+    "id": "garmin-2021-10-24",
+    "date": "2021-10-24",
+    "activityType": "Running",
+    "distance": 3910,
+    "duration": 1563
+  },
+  {
+    "id": "garmin-2021-10-25",
+    "date": "2021-10-25",
+    "activityType": "Running",
+    "distance": 2210,
+    "duration": 926
+  },
+  {
+    "id": "garmin-2021-10-26",
+    "date": "2021-10-26",
+    "activityType": "Running",
+    "distance": 2190,
+    "duration": 831
+  },
+  {
+    "id": "garmin-2021-10-27",
+    "date": "2021-10-27",
+    "activityType": "Running",
+    "distance": 2240,
+    "duration": 886
+  },
+  {
+    "id": "garmin-2021-10-28",
+    "date": "2021-10-28",
+    "activityType": "Running",
+    "distance": 1860,
+    "duration": 739
+  },
+  {
+    "id": "garmin-2021-10-29",
+    "date": "2021-10-29",
+    "activityType": "Running",
+    "distance": 2130,
+    "duration": 836
+  },
+  {
+    "id": "garmin-2021-10-30",
+    "date": "2021-10-30",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 863
+  },
+  {
+    "id": "garmin-2021-10-31",
+    "date": "2021-10-31",
+    "activityType": "Running",
+    "distance": 2410,
+    "duration": 1021
+  },
+  {
+    "id": "garmin-2021-11-01",
+    "date": "2021-11-01",
+    "activityType": "Running",
+    "distance": 5530,
+    "duration": 2149
+  },
+  {
+    "id": "garmin-2021-11-02",
+    "date": "2021-11-02",
+    "activityType": "Running",
+    "distance": 3040,
+    "duration": 1112
+  },
+  {
+    "id": "garmin-2021-11-03",
+    "date": "2021-11-03",
+    "activityType": "Running",
+    "distance": 2550,
+    "duration": 1022
+  },
+  {
+    "id": "garmin-2021-11-04",
+    "date": "2021-11-04",
+    "activityType": "Running",
+    "distance": 3330,
+    "duration": 1303
+  },
+  {
+    "id": "garmin-2021-11-05",
+    "date": "2021-11-05",
+    "activityType": "Running",
+    "distance": 3030,
+    "duration": 1241
+  },
+  {
+    "id": "garmin-2021-11-06",
+    "date": "2021-11-06",
+    "activityType": "Running",
+    "distance": 10110,
+    "duration": 3784
+  },
+  {
+    "id": "garmin-2021-11-07",
+    "date": "2021-11-07",
+    "activityType": "Running",
+    "distance": 3230,
+    "duration": 1372
+  },
+  {
+    "id": "garmin-2021-11-08",
+    "date": "2021-11-08",
+    "activityType": "Running",
+    "distance": 3250,
+    "duration": 1328
+  },
+  {
+    "id": "garmin-2021-11-09",
+    "date": "2021-11-09",
+    "activityType": "Running",
+    "distance": 3590,
+    "duration": 1285
+  },
+  {
+    "id": "garmin-2021-11-10",
+    "date": "2021-11-10",
+    "activityType": "Running",
+    "distance": 1700,
+    "duration": 728
+  },
+  {
+    "id": "garmin-2021-11-11",
+    "date": "2021-11-11",
+    "activityType": "Running",
+    "distance": 1810,
+    "duration": 736
+  },
+  {
+    "id": "garmin-2021-11-12",
+    "date": "2021-11-12",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 775
+  },
+  {
+    "id": "garmin-2021-11-13",
+    "date": "2021-11-13",
+    "activityType": "Running",
+    "distance": 3020,
+    "duration": 1038
+  },
+  {
+    "id": "garmin-2021-11-14",
+    "date": "2021-11-14",
+    "activityType": "Running",
+    "distance": 2450,
+    "duration": 995
+  },
+  {
+    "id": "garmin-2021-11-15",
+    "date": "2021-11-15",
+    "activityType": "Running",
+    "distance": 2160,
+    "duration": 879
+  },
+  {
+    "id": "garmin-2021-11-16",
+    "date": "2021-11-16",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 1601
+  },
+  {
+    "id": "garmin-2021-11-17",
+    "date": "2021-11-17",
+    "activityType": "Running",
+    "distance": 1750,
+    "duration": 735
+  },
+  {
+    "id": "garmin-2021-11-18",
+    "date": "2021-11-18",
+    "activityType": "Running",
+    "distance": 2560,
+    "duration": 1068
+  },
+  {
+    "id": "garmin-2021-11-19",
+    "date": "2021-11-19",
+    "activityType": "Running",
+    "distance": 1880,
+    "duration": 739
+  },
+  {
+    "id": "garmin-2021-11-20",
+    "date": "2021-11-20",
+    "activityType": "Running",
+    "distance": 1710,
+    "duration": 772
+  },
+  {
+    "id": "garmin-2021-11-21",
+    "date": "2021-11-21",
+    "activityType": "Running",
+    "distance": 3040,
+    "duration": 1245
+  },
+  {
+    "id": "garmin-2021-11-22",
+    "date": "2021-11-22",
+    "activityType": "Running",
+    "distance": 1780,
+    "duration": 689
+  },
+  {
+    "id": "garmin-2021-11-23",
+    "date": "2021-11-23",
+    "activityType": "Running",
+    "distance": 1820,
+    "duration": 731
+  },
+  {
+    "id": "garmin-2021-11-24",
+    "date": "2021-11-24",
+    "activityType": "Running",
+    "distance": 2380,
+    "duration": 1007
+  },
+  {
+    "id": "garmin-2021-11-25",
+    "date": "2021-11-25",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 797
+  },
+  {
+    "id": "garmin-2021-11-26",
+    "date": "2021-11-26",
+    "activityType": "Running",
+    "distance": 3020,
+    "duration": 1263
+  },
+  {
+    "id": "garmin-2021-11-27",
+    "date": "2021-11-27",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3837
+  },
+  {
+    "id": "garmin-2021-11-28",
+    "date": "2021-11-28",
+    "activityType": "Running",
+    "distance": 4410,
+    "duration": 1868
+  },
+  {
+    "id": "garmin-2021-11-29",
+    "date": "2021-11-29",
+    "activityType": "Running",
+    "distance": 5340,
+    "duration": 2124
+  },
+  {
+    "id": "garmin-2021-11-30",
+    "date": "2021-11-30",
+    "activityType": "Running",
+    "distance": 2640,
+    "duration": 1067
+  },
+  {
+    "id": "garmin-2021-12-01",
+    "date": "2021-12-01",
+    "activityType": "Running",
+    "distance": 2440,
+    "duration": 1009
+  },
+  {
+    "id": "garmin-2021-12-02",
+    "date": "2021-12-02",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 827
+  },
+  {
+    "id": "garmin-2021-12-03",
+    "date": "2021-12-03",
+    "activityType": "Running",
+    "distance": 1830,
+    "duration": 677
+  },
+  {
+    "id": "garmin-2021-12-04",
+    "date": "2021-12-04",
+    "activityType": "Running",
+    "distance": 2060,
+    "duration": 839
+  },
+  {
+    "id": "garmin-2021-12-05",
+    "date": "2021-12-05",
+    "activityType": "Running",
+    "distance": 1800,
+    "duration": 629
+  },
+  {
+    "id": "garmin-2021-12-06",
+    "date": "2021-12-06",
+    "activityType": "Running",
+    "distance": 2520,
+    "duration": 1089
+  },
+  {
+    "id": "garmin-2021-12-07",
+    "date": "2021-12-07",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 815
+  },
+  {
+    "id": "garmin-2021-12-08",
+    "date": "2021-12-08",
+    "activityType": "Running",
+    "distance": 2090,
+    "duration": 874
+  },
+  {
+    "id": "garmin-2021-12-09",
+    "date": "2021-12-09",
+    "activityType": "Running",
+    "distance": 2390,
+    "duration": 1030
+  },
+  {
+    "id": "garmin-2021-12-10",
+    "date": "2021-12-10",
+    "activityType": "Running",
+    "distance": 2120,
+    "duration": 877
+  },
+  {
+    "id": "garmin-2021-12-11",
+    "date": "2021-12-11",
+    "activityType": "Running",
+    "distance": 2300,
+    "duration": 780
+  },
+  {
+    "id": "garmin-2021-12-12",
+    "date": "2021-12-12",
+    "activityType": "Running",
+    "distance": 10070,
+    "duration": 3897
+  },
+  {
+    "id": "garmin-2021-12-13",
+    "date": "2021-12-13",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 1981
+  },
+  {
+    "id": "garmin-2021-12-14",
+    "date": "2021-12-14",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 846
+  },
+  {
+    "id": "garmin-2021-12-15",
+    "date": "2021-12-15",
+    "activityType": "Running",
+    "distance": 2230,
+    "duration": 906
+  },
+  {
+    "id": "garmin-2021-12-16",
+    "date": "2021-12-16",
+    "activityType": "Running",
+    "distance": 1710,
+    "duration": 699
+  },
+  {
+    "id": "garmin-2021-12-17",
+    "date": "2021-12-17",
+    "activityType": "Running",
+    "distance": 2260,
+    "duration": 984
+  },
+  {
+    "id": "garmin-2021-12-18",
+    "date": "2021-12-18",
+    "activityType": "Running",
+    "distance": 4430,
+    "duration": 1817
+  },
+  {
+    "id": "garmin-2021-12-19",
+    "date": "2021-12-19",
+    "activityType": "Running",
+    "distance": 4050,
+    "duration": 1655
+  },
+  {
+    "id": "garmin-2021-12-20",
+    "date": "2021-12-20",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 2104
+  },
+  {
+    "id": "garmin-2021-12-21",
+    "date": "2021-12-21",
+    "activityType": "Running",
+    "distance": 5190,
+    "duration": 2184
+  },
+  {
+    "id": "garmin-2021-12-22",
+    "date": "2021-12-22",
+    "activityType": "Running",
+    "distance": 4780,
+    "duration": 1710
+  },
+  {
+    "id": "garmin-2021-12-23",
+    "date": "2021-12-23",
+    "activityType": "Running",
+    "distance": 5530,
+    "duration": 2067
+  },
+  {
+    "id": "garmin-2021-12-24",
+    "date": "2021-12-24",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 750
+  },
+  {
+    "id": "garmin-2021-12-25",
+    "date": "2021-12-25",
+    "activityType": "Running",
+    "distance": 3690,
+    "duration": 1508
+  },
+  {
+    "id": "garmin-2021-12-26",
+    "date": "2021-12-26",
+    "activityType": "Running",
+    "distance": 4190,
+    "duration": 1795
+  },
+  {
+    "id": "garmin-2021-12-27",
+    "date": "2021-12-27",
+    "activityType": "Running",
+    "distance": 3800,
+    "duration": 1585
+  },
+  {
+    "id": "garmin-2021-12-28",
+    "date": "2021-12-28",
+    "activityType": "Running",
+    "distance": 3270,
+    "duration": 1276
+  },
+  {
+    "id": "garmin-2021-12-29",
+    "date": "2021-12-29",
+    "activityType": "Running",
+    "distance": 2140,
+    "duration": 845
+  },
+  {
+    "id": "garmin-2021-12-30",
+    "date": "2021-12-30",
+    "activityType": "Running",
+    "distance": 3680,
+    "duration": 1511
+  },
+  {
+    "id": "garmin-2021-12-31",
+    "date": "2021-12-31",
+    "activityType": "Running",
+    "distance": 2020,
+    "duration": 813
+  },
+  {
+    "id": "garmin-2022-01-01",
+    "date": "2022-01-01",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 796
+  },
+  {
+    "id": "garmin-2022-01-02",
+    "date": "2022-01-02",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 2287
+  },
+  {
+    "id": "garmin-2022-01-03",
+    "date": "2022-01-03",
+    "activityType": "Running",
+    "distance": 3370,
+    "duration": 1329
+  },
+  {
+    "id": "garmin-2022-01-04",
+    "date": "2022-01-04",
+    "activityType": "Running",
+    "distance": 2400,
+    "duration": 924
+  },
+  {
+    "id": "garmin-2022-01-05",
+    "date": "2022-01-05",
+    "activityType": "Running",
+    "distance": 2450,
+    "duration": 1069
+  },
+  {
+    "id": "garmin-2022-01-06",
+    "date": "2022-01-06",
+    "activityType": "Running",
+    "distance": 2630,
+    "duration": 1085
+  },
+  {
+    "id": "garmin-2022-01-07",
+    "date": "2022-01-07",
+    "activityType": "Running",
+    "distance": 2100,
+    "duration": 825
+  },
+  {
+    "id": "garmin-2022-01-08",
+    "date": "2022-01-08",
+    "activityType": "Running",
+    "distance": 2060,
+    "duration": 879
+  },
+  {
+    "id": "garmin-2022-01-09",
+    "date": "2022-01-09",
+    "activityType": "Running",
+    "distance": 3230,
+    "duration": 1387
+  },
+  {
+    "id": "garmin-2022-01-10",
+    "date": "2022-01-10",
+    "activityType": "Running",
+    "distance": 2090,
+    "duration": 795
+  },
+  {
+    "id": "garmin-2022-01-11",
+    "date": "2022-01-11",
+    "activityType": "Running",
+    "distance": 2010,
+    "duration": 697
+  },
+  {
+    "id": "garmin-2022-01-12",
+    "date": "2022-01-12",
+    "activityType": "Running",
+    "distance": 2110,
+    "duration": 826
+  },
+  {
+    "id": "garmin-2022-01-13",
+    "date": "2022-01-13",
+    "activityType": "Running",
+    "distance": 6040,
+    "duration": 2325
+  },
+  {
+    "id": "garmin-2022-01-14",
+    "date": "2022-01-14",
+    "activityType": "Running",
+    "distance": 2510,
+    "duration": 889
+  },
+  {
+    "id": "garmin-2022-01-15",
+    "date": "2022-01-15",
+    "activityType": "Running",
+    "distance": 3090,
+    "duration": 1050
+  },
+  {
+    "id": "garmin-2022-01-16",
+    "date": "2022-01-16",
+    "activityType": "Running",
+    "distance": 2210,
+    "duration": 881
+  },
+  {
+    "id": "garmin-2022-01-17",
+    "date": "2022-01-17",
+    "activityType": "Running",
+    "distance": 2650,
+    "duration": 1011
+  },
+  {
+    "id": "garmin-2022-01-18",
+    "date": "2022-01-18",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 1927
+  },
+  {
+    "id": "garmin-2022-01-19",
+    "date": "2022-01-19",
+    "activityType": "Running",
+    "distance": 2060,
+    "duration": 774
+  },
+  {
+    "id": "garmin-2022-01-20",
+    "date": "2022-01-20",
+    "activityType": "Running",
+    "distance": 2650,
+    "duration": 1027
+  },
+  {
+    "id": "garmin-2022-01-21",
+    "date": "2022-01-21",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 3673
+  },
+  {
+    "id": "garmin-2022-01-22",
+    "date": "2022-01-22",
+    "activityType": "Running",
+    "distance": 2630,
+    "duration": 1036
+  },
+  {
+    "id": "garmin-2022-01-23",
+    "date": "2022-01-23",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 1002
+  },
+  {
+    "id": "garmin-2022-01-24",
+    "date": "2022-01-24",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 1863
+  },
+  {
+    "id": "garmin-2022-01-25",
+    "date": "2022-01-25",
+    "activityType": "Running",
+    "distance": 5070,
+    "duration": 2087
+  },
+  {
+    "id": "garmin-2022-01-26",
+    "date": "2022-01-26",
+    "activityType": "Running",
+    "distance": 3520,
+    "duration": 1421
+  },
+  {
+    "id": "garmin-2022-01-27",
+    "date": "2022-01-27",
+    "activityType": "Running",
+    "distance": 3040,
+    "duration": 1232
+  },
+  {
+    "id": "garmin-2022-01-28",
+    "date": "2022-01-28",
+    "activityType": "Running",
+    "distance": 4050,
+    "duration": 1616
+  },
+  {
+    "id": "garmin-2022-01-29",
+    "date": "2022-01-29",
+    "activityType": "Running",
+    "distance": 3180,
+    "duration": 1324
+  },
+  {
+    "id": "garmin-2022-01-30",
+    "date": "2022-01-30",
+    "activityType": "Running",
+    "distance": 7610,
+    "duration": 2843
+  },
+  {
+    "id": "garmin-2022-01-31",
+    "date": "2022-01-31",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 712
+  },
+  {
+    "id": "garmin-2022-02-01",
+    "date": "2022-02-01",
+    "activityType": "Running",
+    "distance": 4560,
+    "duration": 1712
+  },
+  {
+    "id": "garmin-2022-02-02",
+    "date": "2022-02-02",
+    "activityType": "Running",
+    "distance": 2190,
+    "duration": 882
+  },
+  {
+    "id": "garmin-2022-02-03",
+    "date": "2022-02-03",
+    "activityType": "Running",
+    "distance": 2210,
+    "duration": 893
+  },
+  {
+    "id": "garmin-2022-02-04",
+    "date": "2022-02-04",
+    "activityType": "Running",
+    "distance": 2230,
+    "duration": 840
+  },
+  {
+    "id": "garmin-2022-02-05",
+    "date": "2022-02-05",
+    "activityType": "Running",
+    "distance": 2320,
+    "duration": 901
+  },
+  {
+    "id": "garmin-2022-02-06",
+    "date": "2022-02-06",
+    "activityType": "Running",
+    "distance": 3050,
+    "duration": 1158
+  },
+  {
+    "id": "garmin-2022-02-07",
+    "date": "2022-02-07",
+    "activityType": "Running",
+    "distance": 2130,
+    "duration": 872
+  },
+  {
+    "id": "garmin-2022-02-08",
+    "date": "2022-02-08",
+    "activityType": "Running",
+    "distance": 4050,
+    "duration": 1529
+  },
+  {
+    "id": "garmin-2022-02-09",
+    "date": "2022-02-09",
+    "activityType": "Running",
+    "distance": 4570,
+    "duration": 1706
+  },
+  {
+    "id": "garmin-2022-02-10",
+    "date": "2022-02-10",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 782
+  },
+  {
+    "id": "garmin-2022-02-11",
+    "date": "2022-02-11",
+    "activityType": "Running",
+    "distance": 2260,
+    "duration": 756
+  },
+  {
+    "id": "garmin-2022-02-12",
+    "date": "2022-02-12",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 769
+  },
+  {
+    "id": "garmin-2022-02-13",
+    "date": "2022-02-13",
+    "activityType": "Running",
+    "distance": 10380,
+    "duration": 3614
+  },
+  {
+    "id": "garmin-2022-02-13-2",
+    "date": "2022-02-13",
+    "activityType": "Running",
+    "distance": 1020,
+    "duration": 329.6
+  },
+  {
+    "id": "garmin-2022-02-13-3",
+    "date": "2022-02-13",
+    "activityType": "Running",
+    "distance": 1040,
+    "duration": 341.7
+  },
+  {
+    "id": "garmin-2022-02-14",
+    "date": "2022-02-14",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1863
+  },
+  {
+    "id": "garmin-2022-02-15",
+    "date": "2022-02-15",
+    "activityType": "Running",
+    "distance": 2140,
+    "duration": 691
+  },
+  {
+    "id": "garmin-2022-02-16",
+    "date": "2022-02-16",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 783
+  },
+  {
+    "id": "garmin-2022-02-17",
+    "date": "2022-02-17",
+    "activityType": "Running",
+    "distance": 2130,
+    "duration": 792
+  },
+  {
+    "id": "garmin-2022-02-18",
+    "date": "2022-02-18",
+    "activityType": "Running",
+    "distance": 2140,
+    "duration": 699
+  },
+  {
+    "id": "garmin-2022-02-19",
+    "date": "2022-02-19",
+    "activityType": "Running",
+    "distance": 11030,
+    "duration": 3863
+  },
+  {
+    "id": "garmin-2022-02-20",
+    "date": "2022-02-20",
+    "activityType": "Running",
+    "distance": 2390,
+    "duration": 933
+  },
+  {
+    "id": "garmin-2022-02-21",
+    "date": "2022-02-21",
+    "activityType": "Running",
+    "distance": 2150,
+    "duration": 815
+  },
+  {
+    "id": "garmin-2022-02-22",
+    "date": "2022-02-22",
+    "activityType": "Running",
+    "distance": 2320,
+    "duration": 850
+  },
+  {
+    "id": "garmin-2022-02-23",
+    "date": "2022-02-23",
+    "activityType": "Running",
+    "distance": 2130,
+    "duration": 753
+  },
+  {
+    "id": "garmin-2022-02-24",
+    "date": "2022-02-24",
+    "activityType": "Running",
+    "distance": 1240,
+    "duration": 558.5
+  },
+  {
+    "id": "garmin-2022-02-24-2",
+    "date": "2022-02-24",
+    "activityType": "Running",
+    "distance": 6230,
+    "duration": 2293
+  },
+  {
+    "id": "garmin-2022-02-25",
+    "date": "2022-02-25",
+    "activityType": "Running",
+    "distance": 8310,
+    "duration": 3068
+  },
+  {
+    "id": "garmin-2022-02-26",
+    "date": "2022-02-26",
+    "activityType": "Running",
+    "distance": 4050,
+    "duration": 1550
+  },
+  {
+    "id": "garmin-2022-02-27",
+    "date": "2022-02-27",
+    "activityType": "Running",
+    "distance": 12810,
+    "duration": 4656
+  },
+  {
+    "id": "garmin-2022-02-28",
+    "date": "2022-02-28",
+    "activityType": "Running",
+    "distance": 2550,
+    "duration": 1042
+  },
+  {
+    "id": "garmin-2022-03-01",
+    "date": "2022-03-01",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 759
+  },
+  {
+    "id": "garmin-2022-03-02",
+    "date": "2022-03-02",
+    "activityType": "Running",
+    "distance": 3390,
+    "duration": 1283
+  },
+  {
+    "id": "garmin-2022-03-03",
+    "date": "2022-03-03",
+    "activityType": "Running",
+    "distance": 2090,
+    "duration": 824
+  },
+  {
+    "id": "garmin-2022-03-04",
+    "date": "2022-03-04",
+    "activityType": "Running",
+    "distance": 2170,
+    "duration": 810
+  },
+  {
+    "id": "garmin-2022-03-05",
+    "date": "2022-03-05",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1945
+  },
+  {
+    "id": "garmin-2022-03-06",
+    "date": "2022-03-06",
+    "activityType": "Running",
+    "distance": 10600,
+    "duration": 4183
+  },
+  {
+    "id": "garmin-2022-03-07",
+    "date": "2022-03-07",
+    "activityType": "Running",
+    "distance": 5800,
+    "duration": 2168
+  },
+  {
+    "id": "garmin-2022-03-08",
+    "date": "2022-03-08",
+    "activityType": "Running",
+    "distance": 2200,
+    "duration": 843
+  },
+  {
+    "id": "garmin-2022-03-09",
+    "date": "2022-03-09",
+    "activityType": "Running",
+    "distance": 3170,
+    "duration": 1329
+  },
+  {
+    "id": "garmin-2022-03-10",
+    "date": "2022-03-10",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 829
+  },
+  {
+    "id": "garmin-2022-03-11",
+    "date": "2022-03-11",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 760
+  },
+  {
+    "id": "garmin-2022-03-12",
+    "date": "2022-03-12",
+    "activityType": "Running",
+    "distance": 2270,
+    "duration": 778
+  },
+  {
+    "id": "garmin-2022-03-13",
+    "date": "2022-03-13",
+    "activityType": "Running",
+    "distance": 6190,
+    "duration": 2388
+  },
+  {
+    "id": "garmin-2022-03-14",
+    "date": "2022-03-14",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 2036
+  },
+  {
+    "id": "garmin-2022-03-15",
+    "date": "2022-03-15",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 1987
+  },
+  {
+    "id": "garmin-2022-03-16",
+    "date": "2022-03-16",
+    "activityType": "Running",
+    "distance": 2080,
+    "duration": 761
+  },
+  {
+    "id": "garmin-2022-03-17",
+    "date": "2022-03-17",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 847
+  },
+  {
+    "id": "garmin-2022-03-18",
+    "date": "2022-03-18",
+    "activityType": "Running",
+    "distance": 10060,
+    "duration": 4027
+  },
+  {
+    "id": "garmin-2022-03-19",
+    "date": "2022-03-19",
+    "activityType": "Running",
+    "distance": 2620,
+    "duration": 944
+  },
+  {
+    "id": "garmin-2022-03-20",
+    "date": "2022-03-20",
+    "activityType": "Running",
+    "distance": 21150,
+    "duration": 7774
+  },
+  {
+    "id": "garmin-2022-03-21",
+    "date": "2022-03-21",
+    "activityType": "Running",
+    "distance": 3320,
+    "duration": 1349
+  },
+  {
+    "id": "garmin-2022-03-22",
+    "date": "2022-03-22",
+    "activityType": "Running",
+    "distance": 3150,
+    "duration": 1325
+  },
+  {
+    "id": "garmin-2022-03-22-2",
+    "date": "2022-03-22",
+    "activityType": "Running",
+    "distance": 4280,
+    "duration": 1803
+  },
+  {
+    "id": "garmin-2022-03-23",
+    "date": "2022-03-23",
+    "activityType": "Running",
+    "distance": 4180,
+    "duration": 1820
+  },
+  {
+    "id": "garmin-2022-03-24",
+    "date": "2022-03-24",
+    "activityType": "Running",
+    "distance": 7660,
+    "duration": 3060
+  },
+  {
+    "id": "garmin-2022-03-25",
+    "date": "2022-03-25",
+    "activityType": "Running",
+    "distance": 4390,
+    "duration": 1809
+  },
+  {
+    "id": "garmin-2022-03-26",
+    "date": "2022-03-26",
+    "activityType": "Running",
+    "distance": 6400,
+    "duration": 2407
+  },
+  {
+    "id": "garmin-2022-03-27",
+    "date": "2022-03-27",
+    "activityType": "Running",
+    "distance": 11020,
+    "duration": 4247
+  },
+  {
+    "id": "garmin-2022-03-28",
+    "date": "2022-03-28",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 851
+  },
+  {
+    "id": "garmin-2022-03-29",
+    "date": "2022-03-29",
+    "activityType": "Running",
+    "distance": 4740,
+    "duration": 1900
+  },
+  {
+    "id": "garmin-2022-03-30",
+    "date": "2022-03-30",
+    "activityType": "Running",
+    "distance": 7930,
+    "duration": 3000
+  },
+  {
+    "id": "garmin-2022-03-31",
+    "date": "2022-03-31",
+    "activityType": "Running",
+    "distance": 4400,
+    "duration": 1805
+  },
+  {
+    "id": "garmin-2022-04-01",
+    "date": "2022-04-01",
+    "activityType": "Running",
+    "distance": 4600,
+    "duration": 1805
+  },
+  {
+    "id": "garmin-2022-04-02",
+    "date": "2022-04-02",
+    "activityType": "Running",
+    "distance": 2250,
+    "duration": 863
+  },
+  {
+    "id": "garmin-2022-04-03",
+    "date": "2022-04-03",
+    "activityType": "Running",
+    "distance": 12760,
+    "duration": 5105
+  },
+  {
+    "id": "garmin-2022-04-04",
+    "date": "2022-04-04",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 798
+  },
+  {
+    "id": "garmin-2022-04-05",
+    "date": "2022-04-05",
+    "activityType": "Running",
+    "distance": 2300,
+    "duration": 915
+  },
+  {
+    "id": "garmin-2022-04-06",
+    "date": "2022-04-06",
+    "activityType": "Running",
+    "distance": 2350,
+    "duration": 847
+  },
+  {
+    "id": "garmin-2022-04-07",
+    "date": "2022-04-07",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 724
+  },
+  {
+    "id": "garmin-2022-04-08",
+    "date": "2022-04-08",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 933
+  },
+  {
+    "id": "garmin-2022-05-25",
+    "date": "2022-05-25",
+    "activityType": "Running",
+    "distance": 5250,
+    "duration": 1925
+  },
+  {
+    "id": "garmin-2022-06-04",
+    "date": "2022-06-04",
+    "activityType": "Running",
+    "distance": 12430,
+    "duration": 6119
+  },
+  {
+    "id": "garmin-2022-06-04-2",
+    "date": "2022-06-04",
+    "activityType": "Running",
+    "distance": 6270,
+    "duration": 3644
+  },
+  {
+    "id": "garmin-2022-06-12",
+    "date": "2022-06-12",
+    "activityType": "Running",
+    "distance": 8630,
+    "duration": 3658
+  },
+  {
+    "id": "garmin-2022-06-26",
+    "date": "2022-06-26",
+    "activityType": "Running",
+    "distance": 5000,
+    "duration": 1662
+  },
+  {
+    "id": "garmin-2022-06-26-2",
+    "date": "2022-06-26",
+    "activityType": "Running",
+    "distance": 10590,
+    "duration": 4605
+  },
+  {
+    "id": "garmin-2022-07-10",
+    "date": "2022-07-10",
+    "activityType": "Running",
+    "distance": 21120,
+    "duration": 8825
+  },
+  {
+    "id": "garmin-2022-07-17",
+    "date": "2022-07-17",
+    "activityType": "Running",
+    "distance": 2050,
+    "duration": 889
+  },
+  {
+    "id": "garmin-2022-08-06",
+    "date": "2022-08-06",
+    "activityType": "Running",
+    "distance": 2030,
+    "duration": 776
+  },
+  {
+    "id": "garmin-2022-08-07",
+    "date": "2022-08-07",
+    "activityType": "Running",
+    "distance": 3030,
+    "duration": 1175
+  },
+  {
+    "id": "garmin-2022-08-21",
+    "date": "2022-08-21",
+    "activityType": "Treadmill Running",
+    "distance": 3400,
+    "duration": 1300
+  },
+  {
+    "id": "garmin-2022-08-27",
+    "date": "2022-08-27",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 4315
+  },
+  {
+    "id": "garmin-2022-08-31",
+    "date": "2022-08-31",
+    "activityType": "Running",
+    "distance": 300,
+    "duration": 105.1
+  },
+  {
+    "id": "garmin-2022-09-04",
+    "date": "2022-09-04",
+    "activityType": "Trail Running",
+    "distance": 10120,
+    "duration": 4150
+  },
+  {
+    "id": "garmin-2022-09-10",
+    "date": "2022-09-10",
+    "activityType": "Running",
+    "distance": 4120,
+    "duration": 2764
+  },
+  {
+    "id": "garmin-2022-09-11",
+    "date": "2022-09-11",
+    "activityType": "Running",
+    "distance": 17180,
+    "duration": 8132
+  },
+  {
+    "id": "garmin-2022-10-30",
+    "date": "2022-10-30",
+    "activityType": "Running",
+    "distance": 10660,
+    "duration": 4612
+  },
+  {
+    "id": "garmin-2022-11-05",
+    "date": "2022-11-05",
+    "activityType": "Running",
+    "distance": 5070,
+    "duration": 1901
+  },
+  {
+    "id": "garmin-2022-11-19",
+    "date": "2022-11-19",
+    "activityType": "Running",
+    "distance": 5010,
+    "duration": 2395
+  },
+  {
+    "id": "garmin-2022-11-19-2",
+    "date": "2022-11-19",
+    "activityType": "Running",
+    "distance": 5010,
+    "duration": 1909
+  },
+  {
+    "id": "garmin-2022-11-26",
+    "date": "2022-11-26",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1806
+  },
+  {
+    "id": "garmin-2022-11-27",
+    "date": "2022-11-27",
+    "activityType": "Running",
+    "distance": 7230,
+    "duration": 2525
+  },
+  {
+    "id": "garmin-2022-12-04",
+    "date": "2022-12-04",
+    "activityType": "Running",
+    "distance": 4050,
+    "duration": 1593
+  },
+  {
+    "id": "garmin-2023-01-14",
+    "date": "2023-01-14",
+    "activityType": "Running",
+    "distance": 5080,
+    "duration": 3253
+  },
+  {
+    "id": "garmin-2023-02-21",
+    "date": "2023-02-21",
+    "activityType": "Running",
+    "distance": 4390,
+    "duration": 1781
+  },
+  {
+    "id": "garmin-2023-03-18",
+    "date": "2023-03-18",
+    "activityType": "Running",
+    "distance": 5190,
+    "duration": 2880
+  },
+  {
+    "id": "garmin-2023-07-08",
+    "date": "2023-07-08",
+    "activityType": "Running",
+    "distance": 5170,
+    "duration": 2975
+  },
+  {
+    "id": "garmin-2023-08-13",
+    "date": "2023-08-13",
+    "activityType": "Running",
+    "distance": 3520,
+    "duration": 1549
+  },
+  {
+    "id": "garmin-2023-08-26",
+    "date": "2023-08-26",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 1911
+  },
+  {
+    "id": "garmin-2023-09-10",
+    "date": "2023-09-10",
+    "activityType": "Running",
+    "distance": 16760,
+    "duration": 7385
+  },
+  {
+    "id": "garmin-2023-12-30",
+    "date": "2023-12-30",
+    "activityType": "Running",
+    "distance": 5090,
+    "duration": 2516
+  },
+  {
+    "id": "garmin-2023-12-31",
+    "date": "2023-12-31",
+    "activityType": "Running",
+    "distance": 10120,
+    "duration": 4528
+  },
+  {
+    "id": "garmin-2024-02-12",
+    "date": "2024-02-12",
+    "activityType": "Running",
+    "distance": 3020,
+    "duration": 1260
+  },
+  {
+    "id": "garmin-2024-02-22",
+    "date": "2024-02-22",
+    "activityType": "Running",
+    "distance": 4800,
+    "duration": 2152
+  },
+  {
+    "id": "garmin-2024-03-02",
+    "date": "2024-03-02",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 2163
+  },
+  {
+    "id": "garmin-2024-03-03",
+    "date": "2024-03-03",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 2512
+  },
+  {
+    "id": "garmin-2024-03-07",
+    "date": "2024-03-07",
+    "activityType": "Running",
+    "distance": 7010,
+    "duration": 3106
+  },
+  {
+    "id": "garmin-2024-03-09",
+    "date": "2024-03-09",
+    "activityType": "Running",
+    "distance": 2040,
+    "duration": 868
+  },
+  {
+    "id": "garmin-2024-03-10",
+    "date": "2024-03-10",
+    "activityType": "Running",
+    "distance": 10020,
+    "duration": 4534
+  },
+  {
+    "id": "garmin-2024-03-10-2",
+    "date": "2024-03-10",
+    "activityType": "Running",
+    "distance": 1020,
+    "duration": 777
+  },
+  {
+    "id": "garmin-2024-03-15",
+    "date": "2024-03-15",
+    "activityType": "Running",
+    "distance": 7570,
+    "duration": 3273
+  },
+  {
+    "id": "garmin-2024-03-15-2",
+    "date": "2024-03-15",
+    "activityType": "Running",
+    "distance": 1340,
+    "duration": 556.9
+  },
+  {
+    "id": "garmin-2024-03-17",
+    "date": "2024-03-17",
+    "activityType": "Running",
+    "distance": 7600,
+    "duration": 3269
+  },
+  {
+    "id": "garmin-2024-03-20",
+    "date": "2024-03-20",
+    "activityType": "Running",
+    "distance": 5710,
+    "duration": 2503
+  },
+  {
+    "id": "garmin-2024-03-24",
+    "date": "2024-03-24",
+    "activityType": "Running",
+    "distance": 6100,
+    "duration": 2456
+  },
+  {
+    "id": "garmin-2024-03-27",
+    "date": "2024-03-27",
+    "activityType": "Running",
+    "distance": 10340,
+    "duration": 4643
+  },
+  {
+    "id": "garmin-2024-03-31",
+    "date": "2024-03-31",
+    "activityType": "Running",
+    "distance": 6530,
+    "duration": 2878
+  },
+  {
+    "id": "garmin-2024-04-03",
+    "date": "2024-04-03",
+    "activityType": "Running",
+    "distance": 5150,
+    "duration": 2606
+  },
+  {
+    "id": "garmin-2024-04-04",
+    "date": "2024-04-04",
+    "activityType": "Running",
+    "distance": 7060,
+    "duration": 2887
+  },
+  {
+    "id": "garmin-2024-04-07",
+    "date": "2024-04-07",
+    "activityType": "Running",
+    "distance": 15040,
+    "duration": 6073
+  },
+  {
+    "id": "garmin-2024-04-14",
+    "date": "2024-04-14",
+    "activityType": "Running",
+    "distance": 17610,
+    "duration": 7226
+  },
+  {
+    "id": "garmin-2024-04-18",
+    "date": "2024-04-18",
+    "activityType": "Running",
+    "distance": 3650,
+    "duration": 1377
+  },
+  {
+    "id": "garmin-2024-04-20",
+    "date": "2024-04-20",
+    "activityType": "Running",
+    "distance": 10040,
+    "duration": 4141
+  },
+  {
+    "id": "garmin-2024-04-21",
+    "date": "2024-04-21",
+    "activityType": "Running",
+    "distance": 12020,
+    "duration": 4946
+  },
+  {
+    "id": "garmin-2024-04-22",
+    "date": "2024-04-22",
+    "activityType": "Running",
+    "distance": 4710,
+    "duration": 1993
+  },
+  {
+    "id": "garmin-2024-05-02",
+    "date": "2024-05-02",
+    "activityType": "Running",
+    "distance": 6760,
+    "duration": 2938
+  },
+  {
+    "id": "garmin-2024-05-05",
+    "date": "2024-05-05",
+    "activityType": "Running",
+    "distance": 12020,
+    "duration": 4802
+  },
+  {
+    "id": "garmin-2024-05-12",
+    "date": "2024-05-12",
+    "activityType": "Running",
+    "distance": 10040,
+    "duration": 4712
+  },
+  {
+    "id": "garmin-2024-05-16",
+    "date": "2024-05-16",
+    "activityType": "Running",
+    "distance": 4760,
+    "duration": 2040
+  },
+  {
+    "id": "garmin-2024-05-19",
+    "date": "2024-05-19",
+    "activityType": "Running",
+    "distance": 12020,
+    "duration": 4393
+  },
+  {
+    "id": "garmin-2024-05-26",
+    "date": "2024-05-26",
+    "activityType": "Running",
+    "distance": 12330,
+    "duration": 4936
+  },
+  {
+    "id": "garmin-2024-05-29",
+    "date": "2024-05-29",
+    "activityType": "Running",
+    "distance": 5550,
+    "duration": 1955
+  },
+  {
+    "id": "garmin-2024-05-30",
+    "date": "2024-05-30",
+    "activityType": "Running",
+    "distance": 17340,
+    "duration": 6903
+  },
+  {
+    "id": "garmin-2024-06-02",
+    "date": "2024-06-02",
+    "activityType": "Running",
+    "distance": 16260,
+    "duration": 6028
+  },
+  {
+    "id": "garmin-2024-06-06",
+    "date": "2024-06-06",
+    "activityType": "Running",
+    "distance": 6740,
+    "duration": 2885
+  },
+  {
+    "id": "garmin-2024-06-13",
+    "date": "2024-06-13",
+    "activityType": "Running",
+    "distance": 7200,
+    "duration": 3238
+  },
+  {
+    "id": "garmin-2024-06-16",
+    "date": "2024-06-16",
+    "activityType": "Running",
+    "distance": 15020,
+    "duration": 5434
+  },
+  {
+    "id": "garmin-2024-06-23",
+    "date": "2024-06-23",
+    "activityType": "Running",
+    "distance": 21290,
+    "duration": 8432
+  },
+  {
+    "id": "garmin-2024-06-30",
+    "date": "2024-06-30",
+    "activityType": "Running",
+    "distance": 11150,
+    "duration": 4685
+  },
+  {
+    "id": "garmin-2024-07-02",
+    "date": "2024-07-02",
+    "activityType": "Running",
+    "distance": 5280,
+    "duration": 2175
+  },
+  {
+    "id": "garmin-2024-07-04",
+    "date": "2024-07-04",
+    "activityType": "Running",
+    "distance": 6400,
+    "duration": 3029
+  },
+  {
+    "id": "garmin-2024-07-07",
+    "date": "2024-07-07",
+    "activityType": "Running",
+    "distance": 21220,
+    "duration": 8571
+  },
+  {
+    "id": "garmin-2024-07-08",
+    "date": "2024-07-08",
+    "activityType": "Running",
+    "distance": 10020,
+    "duration": 4329
+  },
+  {
+    "id": "garmin-2024-07-11",
+    "date": "2024-07-11",
+    "activityType": "Running",
+    "distance": 6810,
+    "duration": 2808
+  },
+  {
+    "id": "garmin-2024-07-14",
+    "date": "2024-07-14",
+    "activityType": "Running",
+    "distance": 22660,
+    "duration": 8945
+  },
+  {
+    "id": "garmin-2024-07-19",
+    "date": "2024-07-19",
+    "activityType": "Running",
+    "distance": 5470,
+    "duration": 2195
+  },
+  {
+    "id": "garmin-2024-07-24",
+    "date": "2024-07-24",
+    "activityType": "Running",
+    "distance": 6880,
+    "duration": 2775
+  },
+  {
+    "id": "garmin-2024-07-28",
+    "date": "2024-07-28",
+    "activityType": "Running",
+    "distance": 18810,
+    "duration": 7569
+  },
+  {
+    "id": "garmin-2024-07-29",
+    "date": "2024-07-29",
+    "activityType": "Running",
+    "distance": 10020,
+    "duration": 4692
+  },
+  {
+    "id": "garmin-2024-07-31",
+    "date": "2024-07-31",
+    "activityType": "Running",
+    "distance": 6760,
+    "duration": 2597
+  },
+  {
+    "id": "garmin-2024-08-03",
+    "date": "2024-08-03",
+    "activityType": "Running",
+    "distance": 24260,
+    "duration": 9667
+  },
+  {
+    "id": "garmin-2024-08-04",
+    "date": "2024-08-04",
+    "activityType": "Running",
+    "distance": 4330,
+    "duration": 2162
+  },
+  {
+    "id": "garmin-2024-08-11",
+    "date": "2024-08-11",
+    "activityType": "Running",
+    "distance": 21130,
+    "duration": 8620
+  },
+  {
+    "id": "garmin-2024-08-12",
+    "date": "2024-08-12",
+    "activityType": "Virtual Running",
+    "distance": 6060,
+    "duration": 2180
+  },
+  {
+    "id": "garmin-2024-08-18",
+    "date": "2024-08-18",
+    "activityType": "Running",
+    "distance": 14270,
+    "duration": 6352
+  },
+  {
+    "id": "garmin-2024-08-19",
+    "date": "2024-08-19",
+    "activityType": "Virtual Running",
+    "distance": 2600,
+    "duration": 1159
+  },
+  {
+    "id": "garmin-2024-08-19-2",
+    "date": "2024-08-19",
+    "activityType": "Virtual Running",
+    "distance": 11290,
+    "duration": 4795
+  },
+  {
+    "id": "garmin-2024-08-23",
+    "date": "2024-08-23",
+    "activityType": "Running",
+    "distance": 5620,
+    "duration": 2544
+  },
+  {
+    "id": "garmin-2024-08-24",
+    "date": "2024-08-24",
+    "activityType": "Running",
+    "distance": 6060,
+    "duration": 3168
+  },
+  {
+    "id": "garmin-2024-08-29",
+    "date": "2024-08-29",
+    "activityType": "Running",
+    "distance": 6520,
+    "duration": 2566
+  },
+  {
+    "id": "garmin-2024-09-01",
+    "date": "2024-09-01",
+    "activityType": "Running",
+    "distance": 22210,
+    "duration": 9662
+  },
+  {
+    "id": "garmin-2024-09-05",
+    "date": "2024-09-05",
+    "activityType": "Running",
+    "distance": 6810,
+    "duration": 2729
+  },
+  {
+    "id": "garmin-2024-09-08",
+    "date": "2024-09-08",
+    "activityType": "Running",
+    "distance": 25050,
+    "duration": 10803
+  },
+  {
+    "id": "garmin-2024-09-19",
+    "date": "2024-09-19",
+    "activityType": "Running",
+    "distance": 7030,
+    "duration": 2719
+  },
+  {
+    "id": "garmin-2024-09-28",
+    "date": "2024-09-28",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 1632
+  },
+  {
+    "id": "garmin-2024-09-29",
+    "date": "2024-09-29",
+    "activityType": "Running",
+    "distance": 42800,
+    "duration": 21272
+  },
+  {
+    "id": "garmin-2024-10-03",
+    "date": "2024-10-03",
+    "activityType": "Running",
+    "distance": 5010,
+    "duration": 1608
+  },
+  {
+    "id": "garmin-2024-10-06",
+    "date": "2024-10-06",
+    "activityType": "Running",
+    "distance": 7030,
+    "duration": 3363
+  },
+  {
+    "id": "garmin-2024-10-08",
+    "date": "2024-10-08",
+    "activityType": "Running",
+    "distance": 7010,
+    "duration": 2893
+  },
+  {
+    "id": "garmin-2024-10-14",
+    "date": "2024-10-14",
+    "activityType": "Running",
+    "distance": 7620,
+    "duration": 2850
+  },
+  {
+    "id": "garmin-2024-10-20",
+    "date": "2024-10-20",
+    "activityType": "Running",
+    "distance": 13020,
+    "duration": 5372
+  },
+  {
+    "id": "garmin-2024-10-23",
+    "date": "2024-10-23",
+    "activityType": "Running",
+    "distance": 6410,
+    "duration": 2617
+  },
+  {
+    "id": "garmin-2024-11-02",
+    "date": "2024-11-02",
+    "activityType": "Running",
+    "distance": 7030,
+    "duration": 2467
+  },
+  {
+    "id": "garmin-2024-11-04",
+    "date": "2024-11-04",
+    "activityType": "Running",
+    "distance": 5070,
+    "duration": 2246
+  },
+  {
+    "id": "garmin-2024-11-11",
+    "date": "2024-11-11",
+    "activityType": "Running",
+    "distance": 6760,
+    "duration": 2673
+  },
+  {
+    "id": "garmin-2024-11-19",
+    "date": "2024-11-19",
+    "activityType": "Running",
+    "distance": 7020,
+    "duration": 2953
+  },
+  {
+    "id": "garmin-2024-12-09",
+    "date": "2024-12-09",
+    "activityType": "Running",
+    "distance": 6010,
+    "duration": 2368
+  },
+  {
+    "id": "garmin-2024-12-10",
+    "date": "2024-12-10",
+    "activityType": "Running",
+    "distance": 190,
+    "duration": 97.4
+  },
+  {
+    "id": "garmin-2024-12-16",
+    "date": "2024-12-16",
+    "activityType": "Running",
+    "distance": 7020,
+    "duration": 2997
+  },
+  {
+    "id": "garmin-2025-01-01",
+    "date": "2025-01-01",
+    "activityType": "Running",
+    "distance": 310,
+    "duration": 145.7
+  },
+  {
+    "id": "garmin-2025-03-07",
+    "date": "2025-03-07",
+    "activityType": "Running",
+    "distance": 3030,
+    "duration": 1240
+  },
+  {
+    "id": "garmin-2025-03-16",
+    "date": "2025-03-16",
+    "activityType": "Running",
+    "distance": 6550,
+    "duration": 3484
+  },
+  {
+    "id": "garmin-2025-03-23",
+    "date": "2025-03-23",
+    "activityType": "Running",
+    "distance": 6040,
+    "duration": 3214
+  },
+  {
+    "id": "garmin-2025-04-05",
+    "date": "2025-04-05",
+    "activityType": "Running",
+    "distance": 5090,
+    "duration": 1973
+  },
+  {
+    "id": "garmin-2025-04-06",
+    "date": "2025-04-06",
+    "activityType": "Running",
+    "distance": 4950,
+    "duration": 2559
+  },
+  {
+    "id": "garmin-2025-04-19",
+    "date": "2025-04-19",
+    "activityType": "Running",
+    "distance": 250,
+    "duration": 218.3
+  },
+  {
+    "id": "garmin-2025-04-19-2",
+    "date": "2025-04-19",
+    "activityType": "Running",
+    "distance": 5030,
+    "duration": 1783
+  },
+  {
+    "id": "garmin-2025-04-24",
+    "date": "2025-04-24",
+    "activityType": "Running",
+    "distance": 4200,
+    "duration": 1686
+  },
+  {
+    "id": "garmin-2025-04-26",
+    "date": "2025-04-26",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 2123
+  },
+  {
+    "id": "garmin-2025-05-22",
+    "date": "2025-05-22",
+    "activityType": "Running",
+    "distance": 70,
+    "duration": 67.4
+  },
+  {
+    "id": "garmin-2025-05-25",
+    "date": "2025-05-25",
+    "activityType": "Treadmill Running",
+    "distance": 750,
+    "duration": 302.2
+  },
+  {
+    "id": "garmin-2025-05-31",
+    "date": "2025-05-31",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 4738
+  },
+  {
+    "id": "garmin-2025-06-06",
+    "date": "2025-06-06",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 2044
+  },
+  {
+    "id": "garmin-2025-06-08",
+    "date": "2025-06-08",
+    "activityType": "Running",
+    "distance": 12400,
+    "duration": 4934
+  },
+  {
+    "id": "garmin-2025-06-09",
+    "date": "2025-06-09",
+    "activityType": "Running",
+    "distance": 5590,
+    "duration": 2484
+  },
+  {
+    "id": "garmin-2025-06-15",
+    "date": "2025-06-15",
+    "activityType": "Running",
+    "distance": 12260,
+    "duration": 4791
+  },
+  {
+    "id": "garmin-2025-06-15-2",
+    "date": "2025-06-15",
+    "activityType": "Running",
+    "distance": 5100,
+    "duration": 2016
+  },
+  {
+    "id": "garmin-2025-06-19",
+    "date": "2025-06-19",
+    "activityType": "Running",
+    "distance": 8410,
+    "duration": 3384
+  },
+  {
+    "id": "garmin-2025-06-27",
+    "date": "2025-06-27",
+    "activityType": "Running",
+    "distance": 1030,
+    "duration": 1088
+  },
+  {
+    "id": "garmin-2025-06-29",
+    "date": "2025-06-29",
+    "activityType": "Running",
+    "distance": 21150,
+    "duration": 9238
+  },
+  {
+    "id": "garmin-2025-07-06",
+    "date": "2025-07-06",
+    "activityType": "Running",
+    "distance": 7520,
+    "duration": 3456
+  },
+  {
+    "id": "garmin-2025-07-11",
+    "date": "2025-07-11",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 2541
+  },
+  {
+    "id": "garmin-2025-07-12",
+    "date": "2025-07-12",
+    "activityType": "Running",
+    "distance": 5120,
+    "duration": 1829
+  },
+  {
+    "id": "garmin-2025-07-14",
+    "date": "2025-07-14",
+    "activityType": "Running",
+    "distance": 10050,
+    "duration": 5427
+  },
+  {
+    "id": "garmin-2025-07-20",
+    "date": "2025-07-20",
+    "activityType": "Running",
+    "distance": 15060,
+    "duration": 6008
+  },
+  {
+    "id": "garmin-2025-07-20-2",
+    "date": "2025-07-20",
+    "activityType": "Running",
+    "distance": 140,
+    "duration": 49.4
+  },
+  {
+    "id": "garmin-2025-07-21",
+    "date": "2025-07-21",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 2715
+  },
+  {
+    "id": "garmin-2025-07-22",
+    "date": "2025-07-22",
+    "activityType": "Running",
+    "distance": 3550,
+    "duration": 1221
+  },
+  {
+    "id": "garmin-2025-07-23",
+    "date": "2025-07-23",
+    "activityType": "Running",
+    "distance": 5040,
+    "duration": 1832
+  },
+  {
+    "id": "garmin-2025-07-24",
+    "date": "2025-07-24",
+    "activityType": "Running",
+    "distance": 10720,
+    "duration": 4168
+  },
+  {
+    "id": "garmin-2025-07-25",
+    "date": "2025-07-25",
+    "activityType": "Running",
+    "distance": 8320,
+    "duration": 3217
+  },
+  {
+    "id": "garmin-2025-07-26",
+    "date": "2025-07-26",
+    "activityType": "Running",
+    "distance": 5390,
+    "duration": 1933
+  },
+  {
+    "id": "garmin-2025-07-27",
+    "date": "2025-07-27",
+    "activityType": "Running",
+    "distance": 16320,
+    "duration": 6327
+  },
+  {
+    "id": "garmin-2025-07-28",
+    "date": "2025-07-28",
+    "activityType": "Running",
+    "distance": 10190,
+    "duration": 3850
+  },
+  {
+    "id": "garmin-2025-07-29",
+    "date": "2025-07-29",
+    "activityType": "Running",
+    "distance": 10290,
+    "duration": 3904
+  },
+  {
+    "id": "garmin-2025-07-30",
+    "date": "2025-07-30",
+    "activityType": "Running",
+    "distance": 8600,
+    "duration": 3489
+  },
+  {
+    "id": "garmin-2025-07-31",
+    "date": "2025-07-31",
+    "activityType": "Running",
+    "distance": 12350,
+    "duration": 4750
+  },
+  {
+    "id": "garmin-2025-08-01",
+    "date": "2025-08-01",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1854
+  },
+  {
+    "id": "garmin-2025-08-02",
+    "date": "2025-08-02",
+    "activityType": "Running",
+    "distance": 12460,
+    "duration": 4758
+  },
+  {
+    "id": "garmin-2025-08-03",
+    "date": "2025-08-03",
+    "activityType": "Running",
+    "distance": 6650,
+    "duration": 3611
+  },
+  {
+    "id": "garmin-2025-08-04",
+    "date": "2025-08-04",
+    "activityType": "Running",
+    "distance": 3240,
+    "duration": 1527
+  },
+  {
+    "id": "garmin-2025-08-05",
+    "date": "2025-08-05",
+    "activityType": "Running",
+    "distance": 8320,
+    "duration": 3149
+  },
+  {
+    "id": "garmin-2025-08-06",
+    "date": "2025-08-06",
+    "activityType": "Running",
+    "distance": 8030,
+    "duration": 3043
+  },
+  {
+    "id": "garmin-2025-08-07",
+    "date": "2025-08-07",
+    "activityType": "Running",
+    "distance": 10030,
+    "duration": 4641
+  },
+  {
+    "id": "garmin-2025-08-08",
+    "date": "2025-08-08",
+    "activityType": "Running",
+    "distance": 6060,
+    "duration": 2511
+  },
+  {
+    "id": "garmin-2025-08-09",
+    "date": "2025-08-09",
+    "activityType": "Running",
+    "distance": 5340,
+    "duration": 1950
+  },
+  {
+    "id": "garmin-2025-08-10",
+    "date": "2025-08-10",
+    "activityType": "Running",
+    "distance": 11020,
+    "duration": 4194
+  },
+  {
+    "id": "garmin-2025-08-13",
+    "date": "2025-08-13",
+    "activityType": "Running",
+    "distance": 8020,
+    "duration": 2962
+  },
+  {
+    "id": "garmin-2025-08-14",
+    "date": "2025-08-14",
+    "activityType": "Running",
+    "distance": 8080,
+    "duration": 3069
+  },
+  {
+    "id": "garmin-2025-08-19",
+    "date": "2025-08-19",
+    "activityType": "Running",
+    "distance": 7660,
+    "duration": 2830
+  },
+  {
+    "id": "garmin-2025-08-23",
+    "date": "2025-08-23",
+    "activityType": "Running",
+    "distance": 5550,
+    "duration": 2173
+  },
+  {
+    "id": "garmin-2025-08-30",
+    "date": "2025-08-30",
+    "activityType": "Running",
+    "distance": 5420,
+    "duration": 2171
+  },
+  {
+    "id": "garmin-2025-09-03",
+    "date": "2025-09-03",
+    "activityType": "Running",
+    "distance": 8100,
+    "duration": 2888
+  },
+  {
+    "id": "garmin-2025-09-07",
+    "date": "2025-09-07",
+    "activityType": "Running",
+    "distance": 16340,
+    "duration": 7224
+  },
+  {
+    "id": "garmin-2025-09-10",
+    "date": "2025-09-10",
+    "activityType": "Running",
+    "distance": 9160,
+    "duration": 3382
+  },
+  {
+    "id": "garmin-2025-09-12",
+    "date": "2025-09-12",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1970
+  },
+  {
+    "id": "garmin-2025-09-18",
+    "date": "2025-09-18",
+    "activityType": "Running",
+    "distance": 8340,
+    "duration": 2928
+  },
+  {
+    "id": "garmin-2025-10-02",
+    "date": "2025-10-02",
+    "activityType": "Running",
+    "distance": 10020,
+    "duration": 3726
+  },
+  {
+    "id": "garmin-2025-10-17",
+    "date": "2025-10-17",
+    "activityType": "Running",
+    "distance": 10390,
+    "duration": 3615
+  },
+  {
+    "id": "garmin-2025-10-25",
+    "date": "2025-10-25",
+    "activityType": "Running",
+    "distance": 1740,
+    "duration": 865
+  },
+  {
+    "id": "garmin-2025-11-03",
+    "date": "2025-11-03",
+    "activityType": "Running",
+    "distance": 8340,
+    "duration": 2994
+  },
+  {
+    "id": "garmin-2025-12-07",
+    "date": "2025-12-07",
+    "activityType": "Running",
+    "distance": 10200,
+    "duration": 3995
+  },
+  {
+    "id": "garmin-2025-12-12",
+    "date": "2025-12-12",
+    "activityType": "Running",
+    "distance": 3580,
+    "duration": 1306
+  },
+  {
+    "id": "garmin-2025-12-15",
+    "date": "2025-12-15",
+    "activityType": "Running",
+    "distance": 6760,
+    "duration": 2769
+  },
+  {
+    "id": "garmin-2026-01-01",
+    "date": "2026-01-01",
+    "activityType": "Running",
+    "distance": 3520,
+    "duration": 1357
+  },
+  {
+    "id": "garmin-2026-01-07",
+    "date": "2026-01-07",
+    "activityType": "Running",
+    "distance": 8520,
+    "duration": 3818
+  },
+  {
+    "id": "garmin-2026-01-08",
+    "date": "2026-01-08",
+    "activityType": "Running",
+    "distance": 4440,
+    "duration": 1741
+  },
+  {
+    "id": "garmin-2026-01-10",
+    "date": "2026-01-10",
+    "activityType": "Running",
+    "distance": 10050,
+    "duration": 4405
+  },
+  {
+    "id": "garmin-2026-01-11",
+    "date": "2026-01-11",
+    "activityType": "Running",
+    "distance": 14160,
+    "duration": 6398
+  },
+  {
+    "id": "garmin-2026-01-13",
+    "date": "2026-01-13",
+    "activityType": "Running",
+    "distance": 4620,
+    "duration": 1847
+  },
+  {
+    "id": "garmin-2026-01-14",
+    "date": "2026-01-14",
+    "activityType": "Running",
+    "distance": 5750,
+    "duration": 2243
+  },
+  {
+    "id": "garmin-2026-01-18",
+    "date": "2026-01-18",
+    "activityType": "Running",
+    "distance": 21120,
+    "duration": 9680
+  },
+  {
+    "id": "garmin-2026-01-21",
+    "date": "2026-01-21",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1870
+  },
+  {
+    "id": "garmin-2026-01-29",
+    "date": "2026-01-29",
+    "activityType": "Virtual Running",
+    "distance": 1050,
+    "duration": 438
+  },
+  {
+    "id": "garmin-2026-01-29-2",
+    "date": "2026-01-29",
+    "activityType": "Virtual Running",
+    "distance": 4030,
+    "duration": 1842
+  },
+  {
+    "id": "garmin-2026-02-01",
+    "date": "2026-02-01",
+    "activityType": "Virtual Running",
+    "distance": 3060,
+    "duration": 1429
+  },
+  {
+    "id": "garmin-2026-02-01-2",
+    "date": "2026-02-01",
+    "activityType": "Virtual Running",
+    "distance": 1030,
+    "duration": 487
+  },
+  {
+    "id": "garmin-2026-02-07",
+    "date": "2026-02-07",
+    "activityType": "Virtual Running",
+    "distance": 5590,
+    "duration": 2524
+  },
+  {
+    "id": "garmin-2026-02-07-2",
+    "date": "2026-02-07",
+    "activityType": "Virtual Running",
+    "distance": 5870,
+    "duration": 2418
+  },
+  {
+    "id": "garmin-2026-02-08",
+    "date": "2026-02-08",
+    "activityType": "Virtual Running",
+    "distance": 8020,
+    "duration": 3760
+  },
+  {
+    "id": "garmin-2026-02-15",
+    "date": "2026-02-15",
+    "activityType": "Virtual Running",
+    "distance": 5050,
+    "duration": 2041
+  },
+  {
+    "id": "garmin-2026-02-28",
+    "date": "2026-02-28",
+    "activityType": "Running",
+    "distance": 7020,
+    "duration": 3058
+  },
+  {
+    "id": "garmin-2026-03-21",
+    "date": "2026-03-21",
+    "activityType": "Running",
+    "distance": 10580,
+    "duration": 4194
+  },
+  {
+    "id": "garmin-2026-03-24",
+    "date": "2026-03-24",
+    "activityType": "Virtual Running",
+    "distance": 4040,
+    "duration": 1824
+  },
+  {
+    "id": "garmin-2026-03-28",
+    "date": "2026-03-28",
+    "activityType": "Running",
+    "distance": 11760,
+    "duration": 4807
+  },
+  {
+    "id": "garmin-2026-04-03",
+    "date": "2026-04-03",
+    "activityType": "Running",
+    "distance": 11030,
+    "duration": 4563
+  },
+  {
+    "id": "garmin-2026-04-11",
+    "date": "2026-04-11",
+    "activityType": "Running",
+    "distance": 6500,
+    "duration": 3064
+  },
+  {
+    "id": "garmin-2026-04-12",
+    "date": "2026-04-12",
+    "activityType": "Running",
+    "distance": 42750,
+    "duration": 22502
+  },
+  {
+    "id": "garmin-2026-06-06",
+    "date": "2026-06-06",
+    "activityType": "Running",
+    "distance": 3640,
+    "duration": 1719
+  },
+  {
+    "id": "garmin-2026-06-12",
+    "date": "2026-06-12",
+    "activityType": "Running",
+    "distance": 5680,
+    "duration": 2384
+  },
+  {
+    "id": "garmin-2026-06-25",
+    "date": "2026-06-25",
+    "activityType": "Virtual Running",
+    "distance": 1670,
+    "duration": 679
+  },
+  {
+    "id": "garmin-2026-06-26",
+    "date": "2026-06-26",
+    "activityType": "Running",
+    "distance": 6010,
+    "duration": 2611
+  },
+  {
+    "id": "garmin-2026-06-27",
+    "date": "2026-06-27",
+    "activityType": "Virtual Running",
+    "distance": 1340,
+    "duration": 922
+  },
+  {
+    "id": "garmin-2026-08-01",
+    "date": "2026-08-01",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 2169
+  },
+  {
+    "id": "garmin-2026-08-02",
+    "date": "2026-08-02",
+    "activityType": "Running",
+    "distance": 8140,
+    "duration": 3266
+  },
+  {
+    "id": "garmin-2026-08-03",
+    "date": "2026-08-03",
+    "activityType": "Running",
+    "distance": 3760,
+    "duration": 2171
+  },
+  {
+    "id": "garmin-2026-08-09",
+    "date": "2026-08-09",
+    "activityType": "Running",
+    "distance": 8240,
+    "duration": 3300
+  },
+  {
+    "id": "garmin-2026-08-15",
+    "date": "2026-08-15",
+    "activityType": "Running",
+    "distance": 5080,
+    "duration": 1942
+  },
+  {
+    "id": "garmin-2026-08-16",
+    "date": "2026-08-16",
+    "activityType": "Running",
+    "distance": 5220,
+    "duration": 2820
+  },
+  {
+    "id": "garmin-2026-08-19",
+    "date": "2026-08-19",
+    "activityType": "Running",
+    "distance": 5020,
+    "duration": 1848
+  },
+  {
+    "id": "garmin-2026-08-22",
+    "date": "2026-08-22",
+    "activityType": "Running",
+    "distance": 5070,
+    "duration": 1758
+  },
+  {
+    "id": "garmin-2026-08-23",
+    "date": "2026-08-23",
+    "activityType": "Virtual Running",
+    "distance": 3110,
+    "duration": 1358
+  },
+  {
+    "id": "garmin-2026-08-28",
+    "date": "2026-08-28",
+    "activityType": "Treadmill Running",
+    "distance": 200,
+    "duration": 91.8
+  },
+  {
+    "id": "garmin-2026-09-05",
+    "date": "2026-09-05",
+    "activityType": "Running",
+    "distance": 11520,
+    "duration": 5510
+  },
+  {
+    "id": "garmin-2026-09-13",
+    "date": "2026-09-13",
+    "activityType": "Running",
+    "distance": 5150,
+    "duration": 1780
+  },
+  {
+    "id": "garmin-2026-09-16",
+    "date": "2026-09-16",
+    "activityType": "Running",
+    "distance": 1030,
+    "duration": 398.3
+  },
+  {
+    "id": "garmin-2026-09-16-2",
+    "date": "2026-09-16",
+    "activityType": "Running",
+    "distance": 5050,
+    "duration": 2216
   }
 ]

@@ -8,7 +8,7 @@ export const localizedPath = (lang: Lang, path: string) => (lang === DEFAULT_LAN
 
 const dictionaries = {
   en: {
-    nav: { posts: 'Posts', about: 'About', tags: 'Tags', search: 'Search' },
+    nav: { posts: 'Posts', about: 'About', tags: 'Tags', search: 'Search', runs: 'Runs' },
     footer: (year: number) => `Copyright © ${year} | All rights reserved.`,
     langSwitch: { label: 'DE', ariaLabel: 'Auf Deutsch lesen' },
     translationNotice: '',
@@ -20,6 +20,14 @@ const dictionaries = {
       currentInterests: 'Current interests',
       interests: 'Fabric · Power BI · Running · Numbers · AI · Mathematics',
       recentPosts: 'Recent posts',
+    },
+    runs: {
+      eyebrow: 'Runs',
+      title: 'Runs',
+      intro: 'Explore my running data and progress.',
+      list: 'Runs', totalDistance: 'Total distance', totalTime: 'Total time', totalRuns: 'Total runs',
+      selectYear: 'Select a year', noData: 'No running data is available right now.', noRuns: 'No runs recorded for this year.',
+      newerYear: 'Newer year', olderYear: 'Older year', allYears: 'All years', highlights: 'Year highlights', fastestRun: 'Fastest pace', busiestMonth: 'Busiest month', longestWeek: 'Longest week', filters: 'Filter runs', allMonths: 'All months', allTypes: 'All activity types', searchRuns: 'Search runs', minDistance: 'Min km', maxDistance: 'Max km', runCount: (n: number) => `${n} runs`, annualComparison: 'Year-by-year comparison', year: 'Year', averageRun: 'Average run', noValue: '—', months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
     },
     about: {
       eyebrow: 'About',
@@ -45,7 +53,7 @@ const dictionaries = {
     dateLocale: 'en-US',
   },
   de: {
-    nav: { posts: 'Beiträge', about: 'Über mich', tags: 'Schlagwörter', search: 'Suche' },
+    nav: { posts: 'Beiträge', about: 'Über mich', tags: 'Schlagwörter', search: 'Suche', runs: 'Läufe' },
     footer: (year: number) => `Copyright © ${year} | Alle Rechte vorbehalten.`,
     langSwitch: { label: 'EN', ariaLabel: 'Read in English' },
     translationNotice:
@@ -58,6 +66,14 @@ const dictionaries = {
       currentInterests: 'Aktuelle Interessen',
       interests: 'Fabric · Power BI · Laufen · Zahlen · KI · Mathematik',
       recentPosts: 'Neueste Beiträge',
+    },
+    runs: {
+      eyebrow: 'Läufe',
+      title: 'Läufe',
+      intro: 'Entdecke meine Laufdaten und Fortschritte.',
+      list: 'Läufe', totalDistance: 'Gesamtdistanz', totalTime: 'Gesamtzeit', totalRuns: 'Läufe insgesamt',
+      selectYear: 'Jahr auswählen', noData: 'Derzeit sind keine Laufdaten verfügbar.', noRuns: 'Für dieses Jahr sind keine Läufe erfasst.',
+      newerYear: 'Neueres Jahr', olderYear: 'Älteres Jahr', allYears: 'Alle Jahre', highlights: 'Jahreshöhepunkte', fastestRun: 'Schnellstes Tempo', busiestMonth: 'Aktivster Monat', longestWeek: 'Längste Woche', filters: 'Läufe filtern', allMonths: 'Alle Monate', allTypes: 'Alle Aktivitätsarten', searchRuns: 'Läufe durchsuchen', minDistance: 'Min. km', maxDistance: 'Max. km', runCount: (n: number) => `${n} Läufe`, annualComparison: 'Jahresvergleich', year: 'Jahr', averageRun: 'Durchschnittlicher Lauf', noValue: '—', months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
     },
     about: {
       eyebrow: 'Über mich',

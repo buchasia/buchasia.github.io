@@ -1,0 +1,53 @@
+---
+import { fetchRuns, formatDistance, formatDuration, formatPace, getMonthlyStats, getRunHighlights, getRunPace, getRunStats, getRunYear, getYearDays } from '../../../utils/runs'
+import { t } from '../../../utils/i18n'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import RunStats from '../../../components/RunStats.astro'
+import RunHeatmap from '../../../components/RunHeatmap.astro'
+import MonthlyRunChart from '../../../components/MonthlyRunChart.astro'
+
+export async function getStaticPaths() {
+  const runs = await fetchRuns()
+  const years = [...new Set(runs.map(getRunYear))].sort((a, b) => Number(b) - Number(a))
+  return years.map(year => ({ params: { year }, props: { years } }))
+}
+
+const { year } = Astro.params
+const runs = (await fetchRuns()).filter(run => getRunYear(run) === year)
+const stats = getRunStats(runs)
+const dict = t('de')
+const sortedRuns = [...runs].sort((a, b) => b.date.getTime() - a.date.getTime())
+const years = Astro.props.years ?? []
+const yearIndex = years.indexOf(year ?? '')
+const newerYear = yearIndex > 0 ? years[yearIndex - 1] : null
+const olderYear = yearIndex >= 0 && yearIndex < years.length - 1 ? years[yearIndex + 1] : null
+const highlights = getRunHighlights(runs)
+const types = [...new Set(runs.map(run => run.activityType).filter(Boolean))]
+---
+
+<BaseLayout title={`${dict.runs.title} - ${year}`} lang="de" altPath={`/runs/${year}/`}>
+  <section class="about"><p class="eyebrow">{dict.runs.eyebrow}</p><h1>{dict.runs.title} - {year}</h1><p>{dict.runs.intro}</p></section>
+  <section class="run-dashboard">
+    <RunStats {...stats} showCurrentStreak={false} lang="de" />
+    <nav class="year-nav" aria-label="Jahresnavigation"><a href="/de/runs/">{dict.runs.allYears}</a>{olderYear && <a href={`/de/runs/${olderYear}/`}>← {dict.runs.olderYear}</a>}{newerYear && <a href={`/de/runs/${newerYear}/`}>{dict.runs.newerYear} →</a>}</nav>
+    <section class="highlights" aria-labelledby="highlights-title"><h2 id="highlights-title" class="section-label">{dict.runs.highlights}</h2><div class="highlight-grid"><div><span>{dict.runs.longestRun}</span><strong>{formatDistance(highlights.longestRun.distance, 'de')}</strong></div><div><span>{dict.runs.fastestRun}</span><strong>{highlights.fastestRun ? formatPace(getRunPace(highlights.fastestRun), 'de') : dict.runs.noValue}</strong></div><div><span>{dict.runs.busiestMonth}</span><strong>{dict.runs.months[highlights.busiestMonth.month]} · {formatDistance(highlights.busiestMonth.distance, 'de')}</strong></div><div><span>{dict.runs.longestWeek}</span><strong>{formatDistance(highlights.longestWeekDistance, 'de')}</strong></div></div></section>
+    <RunHeatmap year={year} intensity={getYearDays(runs, Number(year))} lang="de" />
+    <MonthlyRunChart year={year} data={getMonthlyStats(runs, Number(year))} lang="de" />
+    <div class="run-list"><div class="list-heading"><h2 class="section-label">{dict.runs.list}</h2><span id="run-count">{dict.runs.runCount(sortedRuns.length)}</span></div><div class="filters" aria-label={dict.runs.filters}><input type="search" id="run-search" placeholder={dict.runs.searchRuns} aria-label={dict.runs.searchRuns} /><select id="run-month" aria-label={dict.runs.allMonths}><option value="">{dict.runs.allMonths}</option>{dict.runs.months.map((month, index) => <option value={index}>{month}</option>)}</select>{types.length > 0 && <select id="run-type" aria-label={dict.runs.allTypes}><option value="">{dict.runs.allTypes}</option>{types.map(type => <option value={type}>{type}</option>)}</select>}<input type="number" id="run-min" min="0" step="0.1" placeholder={dict.runs.minDistance} aria-label={dict.runs.minDistance} /><input type="number" id="run-max" min="0" step="0.1" placeholder={dict.runs.maxDistance} aria-label={dict.runs.maxDistance} /></div>
+      {sortedRuns.length ? <div class="runs">{sortedRuns.map(run => <article class="run-row" data-run-row data-month={run.date.getUTCMonth()} data-type={run.activityType ?? ''} data-distance={run.distance / 1000} data-search={`${run.notes ?? ''} ${run.activityType ?? ''}`}><time datetime={run.date.toISOString().slice(0, 10)}>{run.date.toLocaleDateString(dict.dateLocale,{dateStyle:'medium',timeZone:'UTC'})}</time><div><strong>{formatDistance(run.distance, 'de')}</strong><span>{formatDuration(run.duration, 'de')}</span></div><small>{run.activityType ?? ''}{getRunPace(run) ? ` · ${formatPace(getRunPace(run), 'de')}` : ''}</small>{run.notes && <p>{run.notes}</p>}</article>)}</div> : <p class="empty-state">{dict.runs.noRuns}</p>}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .run-dashboard{padding:2rem 0}.year-nav{display:flex;justify-content:space-between;gap:1rem;margin:1.5rem 0;color:var(--accent);font-size:var(--font-size-small)}.year-nav a{color:inherit}.highlights{margin:2rem 0}.highlight-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}.highlight-grid div{display:flex;flex-direction:column;gap:.3rem;padding-top:.65rem;border-top:1px solid var(--line)}.highlight-grid span,.list-heading>span,.run-row time,.run-row small,.run-row p{color:var(--muted);font-size:var(--font-size-small)}.highlight-grid strong{color:var(--ink);font-weight:500}.run-list{margin-top:2.5rem}.list-heading{display:flex;justify-content:space-between;align-items:baseline}.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}.filters input,.filters select{padding:.45rem .55rem;border:1px solid var(--line);background:var(--wash);color:inherit;font:inherit}.runs{border-top:1px solid var(--line)}.run-row{display:grid;grid-template-columns:8rem auto auto;justify-content:start;gap:.75rem;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--line)}.run-row div{display:grid;grid-template-columns:6rem 5rem;gap:1rem;justify-content:start}.run-row strong{text-align:right}.run-row p{grid-column:2/-1;margin:0}.empty-state{color:var(--muted)}.run-row.is-hidden{display:none}@media(max-width:640px){.highlight-grid{grid-template-columns:repeat(2,1fr)}.run-row{grid-template-columns:1fr}.run-row time,.run-row p,.run-row small{grid-column:1}.run-row div{grid-column:1}}
+</style>
+<script>
+  const rows = [...document.querySelectorAll('[data-run-row]')]
+  const search = document.querySelector('#run-search')
+  const month = document.querySelector('#run-month')
+  const type = document.querySelector('#run-type'); const min = document.querySelector('#run-min'); const max = document.querySelector('#run-max')
+  const count = document.querySelector('#run-count')
+  const filter = () => { const query = (search?.value ?? '').toLowerCase(); const minValue = min?.value ? Number(min.value) : 0; const maxValue = max?.value ? Number(max.value) : Infinity; let visible = 0; rows.forEach(row => { const distance = Number(row.dataset.distance); const match = (!month?.value || row.dataset.month === month.value) && (!type?.value || row.dataset.type === type.value) && (!query || (row.dataset.search ?? '').toLowerCase().includes(query)) && distance >= minValue && distance <= maxValue; row.classList.toggle('is-hidden', !match); if (match) visible++ }); if (count) count.textContent = `${visible} Läufe` }
+  ;[search, month, type, min, max].forEach(control => control?.addEventListener('input', filter)); filter()
+</script>

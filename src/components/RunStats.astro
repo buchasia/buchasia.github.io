@@ -1,0 +1,80 @@
+---
+import { formatDistance, formatDuration, formatPace } from '../utils/runs'
+import { t, type Lang } from '../utils/i18n'
+type Props = {
+  totalDistance?: number;
+  totalDuration?: number;
+  totalCount?: number;
+  averageDistance?: number;
+  averagePace?: number;
+  fastestPace?: number;
+  longestDistance?: number;
+  activeDays?: number;
+  longestStreak?: number;
+  currentStreak?: number;
+  showCurrentStreak?: boolean;
+  lang?: Lang;
+}
+const props = Astro.props as Props
+const dict = t(props.lang ?? 'en')
+const labels = props.lang === 'de'
+  ? { averageDistance: 'Durchschnittliche Distanz', averagePace: 'Durchschnittliches Tempo', fastestPace: 'Schnellstes Tempo', longestRun: 'Längster Lauf', activeDays: 'Aktive Tage', longestStreak: 'Längste Serie', currentStreak: 'Aktuelle Serie', days: 'Tage' }
+  : { averageDistance: 'Average Distance', averagePace: 'Average Pace', fastestPace: 'Fastest Pace', longestRun: 'Longest Run', activeDays: 'Active Days', longestStreak: 'Longest Streak', currentStreak: 'Current Streak', days: 'days' }
+---
+
+<div class="run-stats" aria-label={props.lang === 'de' ? 'Laufstatistiken' : 'Run statistics'}>
+  <div class="stat-item">
+    <span class="label">{dict.runs.totalDistance}</span>
+    <span class="value">{formatDistance(props.totalDistance, props.lang)}</span>
+  </div>
+  <div class="stat-item">
+    <span class="label">{dict.runs.totalTime}</span>
+    <span class="value">{formatDuration(props.totalDuration, props.lang)}</span>
+  </div>
+  <div class="stat-item">
+    <span class="label">{dict.runs.totalRuns}</span>
+    <span class="value">{props.totalCount ?? 0}</span>
+  </div>
+  <div class="stat-item"><span class="label">{labels.averageDistance}</span><span class="value">{formatDistance(props.averageDistance, props.lang)}</span></div>
+  <div class="stat-item"><span class="label">{labels.averagePace}</span><span class="value">{formatPace(props.averagePace, props.lang)}</span></div>
+  <div class="stat-item"><span class="label">{labels.fastestPace}</span><span class="value">{formatPace(props.fastestPace, props.lang)}</span></div>
+  <div class="stat-item"><span class="label">{labels.longestRun}</span><span class="value">{formatDistance(props.longestDistance, props.lang)}</span></div>
+  <div class="stat-item"><span class="label">{labels.activeDays}</span><span class="value">{props.activeDays ?? 0}</span></div>
+  <div class="stat-item"><span class="label">{labels.longestStreak}</span><span class="value">{props.longestStreak ?? 0} {labels.days}</span></div>
+  {props.showCurrentStreak !== false && <div class="stat-item"><span class="label">{labels.currentStreak}</span><span class="value">{props.currentStreak ?? 0} {labels.days}</span></div>}
+</div>
+
+<style>
+  .run-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem 2rem;
+    padding: 1.25rem 0 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: .35rem;
+    padding-top: .75rem;
+    border-top: 1px solid var(--line);
+  }
+  .stat-item .label {
+    font-size: var(--font-size-small);
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .stat-item .value {
+    overflow: hidden;
+    font-size: 1.1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-item:nth-child(-n+3) { padding-top: 0; border-top: 0; }
+  .stat-item:nth-child(-n+3) .value { font-size: clamp(1.25rem, 3vw, 1.6rem); }
+  .stat-item:nth-child(n+4) .value { color: var(--ink); font-weight: 500; }
+  @media (max-width: 640px) { .run-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } .stat-item:nth-child(-n+3) { padding-top: .65rem; border-top: 1px solid var(--line); } .stat-item:nth-child(-n+3) .value { font-size: 1.25rem; } }
+</style>
