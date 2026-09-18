@@ -197,3 +197,138 @@ export const getMonthlyStats = (runs: Run[], year: number) =>
       }, {}),
     }
   })
+
+export type AchievementMetric = 'distance' | 'duration' | 'ascent'
+export type AchievementPeriod = 'month' | 'year'
+
+export type RunTarget = {
+  id: string
+  period: AchievementPeriod
+  metric: AchievementMetric
+  step: number
+}
+
+export type RunningAchievement = {
+  id: string
+  period: AchievementPeriod
+  periodKey: string
+  metric: AchievementMetric
+  target: number
+  level: number
+  achievedOn: Date
+}
+
+export type LockedRunningAchievement = Omit<RunningAchievement, 'achievedOn'> & {
+  locked: true
+}
+
+export const getAchievementBadgeAssetId = (achievement: Pick<RunningAchievement, 'period' | 'metric' | 'target'>) =>
+  `${achievement.period}-${achievement.metric}-${achievement.target}`
+
+export const CUSTOM_ACHIEVEMENT_BADGE_ASSET_IDS = new Set([
+  'month-distance-100000',
+  'month-distance-200000',
+  'month-distance-300000',
+  'month-ascent-2000',
+  'month-ascent-4000',
+  'month-duration-36000',
+  'month-duration-72000',
+  'month-duration-108000',
+  'year-distance-1000000',
+  'year-distance-2000000',
+  'year-distance-3000000',
+  'year-ascent-10000',
+  'year-ascent-20000',
+  'year-ascent-30000',
+  'year-duration-360000',
+  'year-duration-720000',
+  'year-duration-1080000',
+])
+
+export const getAchievementBadgeAssetPath = (achievement: Pick<RunningAchievement, 'period' | 'metric' | 'target'> & { locked?: boolean }) => {
+  const assetId = getAchievementBadgeAssetId(achievement)
+  const fileId = achievement.locked ? `${assetId}-locked` : assetId
+  const extension = CUSTOM_ACHIEVEMENT_BADGE_ASSET_IDS.has(assetId) ? 'png' : 'svg'
+  return `/images/achievements/milestones/${fileId}.${extension}`
+}
+
+export type RunningTargetSnapshot = RunTarget & {
+  periodKey: string
+  value: number
+  nextTarget: number
+}
+
+export const RUN_TARGETS: RunTarget[] = [
+  { id: 'monthly-distance', period: 'month', metric: 'distance', step: 100_000 },
+  { id: 'monthly-duration', period: 'month', metric: 'duration', step: 36_000 },
+  { id: 'monthly-ascent', period: 'month', metric: 'ascent', step: 2_000 },
+  { id: 'yearly-distance', period: 'year', metric: 'distance', step: 1_000_000 },
+  { id: 'yearly-duration', period: 'year', metric: 'duration', step: 360_000 },
+  { id: 'yearly-ascent', period: 'year', metric: 'ascent', step: 10_000 },
+]
+
+const getAchievementValue = (run: Run, metric: AchievementMetric) => {
+  if (metric === 'distance') return run.distance
+  if (metric === 'duration') return run.duration
+  return run.totalAscent ?? 0
+}
+
+const getAchievementPeriodKey = (date: Date, period: AchievementPeriod) => {
+  const year = date.getUTCFullYear().toString()
+  return period === 'year' ? year : `${year}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
+}
+
+const getLatestRunDate = (runs: Run[]) => runs.reduce<Date | null>((latest, run) => !latest || run.date > latest ? run.date : latest, null)
+
+const getPeriodValue = (runs: Run[], period: AchievementPeriod, periodKey: string, metric: AchievementMetric) =>
+  runs.reduce((sum, run) => getAchievementPeriodKey(run.date, period) === periodKey ? sum + getAchievementValue(run, metric) : sum, 0)
+
+export const getRunningTargetSnapshots = (runs: Run[], date = getLatestRunDate(runs) ?? new Date()): RunningTargetSnapshot[] =>
+  RUN_TARGETS.map(target => {
+    const periodKey = getAchievementPeriodKey(date, target.period)
+    const value = getPeriodValue(runs, target.period, periodKey, target.metric)
+    return { ...target, periodKey, value, nextTarget: (Math.floor(value / target.step) + 1) * target.step }
+  })
+
+export const getNextYearlyMilestones = (runs: Run[], date = getLatestRunDate(runs) ?? new Date()): LockedRunningAchievement[] => {
+  const periodKey = getAchievementPeriodKey(date, 'year')
+  return RUN_TARGETS
+    .filter(target => target.period === 'year')
+    .map(target => {
+      const value = getPeriodValue(runs, target.period, periodKey, target.metric)
+      const level = Math.floor(value / target.step) + 1
+      const targetValue = level * target.step
+      return {
+        id: `locked-year-${periodKey}-${target.metric}-${targetValue}`,
+        period: 'year',
+        periodKey,
+        metric: target.metric,
+        target: targetValue,
+        level,
+        locked: true as const,
+      }
+    })
+}
+
+export const getRunningAchievements = (runs: Run[]): RunningAchievement[] => {
+  const totals = new Map<string, number>()
+  const achievements: RunningAchievement[] = []
+  const sortedRuns = [...runs].sort((a, b) => a.date.getTime() - b.date.getTime())
+
+  for (const run of sortedRuns) {
+    for (const target of RUN_TARGETS) {
+      const periodKey = getAchievementPeriodKey(run.date, target.period)
+      const key = `${target.id}:${periodKey}`
+      const before = totals.get(key) ?? 0
+      const after = before + getAchievementValue(run, target.metric)
+      const firstTarget = (Math.floor(before / target.step) + 1) * target.step
+      const lastTarget = Math.floor(after / target.step) * target.step
+      for (let milestone = firstTarget; milestone <= lastTarget; milestone += target.step) {
+        achievements.push({ id: `${target.period}-${periodKey}-${target.metric}-${milestone}`, period: target.period, periodKey, metric: target.metric, target: milestone, level: milestone / target.step, achievedOn: run.date })
+      }
+      totals.set(key, after)
+    }
+  }
+
+  return achievements.sort((a, b) => b.achievedOn.getTime() - a.achievedOn.getTime())
+}

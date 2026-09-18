@@ -1,0 +1,92 @@
+---
+import { getNextYearlyMilestones, getRunningAchievements, type LockedRunningAchievement, type RunningAchievement, type Run } from '../utils/runs'
+import { t, type Lang } from '../utils/i18n'
+import AchievementBadge from './AchievementBadge.astro'
+
+const { runs = [], lang = 'en' as Lang } = Astro.props as { runs?: Run[]; lang?: Lang }
+const dict = t(lang)
+const earnedAchievements = getRunningAchievements(runs)
+const lockedAchievements = getNextYearlyMilestones(runs)
+const locale = lang === 'de' ? 'de-DE' : 'en-US'
+const metricOrder: Record<RunningAchievement['metric'], number> = { distance: 0, duration: 1, ascent: 2 }
+const latestYear = lockedAchievements[0]?.periodKey ?? ''
+
+const yearOf = (achievement: RunningAchievement) => achievement.achievedOn.getUTCFullYear().toString()
+const sortAchievements = (a: RunningAchievement, b: RunningAchievement) => b.achievedOn.getTime() - a.achievedOn.getTime() || metricOrder[a.metric] - metricOrder[b.metric] || a.id.localeCompare(b.id)
+const years = [...new Set([...earnedAchievements.map(yearOf), ...lockedAchievements.map(achievement => achievement.periodKey)])].sort((a, b) => b.localeCompare(a))
+const yearlyEarnedForYear = (year: string) => earnedAchievements.filter(achievement => achievement.period === 'year' && yearOf(achievement) === year).sort(sortAchievements)
+const monthlyEarnedForYear = (year: string) => earnedAchievements.filter(achievement => achievement.period === 'month' && yearOf(achievement) === year).sort(sortAchievements)
+const lockedForYear = (year: string) => lockedAchievements.filter(achievement => achievement.periodKey === year)
+const achievedDate = (achievement: RunningAchievement) => achievement.achievedOn.toLocaleDateString(locale, { month: 'short', day: 'numeric', timeZone: 'UTC' })
+const monthLabel = (month: number) => new Date(Date.UTC(2020, month, 1)).toLocaleDateString(locale, { month: 'long', timeZone: 'UTC' })
+const monthlyGroupsForYear = (year: string) => {
+  const groups = new Map<number, RunningAchievement[]>()
+  for (const achievement of monthlyEarnedForYear(year)) {
+    const month = achievement.achievedOn.getUTCMonth()
+    const group = groups.get(month) ?? []
+    group.push(achievement)
+    groups.set(month, group)
+  }
+  return [...groups.entries()].sort(([a], [b]) => b - a).map(([month, achievements]) => ({ month, achievements }))
+}
+---
+
+<section class="achievements" aria-labelledby="achievements-title">
+  <div class="achievement-section">
+    <h2 id="achievements-title" class="section-label">{dict.runs.achievementList}</h2>
+    {years.length ? <div class="achievement-years">
+      {years.map(year => <article class="achievement-year">
+        <h3>{year}</h3>
+        {(yearlyEarnedForYear(year).length || (year === latestYear && lockedForYear(year).length)) ? <section class="achievement-group" aria-labelledby={`yearly-achievements-${year}`}>
+          <h4 id={`yearly-achievements-${year}`}>{dict.runs.yearlyAchievements}</h4>
+          <ul class="achievement-list">
+            {yearlyEarnedForYear(year).map(achievement => <li class="achievement-item" data-achievement-id={achievement.id}>
+              <AchievementBadge achievement={achievement} lang={lang} />
+              <p><time datetime={achievement.achievedOn.toISOString().slice(0, 10)}>{achievedDate(achievement)}</time></p>
+            </li>)}
+            {year === latestYear ? lockedForYear(year).map(achievement => <li class="achievement-item is-locked" data-achievement-id={achievement.id}>
+              <AchievementBadge achievement={achievement as LockedRunningAchievement} lang={lang} />
+              <p>{dict.runs.notYetAchieved}</p>
+            </li>) : null}
+          </ul>
+        </section> : null}
+        {monthlyGroupsForYear(year).length ? <section class="achievement-group" aria-labelledby={`monthly-achievements-${year}`}>
+          <h4 id={`monthly-achievements-${year}`}>{dict.runs.monthlyAchievements}</h4>
+          <div class="achievement-months">
+            {monthlyGroupsForYear(year).map(({ month, achievements }) => <section class="achievement-month-row" aria-labelledby={`achievement-month-${year}-${month}`}>
+              <h5 id={`achievement-month-${year}-${month}`}>{monthLabel(month)}</h5>
+              <ul class="achievement-list">
+                {achievements.map(achievement => <li class="achievement-item" data-achievement-id={achievement.id}>
+                  <AchievementBadge achievement={achievement} lang={lang} />
+                  <p><time datetime={achievement.achievedOn.toISOString().slice(0, 10)}>{achievedDate(achievement)}</time></p>
+                </li>)}
+              </ul>
+            </section>)}
+          </div>
+        </section> : null}
+      </article>)}
+    </div> : <p class="empty-state">{dict.runs.noValue}</p>}
+  </div>
+</section>
+
+<style>
+  .achievements { padding:2rem 0; }
+  .achievement-years { display:flex; flex-direction:column; gap:1.75rem; }
+  .achievement-year h3 { margin:0 0 1.25rem; font-size:1.35rem; font-weight:500; }
+  .achievement-group + .achievement-group { margin-top:1.1rem; }
+  .achievement-group h4 { margin:0 0 .75rem; color:var(--muted); font-size:.8rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; }
+  .achievement-list { display:flex; flex-wrap:wrap; gap:.8rem 1rem; align-items:flex-start; list-style:none; margin:0; padding:0; }
+  .achievement-item { display:flex; flex:0 0 4rem; flex-direction:column; align-items:center; gap:.35rem; min-width:0; margin:0; text-align:center; }
+  .achievement-item p { margin:0; color:var(--muted); font-size:var(--font-size-small); line-height:1.25; white-space:nowrap; }
+  .achievement-item.is-locked p { font-style:italic; white-space:normal; }
+  .achievement-months { display:flex; flex-direction:column; gap:.55rem; }
+  .achievement-month-row { display:flex; align-items:center; gap:.8rem; }
+  .achievement-month-row h5 { flex:0 0 5.5rem; margin:.25rem 0 0; font-size:1rem; font-weight:500; }
+  .achievement-month-row .achievement-list { flex:1 1 auto; min-width:0; }
+  .empty-state { color:var(--muted); }
+  @media (max-width:600px) {
+    .achievement-month-row { gap:.5rem; }
+    .achievement-month-row h5 { flex-basis:4.25rem; font-size:.9rem; }
+    .achievement-list { gap:.7rem .8rem; }
+  }
+</style>

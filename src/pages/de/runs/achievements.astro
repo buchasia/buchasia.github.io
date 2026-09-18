@@ -1,0 +1,14 @@
+---
+import { fetchRuns } from '../../../utils/runs'
+import { t } from '../../../utils/i18n'
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import RunAchievements from '../../../components/RunAchievements.astro'
+
+const dict = t('de')
+const runs = await fetchRuns()
+---
+
+<BaseLayout title={dict.runs.runningAchievements} lang="de" altPath="/runs/achievements/">
+  <section class="about"><p class="eyebrow">{dict.runs.eyebrow}</p><h1>{dict.runs.runningAchievements}</h1><p>{dict.runs.achievementsIntro}</p></section>
+  <RunAchievements runs={runs} lang="de" />
+</BaseLayout>

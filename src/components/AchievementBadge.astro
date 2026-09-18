@@ -1,0 +1,20 @@
+---
+import { formatDistance, formatDuration, formatElevation, getAchievementBadgeAssetPath, type Lang, type LockedRunningAchievement, type RunningAchievement } from '../utils/runs'
+
+const { achievement, lang = 'en' as Lang } = Astro.props as { achievement: RunningAchievement | LockedRunningAchievement; lang?: Lang }
+const metricLabel = achievement.metric === 'distance' ? (lang === 'de' ? 'DISTANZ' : 'DISTANCE') : achievement.metric === 'duration' ? (lang === 'de' ? 'ZEIT' : 'TIME') : (lang === 'de' ? 'ANSTIEG' : 'ASCENT')
+const value = achievement.metric === 'distance'
+  ? formatDistance(achievement.target, lang)
+  : achievement.metric === 'duration'
+    ? formatDuration(achievement.target, lang)
+    : formatElevation(achievement.target, lang)
+const locked = 'locked' in achievement && achievement.locked
+const title = `${lang === 'de' ? 'Stufe' : 'Level'} ${achievement.level}: ${value} ${metricLabel.toLowerCase()}${locked ? `, ${lang === 'de' ? 'noch nicht erreicht' : 'not yet achieved'}` : ''}`
+const assetPath = getAchievementBadgeAssetPath(achievement)
+---
+
+<img class:list={["achievement-badge", { "is-locked": locked }]} src={assetPath} alt={title} width="128" height="128" loading="lazy" />
+
+<style>
+  .achievement-badge { display:block; width:4rem; height:4rem; object-fit:contain; }
+</style>

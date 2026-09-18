@@ -1,0 +1,59 @@
+---
+import { formatDistance, formatDuration, formatElevation, getRunningTargetSnapshots, type AchievementMetric, type RunningTargetSnapshot, type Run } from '../utils/runs'
+import { t, type Lang } from '../utils/i18n'
+
+const { runs = [], lang = 'en' as Lang } = Astro.props as { runs?: Run[]; lang?: Lang }
+const dict = t(lang)
+const snapshots = getRunningTargetSnapshots(runs)
+const monthlyTargets = snapshots.filter(target => target.period === 'month')
+const yearlyTargets = snapshots.filter(target => target.period === 'year')
+const locale = lang === 'de' ? 'de-DE' : 'en-US'
+const achievementsPath = lang === 'de' ? '/de/runs/achievements/' : '/runs/achievements/'
+
+const metricLabel = (metric: AchievementMetric) => metric === 'distance'
+  ? dict.runs.totalDistance
+  : metric === 'duration'
+    ? dict.runs.totalTime
+    : dict.runs.totalAscent
+
+const formatMetric = (metric: AchievementMetric, value: number) => metric === 'distance'
+  ? formatDistance(value, lang)
+  : metric === 'duration'
+    ? formatDuration(value, lang)
+    : formatElevation(value, lang)
+
+const periodLabel = (target: RunningTargetSnapshot) => target.period === 'year'
+  ? target.periodKey
+  : new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${target.periodKey}-01T00:00:00Z`))
+
+const renderTarget = (target: RunningTargetSnapshot) => ({
+  ...target,
+  label: metricLabel(target.metric),
+  current: formatMetric(target.metric, target.value),
+  next: formatMetric(target.metric, target.nextTarget),
+  progress: Math.min(100, (target.value / target.nextTarget) * 100),
+})
+---
+
+<section class="targets" aria-labelledby="targets-title">
+  <div class="targets-heading"><h2 id="targets-title" class="section-label">{dict.runs.targets}</h2><a href={achievementsPath}>{dict.runs.runningAchievements} →</a></div>
+  <div class="target-groups">
+    <div class="target-group"><h3>{dict.runs.thisMonth} · {periodLabel(monthlyTargets[0])}</h3><div class="target-grid">{monthlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><progress value={item.progress} max="100" aria-label={`${item.label}: ${item.current} / ${item.next}`}></progress><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
+    <div class="target-group"><h3>{dict.runs.thisYear} · {periodLabel(yearlyTargets[0])}</h3><div class="target-grid">{yearlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><progress value={item.progress} max="100" aria-label={`${item.label}: ${item.current} / ${item.next}`}></progress><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
+  </div>
+</section>
+
+<style>
+  .targets { margin-top: 3rem; }
+  .targets-heading { display:flex; justify-content:space-between; align-items:baseline; gap:1rem; }
+  .targets-heading h2 { margin:0; }
+  .targets-heading a { color:var(--accent); font-size:var(--font-size-small); }
+  .target-groups { display:grid; gap:2rem; margin-top:1rem; }
+  .target-group h3 { margin:0 0 .75rem; font-size:var(--font-size-small); font-weight:500; color:var(--muted); }
+  .target-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+  .target-card { display:flex; flex-direction:column; gap:.45rem; padding:.75rem; border:1px solid var(--line); }
+  .target-card span,.target-card small { color:var(--muted); font-size:var(--font-size-small); }
+  .target-card strong { font-size:1.05rem; font-weight:500; }
+  .target-card progress { width:100%; height:.45rem; accent-color:var(--accent); }
+  @media (max-width:640px) { .target-grid { grid-template-columns:1fr; } }
+</style>

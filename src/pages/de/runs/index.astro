@@ -3,6 +3,7 @@ import { fetchRuns, formatDistance, formatDuration, formatElevation, getRunHighl
 import { t } from '../../../utils/i18n'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import RunStats from '../../../components/RunStats.astro'
+import RunTargets from '../../../components/RunTargets.astro'
 
 const dict = t('de')
 const runs = await fetchRuns()
@@ -16,6 +17,7 @@ const mostClimbingYear = years.reduce((best, year) => !best || stats.yearlyData[
   <section class="about"><p class="eyebrow">{dict.runs.eyebrow}</p><h1>{dict.runs.title}</h1><p>{dict.runs.intro}</p></section>
   <section class="run-dashboard">
     <RunStats {...stats} lang="de" />
+    <RunTargets runs={runs} lang="de" />
     <section class="elevation-highlights" aria-labelledby="elevation-highlights-title"><h2 id="elevation-highlights-title" class="section-label">{dict.runs.elevationHighlights}</h2><div class="elevation-grid"><div><span>{dict.runs.mostClimbingYear}</span><strong>{mostClimbingYear ? `${mostClimbingYear} · ${formatElevation(stats.yearlyData[mostClimbingYear].totalAscent, 'de')}` : dict.runs.noValue}</strong></div><div><span>{dict.runs.highestAscent}</span><strong>{formatElevation(highlights.highestAscentRun.totalAscent, 'de')} · {highlights.highestAscentRun.date?.toISOString().slice(0, 10) ?? dict.runs.noValue}</strong></div></div></section>
     <div class="year-selection"><h2 class="section-label">{dict.runs.selectYear}</h2>
       {years.length ? <div class="year-grid">{years.map(year => <a href={`/de/runs/${year}/`} class="year-link"><span>{year}</span><small>{formatDistance(stats.yearlyData[year].distance, 'de')}</small><small>{stats.yearlyData[year].count} {dict.runs.totalRuns.toLowerCase()}</small></a>)}</div> : <p class="empty-state">{dict.runs.noData}</p>}
