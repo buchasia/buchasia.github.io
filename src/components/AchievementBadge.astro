@@ -1,5 +1,6 @@
 ---
-import { formatDistance, formatDuration, formatElevation, getAchievementBadgeAssetPath, type Lang, type LockedRunningAchievement, type RunningAchievement } from '../utils/runs'
+import { formatDistance, formatDuration, formatElevation, getAchievementBadgeAssetPath, type LockedRunningAchievement, type RunningAchievement } from '../utils/runs'
+import { type Lang } from '../utils/i18n'
 
 const { achievement, lang = 'en' as Lang } = Astro.props as { achievement: RunningAchievement | LockedRunningAchievement; lang?: Lang }
 const metricLabel = achievement.metric === 'distance' ? (lang === 'de' ? 'DISTANZ' : 'DISTANCE') : achievement.metric === 'duration' ? (lang === 'de' ? 'ZEIT' : 'TIME') : (lang === 'de' ? 'ANSTIEG' : 'ASCENT')
