@@ -25,9 +25,9 @@ const dictionaries = {
       eyebrow: 'Runs',
       title: 'Runs',
       intro: 'Explore my running data and progress.',
-      list: 'Runs', totalDistance: 'Total distance', totalTime: 'Total time', totalRuns: 'Total runs',
+      list: 'Run list', date: 'Date', activityType: 'Activity', totalDistance: 'Total distance', totalTime: 'Total time', totalAscent: 'Total ascent', totalRuns: 'Total runs',
       selectYear: 'Select a year', noData: 'No running data is available right now.', noRuns: 'No runs recorded for this year.',
-      newerYear: 'Newer year', olderYear: 'Older year', allYears: 'All years', highlights: 'Year highlights', longestRun: 'Longest run', fastestRun: 'Fastest pace', busiestMonth: 'Busiest month', longestWeek: 'Longest week', filters: 'Filter runs', allMonths: 'All months', allTypes: 'All activity types', searchRuns: 'Search runs', minDistance: 'Min km', maxDistance: 'Max km', runCount: (n: number) => `${n} runs`, annualComparison: 'Year-by-year comparison', year: 'Year', averageRun: 'Average run', noValue: '—', months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+      newerYear: 'Newer year', olderYear: 'Older year', allYears: 'All years', highlights: 'Year highlights', elevationHighlights: 'Elevation highlights', longestRun: 'Longest run', highestAscent: 'Highest ascent', mostClimbingYear: 'Most climbing year', fastestRun: 'Fastest pace', busiestMonth: 'Busiest month', longestWeek: 'Longest week', monthlyAscent: 'Elevation gain', filters: 'Filter runs', allMonths: 'All months', allTypes: 'All activity types', searchRuns: 'Search runs', minDistance: 'Min km', maxDistance: 'Max km', runCount: (n: number) => `${n} runs`, annualComparison: 'Year-by-year comparison', year: 'Year', averageRun: 'Average run', noValue: '—', months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
     },
     about: {
       eyebrow: 'About',
@@ -71,9 +71,9 @@ const dictionaries = {
       eyebrow: 'Läufe',
       title: 'Läufe',
       intro: 'Entdecke meine Laufdaten und Fortschritte.',
-      list: 'Läufe', totalDistance: 'Gesamtdistanz', totalTime: 'Gesamtzeit', totalRuns: 'Läufe insgesamt',
+      list: 'Laufliste', date: 'Datum', activityType: 'Aktivität', totalDistance: 'Gesamtdistanz', totalTime: 'Gesamtzeit', totalAscent: 'Gesamtanstieg', totalRuns: 'Läufe insgesamt',
       selectYear: 'Jahr auswählen', noData: 'Derzeit sind keine Laufdaten verfügbar.', noRuns: 'Für dieses Jahr sind keine Läufe erfasst.',
-      newerYear: 'Neueres Jahr', olderYear: 'Älteres Jahr', allYears: 'Alle Jahre', highlights: 'Jahreshöhepunkte', longestRun: 'Längster Lauf', fastestRun: 'Schnellstes Tempo', busiestMonth: 'Aktivster Monat', longestWeek: 'Längste Woche', filters: 'Läufe filtern', allMonths: 'Alle Monate', allTypes: 'Alle Aktivitätsarten', searchRuns: 'Läufe durchsuchen', minDistance: 'Min. km', maxDistance: 'Max. km', runCount: (n: number) => `${n} Läufe`, annualComparison: 'Jahresvergleich', year: 'Jahr', averageRun: 'Durchschnittlicher Lauf', noValue: '—', months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+      newerYear: 'Neueres Jahr', olderYear: 'Älteres Jahr', allYears: 'Alle Jahre', highlights: 'Jahreshöhepunkte', elevationHighlights: 'Höhenmeter-Highlights', longestRun: 'Längster Lauf', highestAscent: 'Höchster Anstieg', mostClimbingYear: 'Jahr mit dem meisten Anstieg', fastestRun: 'Schnellstes Tempo', busiestMonth: 'Aktivster Monat', longestWeek: 'Längste Woche', monthlyAscent: 'Höhenmeter', filters: 'Läufe filtern', allMonths: 'Alle Monate', allTypes: 'Alle Aktivitätsarten', searchRuns: 'Läufe durchsuchen', minDistance: 'Min. km', maxDistance: 'Max. km', runCount: (n: number) => `${n} Läufe`, annualComparison: 'Jahresvergleich', year: 'Jahr', averageRun: 'Durchschnittlicher Lauf', noValue: '—', months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
     },
     about: {
       eyebrow: 'Über mich',

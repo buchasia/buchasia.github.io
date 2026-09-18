@@ -63,6 +63,7 @@ function normalizeRuns(data: unknown): Run[] {
 export const getRunStats = (runs: Run[]) => {
   const totalDistance = runs.reduce((sum, run) => sum + run.distance, 0)
   const totalDuration = runs.reduce((sum, run) => sum + run.duration, 0)
+  const totalAscent = runs.reduce((sum, run) => sum + (run.totalAscent ?? 0), 0)
   const totalCount = runs.length
   const activeDays = new Set(runs.map(run => run.date.toISOString().slice(0, 10)))
   const sortedDays = [...activeDays].sort()
@@ -80,23 +81,27 @@ export const getRunStats = (runs: Run[]) => {
     return pace > 0 && (!fastest || pace < fastest) ? pace : fastest
   }, 0)
 
-  const yearlyData: Record<string, { distance: number; duration: number; count: number }> = {}
+  const yearlyData: Record<string, { distance: number; duration: number; totalAscent: number; count: number }> = {}
   
   runs.forEach(run => {
     const year = getRunYear(run)
     if (!yearlyData[year]) {
-      yearlyData[year] = { distance: 0, duration: 0, count: 0 }
+      yearlyData[year] = { distance: 0, duration: 0, totalAscent: 0, count: 0 }
     }
     yearlyData[year].distance += run.distance
     yearlyData[year].duration += run.duration
+    yearlyData[year].totalAscent += run.totalAscent ?? 0
     yearlyData[year].count += 1
   })
 
   return {
     totalDistance,
     totalDuration,
+    totalAscent,
     totalCount,
     averageDistance: totalCount ? totalDistance / totalCount : 0,
+    averageAscent: totalCount ? totalAscent / totalCount : 0,
+    ascentPerKm: totalDistance ? totalAscent / (totalDistance / 1000) : 0,
     averagePace: totalDistance ? totalDuration / (totalDistance / 1000) : 0,
     fastestPace,
     longestDistance: longestRun.distance,
@@ -112,6 +117,9 @@ export const formatDistance = (meters = 0, lang: 'en' | 'de' = 'en') => {
   const value = new Intl.NumberFormat(lang === 'de' ? 'de-DE' : 'en-US', { maximumFractionDigits: km >= 1 ? 2 : 0 }).format(km >= 1 ? km : Math.round(meters))
   return km >= 1 ? `${value} km` : `${value} m`
 }
+
+export const formatElevation = (meters = 0, lang: 'en' | 'de' = 'en') =>
+  `${new Intl.NumberFormat(lang === 'de' ? 'de-DE' : 'en-US', { maximumFractionDigits: 0 }).format(Math.round(meters))} m`
 
 export const formatDuration = (seconds = 0, lang: 'en' | 'de' = 'en') => {
   const hours = Math.floor(seconds / 3600)
@@ -139,6 +147,7 @@ export const getRunPace = (run: Run) => run.averagePace && run.averagePace > 0
 
 export const getRunHighlights = (runs: Run[]) => {
   const longestRun = runs.reduce((longest, run) => run.distance > longest.distance ? run : longest, { distance: 0 } as Run)
+  const highestAscentRun = runs.reduce((highest, run) => (run.totalAscent ?? 0) > (highest.totalAscent ?? 0) ? run : highest, { totalAscent: 0 } as Run)
   const fastestRun = runs.filter(run => getRunPace(run) > 0).reduce((fastest, run) => !fastest || getRunPace(run) < getRunPace(fastest) ? run : fastest, null as Run | null)
   const monthly = getMonthlyStats(runs, runs[0]?.date.getUTCFullYear() ?? 0)
   const busiestMonth = monthly.reduce((best, month) => month.distance > best.distance ? month : best, { month: 0, distance: 0, duration: 0, count: 0 })
@@ -149,7 +158,7 @@ export const getRunHighlights = (runs: Run[]) => {
     const key = day.toISOString().slice(0, 10)
     weeks.set(key, (weeks.get(key) ?? 0) + run.distance)
   }
-  return { longestRun, fastestRun, busiestMonth, longestWeekDistance: Math.max(0, ...weeks.values()) }
+  return { longestRun, highestAscentRun, fastestRun, busiestMonth, longestWeekDistance: Math.max(0, ...weeks.values()) }
 }
 
 export const getRunYear = (run: Run) => run.date.getUTCFullYear().toString()
@@ -175,12 +184,14 @@ export const getMonthlyStats = (runs: Run[], year: number) =>
       month,
       distance: monthRuns.reduce((sum, run) => sum + run.distance, 0),
       duration: monthRuns.reduce((sum, run) => sum + run.duration, 0),
+      totalAscent: monthRuns.reduce((sum, run) => sum + (run.totalAscent ?? 0), 0),
       count: monthRuns.length,
-      byType: monthRuns.reduce<Record<string, { distance: number; duration: number; count: number }>>((types, run) => {
+      byType: monthRuns.reduce<Record<string, { distance: number; duration: number; totalAscent: number; count: number }>>((types, run) => {
         const type = run.activityType ?? 'Running'
-        types[type] ??= { distance: 0, duration: 0, count: 0 }
+        types[type] ??= { distance: 0, duration: 0, totalAscent: 0, count: 0 }
         types[type].distance += run.distance
         types[type].duration += run.duration
+        types[type].totalAscent += run.totalAscent ?? 0
         types[type].count += 1
         return types
       }, {}),

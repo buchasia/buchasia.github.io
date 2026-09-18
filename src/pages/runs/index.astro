@@ -1,5 +1,5 @@
 ---
-import { fetchRuns, formatDistance, formatDuration, getRunStats } from '../../utils/runs'
+import { fetchRuns, formatDistance, formatDuration, formatElevation, getRunHighlights, getRunStats } from '../../utils/runs'
 import { t } from '../../utils/i18n'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import RunStats from '../../components/RunStats.astro'
@@ -7,17 +7,20 @@ const dict = t('en')
 const runs = await fetchRuns()
 const stats = getRunStats(runs)
 const years = Object.keys(stats.yearlyData).sort((a, b) => Number(b) - Number(a))
+const highlights = getRunHighlights(runs)
+const mostClimbingYear = years.reduce((best, year) => !best || stats.yearlyData[year].totalAscent > stats.yearlyData[best].totalAscent ? year : best, '')
 ---
 <BaseLayout title={dict.runs.title} lang="en" altPath="/runs/">
   <section class="about"><p class="eyebrow">{dict.runs.eyebrow}</p><h1>{dict.runs.title}</h1><p>{dict.runs.intro}</p></section>
   <section class="run-dashboard">
     <RunStats {...stats} lang="en" />
+    <section class="elevation-highlights" aria-labelledby="elevation-highlights-title"><h2 id="elevation-highlights-title" class="section-label">{dict.runs.elevationHighlights}</h2><div class="elevation-grid"><div><span>{dict.runs.mostClimbingYear}</span><strong>{mostClimbingYear ? `${mostClimbingYear} · ${formatElevation(stats.yearlyData[mostClimbingYear].totalAscent, 'en')}` : dict.runs.noValue}</strong></div><div><span>{dict.runs.highestAscent}</span><strong>{formatElevation(highlights.highestAscentRun.totalAscent, 'en')} · {highlights.highestAscentRun.date?.toISOString().slice(0, 10) ?? dict.runs.noValue}</strong></div></div></section>
     <div class="year-selection"><h2 class="section-label">{dict.runs.selectYear}</h2>
       {years.length ? <div class="year-grid">{years.map(year => <a href={`/runs/${year}/`} class="year-link"><span>{year}</span><small>{formatDistance(stats.yearlyData[year].distance, 'en')}</small><small>{stats.yearlyData[year].count} {dict.runs.totalRuns.toLowerCase()}</small></a>)}</div> : <p class="empty-state">{dict.runs.noData}</p>}
     </div>
-    <div class="annual-comparison"><h2 class="section-label">{dict.runs.annualComparison}</h2><div class="table-wrap"><table><thead><tr><th>{dict.runs.year}</th><th>{dict.runs.totalDistance}</th><th>{dict.runs.totalRuns}</th><th>{dict.runs.averageRun}</th><th>{dict.runs.totalTime}</th></tr></thead><tbody>{years.map(year => { const item = stats.yearlyData[year]; return <tr><th scope="row"><a href={`/runs/${year}/`}>{year}</a></th><td>{formatDistance(item.distance, 'en')}</td><td>{item.count}</td><td>{formatDistance(item.distance / item.count, 'en')}</td><td>{formatDuration(item.duration, 'en')}</td></tr>})}</tbody></table></div></div>
+    <div class="annual-comparison"><h2 class="section-label">{dict.runs.annualComparison}</h2><div class="table-wrap"><table><thead><tr><th>{dict.runs.year}</th><th>{dict.runs.totalDistance}</th><th>{dict.runs.totalAscent}</th><th>{dict.runs.totalRuns}</th><th>{dict.runs.averageRun}</th><th>{dict.runs.totalTime}</th></tr></thead><tbody>{years.map(year => { const item = stats.yearlyData[year]; return <tr><th scope="row"><a href={`/runs/${year}/`}>{year}</a></th><td>{formatDistance(item.distance, 'en')}</td><td>{formatElevation(item.totalAscent, 'en')}</td><td>{item.count}</td><td>{formatDistance(item.distance / item.count, 'en')}</td><td>{formatDuration(item.duration, 'en')}</td></tr>})}</tbody></table></div></div>
   </section>
 </BaseLayout>
 <style>
-  .run-dashboard{padding:2rem 0}.year-selection{margin-top:4rem}.year-grid{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}.year-link{display:flex;flex-direction:column;gap:.2rem;padding:.5rem 1rem;border:1px solid var(--line);color:var(--accent);text-decoration:none}.year-link small{color:var(--muted);font-size:var(--font-size-label)}.year-link:hover{background:var(--wash)}.annual-comparison{margin-top:4rem}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:var(--font-size-small)}th,td{padding:.65rem .5rem;border-top:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}tbody th{font-weight:500}table a{color:var(--accent)}.empty-state{color:var(--muted)}
+  .run-dashboard{padding:2rem 0}.elevation-highlights{margin-top:2.5rem}.elevation-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem}.elevation-grid div{display:flex;flex-direction:column;gap:.3rem;padding-top:.65rem;border-top:1px solid var(--line)}.elevation-grid span{color:var(--muted);font-size:var(--font-size-small)}.elevation-grid strong{font-weight:500}.year-selection{margin-top:4rem}.year-grid{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}.year-link{display:flex;flex-direction:column;gap:.2rem;padding:.5rem 1rem;border:1px solid var(--line);color:var(--accent);text-decoration:none}.year-link small{color:var(--muted);font-size:var(--font-size-label)}.year-link:hover{background:var(--wash)}.annual-comparison{margin-top:4rem}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:var(--font-size-small)}th,td{padding:.65rem .5rem;border-top:1px solid var(--line);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}tbody th{font-weight:500}table a{color:var(--accent)}.empty-state{color:var(--muted)}
 </style>

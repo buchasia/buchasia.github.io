@@ -1,11 +1,14 @@
 ---
-import { formatDistance, formatDuration, formatPace } from '../utils/runs'
+import { formatDistance, formatDuration, formatElevation, formatPace } from '../utils/runs'
 import { t, type Lang } from '../utils/i18n'
 type Props = {
   totalDistance?: number;
   totalDuration?: number;
+  totalAscent?: number;
   totalCount?: number;
   averageDistance?: number;
+  averageAscent?: number;
+  ascentPerKm?: number;
   averagePace?: number;
   fastestPace?: number;
   longestDistance?: number;
@@ -18,8 +21,8 @@ type Props = {
 const props = Astro.props as Props
 const dict = t(props.lang ?? 'en')
 const labels = props.lang === 'de'
-  ? { averageDistance: 'Durchschnittliche Distanz', averagePace: 'Durchschnittliches Tempo', fastestPace: 'Schnellstes Tempo', longestRun: 'Längster Lauf', activeDays: 'Aktive Tage', longestStreak: 'Längste Serie', currentStreak: 'Aktuelle Serie', days: 'Tage' }
-  : { averageDistance: 'Average Distance', averagePace: 'Average Pace', fastestPace: 'Fastest Pace', longestRun: 'Longest Run', activeDays: 'Active Days', longestStreak: 'Longest Streak', currentStreak: 'Current Streak', days: 'days' }
+  ? { averageDistance: 'Durchschnittliche Distanz', averageAscent: 'Durchschnittlicher Anstieg', ascentPerKm: 'Anstieg pro km', averagePace: 'Durchschnittliches Tempo', fastestPace: 'Schnellstes Tempo', longestRun: 'Längster Lauf', activeDays: 'Aktive Tage', longestStreak: 'Längste Serie', currentStreak: 'Aktuelle Serie', days: 'Tage' }
+  : { averageDistance: 'Average Distance', averageAscent: 'Average Ascent', ascentPerKm: 'Ascent per km', averagePace: 'Average Pace', fastestPace: 'Fastest Pace', longestRun: 'Longest Run', activeDays: 'Active Days', longestStreak: 'Longest Streak', currentStreak: 'Current Streak', days: 'days' }
 ---
 
 <div class="run-stats" aria-label={props.lang === 'de' ? 'Laufstatistiken' : 'Run statistics'}>
@@ -32,10 +35,16 @@ const labels = props.lang === 'de'
     <span class="value">{formatDuration(props.totalDuration, props.lang)}</span>
   </div>
   <div class="stat-item">
+    <span class="label">{dict.runs.totalAscent}</span>
+    <span class="value">{formatElevation(props.totalAscent, props.lang)}</span>
+  </div>
+  <div class="stat-item">
     <span class="label">{dict.runs.totalRuns}</span>
     <span class="value">{props.totalCount ?? 0}</span>
   </div>
   <div class="stat-item"><span class="label">{labels.averageDistance}</span><span class="value">{formatDistance(props.averageDistance, props.lang)}</span></div>
+  <div class="stat-item"><span class="label">{labels.averageAscent}</span><span class="value">{formatElevation(props.averageAscent, props.lang)}</span></div>
+  <div class="stat-item"><span class="label">{labels.ascentPerKm}</span><span class="value">{formatElevation(props.ascentPerKm, props.lang)}</span></div>
   <div class="stat-item"><span class="label">{labels.averagePace}</span><span class="value">{formatPace(props.averagePace, props.lang)}</span></div>
   <div class="stat-item"><span class="label">{labels.fastestPace}</span><span class="value">{formatPace(props.fastestPace, props.lang)}</span></div>
   <div class="stat-item"><span class="label">{labels.longestRun}</span><span class="value">{formatDistance(props.longestDistance, props.lang)}</span></div>

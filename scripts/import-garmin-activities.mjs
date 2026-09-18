@@ -57,15 +57,17 @@ const runs = rows
     const baseId = `garmin-${date.slice(0, 10)}`
     const occurrence = (ids.get(baseId) ?? 0) + 1
     ids.set(baseId, occurrence)
+    const totalAscent = number(get(row, 'Total Ascent')) ?? 0
     const run = {
       id: occurrence === 1 ? baseId : `${baseId}-${occurrence}`,
       date: date.slice(0, 10),
       activityType: type,
       distance: Math.round(number(get(row, 'Distance')) * 1000),
       duration: duration(get(row, 'Time')) ?? 0,
+      totalAscent,
     }
     return run
   })
 
-fs.writeFileSync(output, `${JSON.stringify(runs, null, 2)}\n`)
+fs.writeFileSync(output, `[\n${runs.map(run => `  ${JSON.stringify(run)}`).join(',\n')}\n]\n`)
 console.log(`Imported ${runs.length} running activities into ${output}`)
