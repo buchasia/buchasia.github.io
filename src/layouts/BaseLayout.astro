@@ -59,7 +59,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
 </html>
 <style is:global>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap');
-  @import url('https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css');
+  @import url('https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css');
   :root { color-scheme:dark; --page-width:1040px; --ink:#f1f3f2; --muted:#a5afab; --line:#34403d; --paper:#111716; --accent:#65b5e8; --wash:#1d2927; --font-size-body:1rem; --font-size-reading:1.1rem; --font-size-small:.8rem; --font-size-label:.75rem; --font-size-post-title:1.2rem; --font-size-h1:2.35rem; --font-size-h2:1.55rem; }
   * { box-sizing:border-box; }
   html { background:var(--paper); color:var(--ink); font-family:'DM Sans', sans-serif; font-size:var(--font-size-body); }
@@ -119,6 +119,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   .prose pre { overflow:auto; padding:20px; background:#202c2a; color:#eef5f2; font-size:var(--font-size-small); }
   .prose blockquote { margin:24px 0; padding-left:20px; border-left:3px solid var(--accent); color:var(--muted); }
   .katex { color:var(--ink); }
+  .prose .katex-display { max-width:100%; overflow-x:auto; overflow-y:hidden; padding:4px 0; }
   .about { width:100%; margin:80px auto 0; }
   .about h1 { max-width:none; }
   .about p { font-family:'Source Serif 4', serif; font-size:var(--font-size-reading); line-height:1.7; }
