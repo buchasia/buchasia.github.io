@@ -6053,5 +6053,12 @@
     "activityType": "Running",
     "distance": 5050,
     "duration": 2216
+  },
+  {
+    "id": "garmin-2026-09-18",
+    "date": "2026-09-18",
+    "activityType": "Treadmill Running",
+    "distance": 2300,
+    "duration": 1046
   }
 ]
