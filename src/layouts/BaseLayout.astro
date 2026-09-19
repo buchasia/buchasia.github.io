@@ -26,6 +26,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
     <meta name="description" content={description} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="stylesheet" href="/katex/katex.min.css" />
+    <link rel="alternate" type="application/rss+xml" title={lang === 'de' ? 'RSS-Feed' : 'RSS feed'} href={localizedPath(lang, '/rss.xml')} />
     <title>{title} | Dr. Chhitiz Buchasia</title>
   </head>
   <body>
@@ -57,6 +58,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
         <div class="footer-links">
           <a href={localizedPath(lang, '/privacy/')}>{lang === 'de' ? 'Datenschutz' : 'Privacy'}</a>
           <a href={localizedPath(lang, '/licenses/')}>{lang === 'de' ? 'Lizenzen' : 'Licenses'}</a>
+          <a href={localizedPath(lang, '/rss.xml')}>{lang === 'de' ? 'RSS-Feed' : 'RSS feed'}</a>
           <button type="button" class="privacy-settings" data-privacy-settings>{lang === 'de' ? 'Cookie-Einstellungen' : 'Cookie settings'}</button>
           <SocialLinks className="footer-social-links" />
         </div>
