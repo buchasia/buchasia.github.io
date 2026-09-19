@@ -6,31 +6,9 @@ export type Run = {
   distance: number // in meters
   duration: number // in seconds
   notes?: string
-  eventName?: string
   activityType?: string
-  title?: string
-  calories?: number
-  averageHeartRate?: number
-  maximumHeartRate?: number
-  aerobicTrainingEffect?: number
-  averageCadence?: number
-  maximumCadence?: number
-  averagePace?: number // seconds per kilometre
-  bestPace?: number // seconds per kilometre
   totalAscent?: number // metres
-  totalDescent?: number // metres
-  averageStrideLength?: number // metres
-  trainingStressScore?: number
-  steps?: number
-  minimumTemperature?: number // Celsius
-  maximumTemperature?: number // Celsius
-  movingDuration?: number // seconds
-  elapsedDuration?: number // seconds
-  minimumElevation?: number // metres
-  maximumElevation?: number // metres
 }
-
-export const RUNS_FETCH_URL = 'https://raw.githubusercontent.com/buchasia/buchasia.github.io/main/content/data/runs.json'
 
 /**
  * Fetches the raw run data from the remote source.
@@ -49,13 +27,18 @@ function normalizeRuns(data: unknown): Run[] {
       if (!run || typeof run !== 'object' || !('id' in run) || !run.id) return null
       const date = new Date(String('date' in run ? run.date : ''))
       if (Number.isNaN(date.getTime())) return null
+      const activityType = 'activityType' in run && typeof run.activityType === 'string' ? run.activityType : undefined
+      const notes = 'notes' in run && typeof run.notes === 'string' ? run.notes : undefined
+      const totalAscent = Number('totalAscent' in run ? run.totalAscent : undefined)
       return {
-        ...run,
         id: String(run.id),
         date,
         distance: Number('distance' in run ? run.distance : 0) || 0,
         duration: Number('duration' in run ? run.duration : 0) || 0,
-      } as Run
+        ...(activityType ? { activityType } : {}),
+        ...(notes ? { notes } : {}),
+        ...(Number.isFinite(totalAscent) ? { totalAscent } : {}),
+      }
     })
     .filter((run): run is Run => run !== null)
 }
@@ -140,9 +123,7 @@ export const formatPace = (secondsPerKm = 0, lang: 'en' | 'de' = 'en') => {
 }
 
 /** Returns recorded pace when available, otherwise calculates it from duration and distance. */
-export const getRunPace = (run: Run) => run.averagePace && run.averagePace > 0
-  ? run.averagePace
-  : run.distance > 0 && run.duration > 0
+export const getRunPace = (run: Run) => run.distance > 0 && run.duration > 0
     ? run.duration / (run.distance / 1000)
     : 0
 
