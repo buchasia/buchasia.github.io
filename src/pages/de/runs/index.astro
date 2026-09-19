@@ -4,6 +4,7 @@ import { t } from '../../../utils/i18n'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import RunStats from '../../../components/RunStats.astro'
 import RunTargets from '../../../components/RunTargets.astro'
+import YearlyTrendChart from '../../../components/YearlyTrendChart.astro'
 
 const dict = t('de')
 const runs = await fetchRuns()
@@ -22,6 +23,7 @@ const mostClimbingYear = years.reduce((best, year) => !best || stats.yearlyData[
     <div class="year-selection"><h2 class="section-label">{dict.runs.selectYear}</h2>
       {years.length ? <div class="year-grid">{years.map(year => <a href={`/de/runs/${year}/`} class="year-link"><span>{year}</span><small>{formatDistance(stats.yearlyData[year].distance, 'de')}</small><small>{stats.yearlyData[year].count} {dict.runs.totalRuns.toLowerCase()}</small></a>)}</div> : <p class="empty-state">{dict.runs.noData}</p>}
     </div>
+    <YearlyTrendChart data={stats.yearlyData} years={years} lang="de" />
     <div class="annual-comparison"><h2 class="section-label">{dict.runs.annualComparison}</h2><div class="table-wrap"><table><thead><tr><th>{dict.runs.year}</th><th>{dict.runs.totalDistance}</th><th>{dict.runs.totalAscent}</th><th>{dict.runs.totalRuns}</th><th>{dict.runs.averageRun}</th><th>{dict.runs.totalTime}</th></tr></thead><tbody>{years.map(year => { const item = stats.yearlyData[year]; return <tr><th scope="row"><a href={`/de/runs/${year}/`}>{year}</a></th><td>{formatDistance(item.distance, 'de')}</td><td>{formatElevation(item.totalAscent, 'de')}</td><td>{item.count}</td><td>{formatDistance(item.distance / item.count, 'de')}</td><td>{formatDuration(item.duration, 'de')}</td></tr>})}</tbody></table></div></div>
   </section>
 </BaseLayout>

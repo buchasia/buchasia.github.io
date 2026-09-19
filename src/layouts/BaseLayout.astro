@@ -24,6 +24,8 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="stylesheet" href="/katex/katex.min.css" />
     <title>{title} | Dr. Chhitiz Buchasia</title>
   </head>
   <body>
@@ -52,14 +54,74 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
       </main>
       <footer class="site-footer">
         <span>{dict.footer(new Date().getFullYear())}</span>
-        <SocialLinks className="footer-social-links" />
+        <div class="footer-links">
+          <a href={localizedPath(lang, '/privacy/')}>{lang === 'de' ? 'Datenschutz' : 'Privacy'}</a>
+          <a href={localizedPath(lang, '/licenses/')}>{lang === 'de' ? 'Lizenzen' : 'Licenses'}</a>
+          <button type="button" class="privacy-settings" data-privacy-settings>{lang === 'de' ? 'Cookie-Einstellungen' : 'Cookie settings'}</button>
+          <SocialLinks className="footer-social-links" />
+        </div>
       </footer>
     </div>
+    <aside class="consent-banner" data-consent-banner hidden role="dialog" aria-labelledby="consent-title" aria-describedby="consent-description">
+      <div>
+        <strong id="consent-title">{lang === 'de' ? 'Analyse-Cookies' : 'Analytics cookies'}</strong>
+        <p id="consent-description">
+          {lang === 'de'
+            ? 'Ich möchte verstehen, wie Besucher diese Website nutzen. Microsoft Clarity wird nur nach Ihrer Zustimmung geladen.'
+            : 'I use Microsoft Clarity to understand how visitors use this website. It is loaded only after your consent.'}
+          {' '}<a href={localizedPath(lang, '/privacy/')}>{lang === 'de' ? 'Mehr erfahren' : 'Learn more'}</a>
+        </p>
+      </div>
+      <div class="consent-actions">
+        <button type="button" class="consent-reject" data-consent-reject>{lang === 'de' ? 'Ablehnen' : 'Reject'}</button>
+        <button type="button" class="consent-accept" data-consent-accept>{lang === 'de' ? 'Akzeptieren' : 'Accept'}</button>
+      </div>
+    </aside>
   </body>
 </html>
+<script>
+  const consentKey = 'clarity-consent'
+  const banner = document.querySelector('[data-consent-banner]')
+  const grantClarityConsent = () => {
+    if (window.clarity) window.clarity('consentv2', { ad_storage: 'granted', analytics_storage: 'granted' })
+  }
+  const loadClarity = () => {
+    if (window.clarity) { grantClarityConsent(); return }
+    window.clarity = function(...args) { (window.clarity.q = window.clarity.q || []).push(args) }
+    const script = document.createElement('script')
+    script.async = true
+    script.src = 'https://www.clarity.ms/tag/ykpeaidgbu'
+    document.head.appendChild(script)
+  }
+  const showBanner = () => { if (banner) banner.hidden = false }
+  const saveConsent = (value) => {
+    localStorage.setItem(consentKey, value)
+    if (value === 'granted') loadClarity()
+    if (value === 'denied' && window.clarity) window.clarity('consent', false)
+    if (banner) banner.hidden = true
+  }
+  const storedConsent = localStorage.getItem(consentKey)
+  if (storedConsent === 'granted') loadClarity()
+  else if (!storedConsent) showBanner()
+  document.querySelector('[data-consent-accept]')?.addEventListener('click', () => saveConsent('granted'))
+  document.querySelector('[data-consent-reject]')?.addEventListener('click', () => saveConsent('denied'))
+  document.querySelector('[data-privacy-settings]')?.addEventListener('click', () => {
+    saveConsent('denied')
+    localStorage.removeItem(consentKey)
+    showBanner()
+  })
+</script>
 <style is:global>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap');
-  @import url('https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css');
+  @font-face { font-family:'DM Sans'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/dm-sans/dm-sans-400-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family:'DM Sans'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/dm-sans/dm-sans-400.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family:'DM Sans'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/dm-sans/dm-sans-500-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family:'DM Sans'; font-style:normal; font-weight:500; font-display:swap; src:url('/fonts/dm-sans/dm-sans-500.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family:'DM Sans'; font-style:normal; font-weight:700; font-display:swap; src:url('/fonts/dm-sans/dm-sans-700-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family:'DM Sans'; font-style:normal; font-weight:700; font-display:swap; src:url('/fonts/dm-sans/dm-sans-700.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family:'Source Serif 4'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/source-serif-4/source-serif-4-400-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family:'Source Serif 4'; font-style:normal; font-weight:400; font-display:swap; src:url('/fonts/source-serif-4/source-serif-4-400.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family:'Source Serif 4'; font-style:normal; font-weight:600; font-display:swap; src:url('/fonts/source-serif-4/source-serif-4-600-ext.woff2') format('woff2'); unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family:'Source Serif 4'; font-style:normal; font-weight:600; font-display:swap; src:url('/fonts/source-serif-4/source-serif-4-600.woff2') format('woff2'); unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
   :root { color-scheme:dark; --page-width:1040px; --ink:#f1f3f2; --muted:#a5afab; --line:#34403d; --paper:#111716; --accent:#65b5e8; --wash:#1d2927; --font-size-body:1rem; --font-size-reading:1.1rem; --font-size-small:.8rem; --font-size-label:.75rem; --font-size-post-title:1.2rem; --font-size-h1:2.35rem; --font-size-h2:1.55rem; }
   * { box-sizing:border-box; }
   html { background:var(--paper); color:var(--ink); font-family:'DM Sans', sans-serif; font-size:var(--font-size-body); }
@@ -79,8 +141,19 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   .credly-icon { filter: invert(49%) sepia(96%) saturate(1928%) hue-rotate(358deg) brightness(103%) contrast(103%); }
   .brand { color:var(--ink); font-weight:700; text-decoration:none; letter-spacing:-.02em; }
   nav, .site-footer div { display:flex; gap:22px; font-size:var(--font-size-small); }
+  .footer-links { align-items:center; gap:16px !important; }
   .footer-social-links { gap:16px !important; }
   nav a, .site-footer a { text-decoration:none; }
+  .privacy-settings { padding:0; border:0; background:none; color:inherit; cursor:pointer; font:inherit; }
+  .privacy-settings:hover { color:var(--accent); }
+  .consent-banner { position:fixed; right:20px; bottom:20px; z-index:10; display:flex; align-items:center; justify-content:space-between; gap:24px; width:min(100% - 40px, 720px); padding:18px 20px; border:1px solid var(--line); background:var(--wash); box-shadow:0 10px 30px #0008; }
+  .consent-banner[hidden] { display:none; }
+  .consent-banner strong { font-size:var(--font-size-small); }
+  .consent-banner p { max-width:520px; margin:6px 0 0; color:var(--muted); font-size:var(--font-size-small); line-height:1.5; }
+  .consent-banner a { color:var(--accent); }
+  .consent-actions { display:flex; flex-shrink:0; gap:10px; }
+  .consent-actions button { padding:9px 13px; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; font:inherit; font-size:var(--font-size-small); }
+  .consent-actions .consent-accept { border-color:var(--accent); background:var(--accent); color:#071016; }
   nav a:hover, .site-footer a:hover { color:var(--accent); }
   main { min-height:70vh; }
   .site-footer { display:flex; justify-content:space-between; gap:24px; padding:24px 0 8px; margin-top:80px; border-top:1px solid var(--line); color:var(--muted); font-size:var(--font-size-small); }
@@ -132,5 +205,5 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   .search-input { width:100%; padding:14px 16px; border:1px solid var(--line); border-radius:0; background:var(--wash); color:var(--ink); font:inherit; }
   .search-input:focus { outline:2px solid var(--accent); outline-offset:2px; }
   .search-status { color:var(--muted); font-family:'DM Sans', sans-serif; font-size:var(--font-size-small); }
-  @media (max-width: 640px) { .site-shell { width:calc(100% - 36px); } .site-header, .site-footer, .header-actions { align-items:flex-start; flex-direction:column; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } }
+  @media (max-width: 640px) { .site-shell { width:calc(100% - 36px); } .site-header, .site-footer, .header-actions { align-items:flex-start; flex-direction:column; } .footer-links { align-items:flex-start !important; flex-direction:column; gap:12px !important; } .consent-banner { right:18px; bottom:18px; width:calc(100% - 36px); align-items:stretch; flex-direction:column; gap:14px; } .consent-actions { justify-content:flex-end; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } }
 </style>

@@ -29,12 +29,6 @@ const CUSTOM_BADGE_ASSET_IDS = new Set([
   'year-duration-1080000',
 ])
 
-const metricImage = {
-  distance: '/images/achievements/distance.png',
-  duration: '/images/achievements/duration.png',
-  ascent: '/images/achievements/ascent.png',
-}
-
 const getValue = (run, metric) => metric === 'distance'
   ? Number(run.distance) || 0
   : metric === 'duration'
@@ -152,7 +146,7 @@ const badgeSvg = milestone => {
   <circle cx="36" cy="36" r="28" fill="${color}" stroke="#f4f7f2" stroke-width="3" />
   <text x="36" y="45" fill="#fff" font-family="Arial,sans-serif" font-size="28" font-weight="700" text-anchor="middle">${metricMark[milestone.metric]}</text>
   <circle cx="100" cy="98" r="43" fill="#071f20" stroke="${color}" stroke-width="2.5" />
-  <image href="${metricImage[milestone.metric]}" x="62" y="60" width="76" height="76" preserveAspectRatio="xMidYMid meet" />
+  <text x="100" y="120" fill="#fff" font-family="Arial,sans-serif" font-size="36" font-weight="700" text-anchor="middle">${metricMark[milestone.metric]}</text>
   <text x="100" y="148" fill="#f4f7f2" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="1px" text-anchor="middle">L${milestone.level}</text>
   <ellipse cx="145" cy="171" rx="51" ry="25" fill="#050707" stroke="#f4f7f2" stroke-width="3" />
   <text x="145" y="180" fill="#fff" font-family="Arial,sans-serif" font-size="21" font-weight="800" text-anchor="middle">${shortValue}</text>

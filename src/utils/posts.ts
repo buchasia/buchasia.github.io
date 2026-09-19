@@ -78,3 +78,6 @@ export const sortPostsByDate = (posts: BlogPost[]) =>
 
 export const getUniqueTags = (posts: BlogPost[]) =>
   [...new Set(posts.flatMap((post) => post.data.tags))].sort()
+
+export const getPostsForRun = (posts: BlogPost[], runId: string) =>
+  posts.filter((post) => post.data.runIds.includes(runId))
