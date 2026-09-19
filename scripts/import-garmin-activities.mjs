@@ -31,17 +31,6 @@ function duration(value) {
   return parts[0] * 3600 + parts[1] * 60 + parts[2]
 }
 
-function pace(value) {
-  if (!value || value === '--' || value.includes('NaN')) return undefined
-  const parts = value.split(':').map(Number)
-  if (parts.length !== 2 || parts.some(part => !Number.isFinite(part))) return undefined
-  return parts[0] * 60 + parts[1]
-}
-
-function slug(value) {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-}
-
 const rows = fs.readFileSync(input, 'utf8').trim().split(/\r?\n/).map(parseCsvLine)
 const headers = rows.shift()
 const index = Object.fromEntries(headers.map((header, i) => [header, i]))
@@ -53,7 +42,6 @@ const runs = rows
   .map(row => {
     const type = get(row, 'Activity Type')
     const date = get(row, 'Date')
-    const title = get(row, 'Title')
     const baseId = `garmin-${date.slice(0, 10)}`
     const occurrence = (ids.get(baseId) ?? 0) + 1
     ids.set(baseId, occurrence)
