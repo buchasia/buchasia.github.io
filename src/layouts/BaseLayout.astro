@@ -80,24 +80,30 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   </body>
 </html>
 <script>
+  type ConsentValue = 'granted' | 'denied'
+  type ClarityFunction = ((...args: unknown[]) => void) & { q?: unknown[][] }
+  const clarityWindow = window as Window & { clarity?: ClarityFunction }
   const consentKey = 'clarity-consent'
-  const banner = document.querySelector('[data-consent-banner]')
+  const banner = document.querySelector<HTMLElement>('[data-consent-banner]')
   const grantClarityConsent = () => {
-    if (window.clarity) window.clarity('consentv2', { ad_storage: 'granted', analytics_storage: 'granted' })
+    if (clarityWindow.clarity) clarityWindow.clarity('consentv2', { ad_storage: 'granted', analytics_storage: 'granted' })
   }
   const loadClarity = () => {
-    if (window.clarity) { grantClarityConsent(); return }
-    window.clarity = function(...args) { (window.clarity.q = window.clarity.q || []).push(args) }
+    if (clarityWindow.clarity) { grantClarityConsent(); return }
+    clarityWindow.clarity = function(...args: unknown[]) {
+      const clarity = clarityWindow.clarity
+      if (clarity) (clarity.q ??= []).push(args)
+    }
     const script = document.createElement('script')
     script.async = true
     script.src = 'https://www.clarity.ms/tag/ykpeaidgbu'
     document.head.appendChild(script)
   }
   const showBanner = () => { if (banner) banner.hidden = false }
-  const saveConsent = (value) => {
+  const saveConsent = (value: ConsentValue) => {
     localStorage.setItem(consentKey, value)
     if (value === 'granted') loadClarity()
-    if (value === 'denied' && window.clarity) window.clarity('consent', false)
+    if (value === 'denied' && clarityWindow.clarity) clarityWindow.clarity('consent', false)
     if (banner) banner.hidden = true
   }
   const storedConsent = localStorage.getItem(consentKey)
