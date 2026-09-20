@@ -19,7 +19,7 @@ Die Werte dienen nur als Beispiel. In einem echten Projekt könnten hier Verbind
 
 Ausgangspunkt ist eine Pipeline mit einer Notebook-Aktivität. Die Aktivität verwendet die unten gezeigten Standardparameter.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pipeline-with-default-parameters.png" alt="Fabric-Pipeline mit Standardparametern für das Notebook" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pipeline-with-default-parameters.png" alt="Fabric-Pipeline mit Standardparametern für das Notebook" /></div>
 
 Im Screenshot ist die Notebook-Aktivität ausgewählt. Im Bereich **Settings** sind die Basisparameter `LowerLimit`, `UpperLimit` und `MeanValue` auf `10`, `100` und `17.45` gesetzt. So lässt sich die ursprüngliche Konfiguration später mit den Werten einer anderen Wertemenge vergleichen.
 
@@ -27,15 +27,15 @@ Im Screenshot ist die Notebook-Aktivität ausgewählt. Im Bereich **Settings** s
 
 Öffnen Sie den Fabric-Workspace und wählen Sie **New item**. Unter den Workspace-Elementen steht **Variable library** zur Verfügung.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-in-new-item.png" alt="Variable library im Menü New item" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-in-new-item.png" alt="Variable library im Menü New item" /></div>
 
 Wählen Sie **Variable library**, vergeben Sie einen aussagekräftigen Namen und wählen Sie den Speicherort im Workspace. In diesem Beispiel heißt die Bibliothek `vl_my_values`.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-name-your-vl.png" alt="Neue Variablenbibliothek erstellen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-name-your-vl.png" alt="Neue Variablenbibliothek erstellen" /></div>
 
 Nach dem Erstellen enthält die Bibliothek zunächst noch keine Variablen.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-new-variable-button.png" alt="Leere Variablenbibliothek" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-new-variable-button.png" alt="Leere Variablenbibliothek" /></div>
 
 Wählen Sie **New variable**, um die erste Variable anzulegen. Wiederholen Sie den Schritt, bis alle zentral zu verwaltenden Werte vorhanden sind.
 
@@ -43,7 +43,7 @@ Wählen Sie **New variable**, um die erste Variable anzulegen. Wiederholen Sie d
 
 Legen Sie die drei oben genannten Variablen mit passenden Namen und Datentypen an.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-create-variables.png" alt="Variablen in der Standardwertemenge" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-create-variables.png" alt="Variablen in der Standardwertemenge" /></div>
 
 Die Standardwertemenge enthält `LowerLimit`, `UpperLimit` und `MeanValue`. Die ersten beiden sind Ganzzahlen, `MeanValue` ist eine Zahl. Die Werte sind `10`, `100` und `17.45`.
 
@@ -53,23 +53,23 @@ Die Typen sollten zu den Parametern der Notebook- oder Pipeline-Aktivität passe
 
 Öffnen Sie den Ausdruckseditor der Pipeline und wechseln Sie zum Tab **Library variables**. Über **+** können Sie eine Bibliotheksvariable zur Pipeline hinzufügen.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-add-library-variables-to-pipeline.png" alt="Bibliotheksvariablen zur Pipeline hinzufügen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-add-library-variables-to-pipeline.png" alt="Bibliotheksvariablen zur Pipeline hinzufügen" /></div>
 
 Der Ausdruckseditor öffnet zunächst den Tab **Parameters**. Öffnen Sie die Tab-Auswahl und wählen Sie **Library variables**.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-switch-to-library-variables.png" alt="Im Ausdruckseditor zu Bibliotheksvariablen wechseln" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-switch-to-library-variables.png" alt="Im Ausdruckseditor zu Bibliotheksvariablen wechseln" /></div>
 
 Nun werden die Variablen der Bibliothek angezeigt, darunter `vl_my_values_LowerLimit`, `vl_my_values_UpperLimit` und `vl_my_values_MeanValue`.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-variable-now-present-for-pl.png" alt="Bibliotheksvariablen in der Pipeline" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-variable-now-present-for-pl.png" alt="Bibliotheksvariablen in der Pipeline" /></div>
 
 Wählen Sie für den Parameter `LowerLimit` das Wertefeld und anschließend **Add dynamic content**.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-add-dynamic-content-for-value.png" alt="Dynamischen Inhalt für einen Pipelineparameter hinzufügen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-add-dynamic-content-for-value.png" alt="Dynamischen Inhalt für einen Pipelineparameter hinzufügen" /></div>
 
 Wählen Sie im Ausdruckseditor **Library variables** und anschließend die passende Variable aus.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-select-variable-from-library.png" alt="Variable aus der Variablenbibliothek auswählen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-select-variable-from-library.png" alt="Variable aus der Variablenbibliothek auswählen" /></div>
 
 Fabric fügt einen Ausdruck ähnlich dem folgenden ein:
 
@@ -79,11 +79,11 @@ Fabric fügt einen Ausdruck ähnlich dem folgenden ein:
 
 Das Feld enthält nun keine feste Zahl mehr. Beim Ausführen löst Fabric den aktiven Wert aus der Variablenbibliothek auf.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-final-dynamic-content.png" alt="Dynamischer Ausdruck mit einer Bibliotheksvariablen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-final-dynamic-content.png" alt="Dynamischer Ausdruck mit einer Bibliotheksvariablen" /></div>
 
 Wiederholen Sie den Vorgang für `UpperLimit` und `MeanValue`. Danach verwenden alle Notebook-Parameter die aktiven Werte der Bibliothek.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/pl-final-all-nb-parameters.png" alt="Alle Notebookparameter verwenden Bibliotheksvariablen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/pl-final-all-nb-parameters.png" alt="Alle Notebookparameter verwenden Bibliotheksvariablen" /></div>
 
 So ändert sich bei einem Wechsel der aktiven Wertemenge die Konfiguration, während Pipeline und Notebook unverändert bleiben.
 
@@ -91,15 +91,15 @@ So ändert sich bei einem Wechsel der aktiven Wertemenge die Konfiguration, wäh
 
 Für die Produktion werden häufig andere Grenzwerte benötigt. Wählen Sie **Add value set**, um eine weitere Gruppe von Werten anzulegen.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-add-value-set.png" alt="Wertemenge hinzufügen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-add-value-set.png" alt="Wertemenge hinzufügen" /></div>
 
 Geben Sie einen Namen ein. In diesem Beispiel heißt die alternative Wertemenge `PROD`.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-name-alternate-value-set.png" alt="Alternative Wertemenge benennen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-name-alternate-value-set.png" alt="Alternative Wertemenge benennen" /></div>
 
 Die neue Wertemenge enthält dieselben Variablen, kann aber andere Werte verwenden: `5`, `120` und `18.45`.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-final-with-alternate.png" alt="Standard- und Produktionswertemenge" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-final-with-alternate.png" alt="Standard- und Produktionswertemenge" /></div>
 
 Die Variablennamen und Datentypen bleiben gleich, während sich nur die Werte ändern. So muss die Pipeline-Logik nicht für jede Umgebung dupliziert werden.
 
@@ -107,13 +107,13 @@ Die Variablennamen und Datentypen bleiben gleich, während sich nur die Werte ä
 
 Es ist immer nur eine Wertemenge aktiv. Öffnen Sie das Menü der alternativen Wertemenge und wählen Sie **Set as active**.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-set-active.png" alt="Produktionswertemenge als aktiv setzen" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-set-active.png" alt="Produktionswertemenge als aktiv setzen" /></div>
 
 Die aktive Wertemenge wird verwendet, wenn Fabric die Variablen auflöst. Prüfen Sie deshalb vor einer Ausführung oder Bereitstellung, dass die richtige Wertemenge aktiv ist.
 
 Fabric zeigt vor der Änderung einen Hinweis zur Auswirkungsanalyse an.
 
-<div align="center"><img src="../../en/fabric-pipeline-deployment-parameters/vl-impact-awareness.png" alt="Warnung zur Auswirkungsanalyse" /></div>
+<div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-impact-awareness.png" alt="Warnung zur Auswirkungsanalyse" /></div>
 
 Die Warnung erinnert daran, dass eine Änderung alle abhängigen Elemente beeinflussen kann. Prüfen Sie die verwendenden Pipelines, Notebooks und anderen Elemente, bevor Sie die Änderung bestätigen.
 
