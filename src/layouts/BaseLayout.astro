@@ -83,18 +83,18 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
 </html>
 <script>
   type ConsentValue = 'granted' | 'denied'
-  type ClarityFunction = ((...args: unknown[]) => void) & { q?: unknown[][] }
+  type ClarityFunction = ((...args: unknown[]) => void) & { q?: IArguments[] }
   const clarityWindow = window as Window & { clarity?: ClarityFunction }
   const consentKey = 'clarity-consent'
   const banner = document.querySelector<HTMLElement>('[data-consent-banner]')
   const grantClarityConsent = () => {
-    if (clarityWindow.clarity) clarityWindow.clarity('consentv2', { ad_storage: 'granted', analytics_storage: 'granted' })
+    if (clarityWindow.clarity) clarityWindow.clarity('consentv2', { ad_storage: 'denied', analytics_storage: 'granted' })
   }
   const loadClarity = () => {
     if (clarityWindow.clarity) { grantClarityConsent(); return }
     clarityWindow.clarity = function(...args: unknown[]) {
       const clarity = clarityWindow.clarity
-      if (clarity) (clarity.q ??= []).push(args)
+      if (clarity) (clarity.q ??= []).push(arguments)
     }
     const script = document.createElement('script')
     script.async = true
