@@ -89,7 +89,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   const clarityScriptId = 'clarity-script'
   const banner = document.querySelector<HTMLElement>('[data-consent-banner]')
   const grantClarityConsent = () => {
-    if (clarityWindow.clarity) clarityWindow.clarity('consentv2', { ad_storage: 'denied', analytics_storage: 'granted' })
+    if (clarityWindow.clarity) clarityWindow.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' })
   }
   const loadClarity = () => {
     if (document.getElementById(clarityScriptId)) {
@@ -113,7 +113,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
     localStorage.setItem(consentKey, value)
     if (value === 'granted') loadClarity()
     if (value === 'denied' && clarityWindow.clarity) {
-      clarityWindow.clarity('consentv2', { ad_storage: 'denied', analytics_storage: 'denied' })
+      clarityWindow.clarity('consentv2', { ad_Storage: 'denied', analytics_Storage: 'denied' })
     }
     if (banner) banner.hidden = true
   }
