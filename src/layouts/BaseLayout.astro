@@ -197,6 +197,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   .prose { font-family:'Source Serif 4', serif; font-size:var(--font-size-reading); line-height:1.8; }
   .prose h2, .prose h3 { font-family:'DM Sans', sans-serif; margin-top:2.5em; }
   .prose img { max-width:100%; height:auto; }
+  .prose :not(pre) > code { padding:.1em .3em; border:1px solid var(--line); border-radius:3px; background:var(--wash); color:var(--ink); font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; font-size:.88em; }
   .prose pre { overflow:auto; padding:20px; background:#202c2a; color:#eef5f2; font-size:var(--font-size-small); }
   .prose blockquote { margin:24px 0; padding-left:20px; border-left:3px solid var(--accent); color:var(--muted); }
   .katex { color:var(--ink); }
