@@ -35,6 +35,8 @@ Wählen Sie **Variable library**, vergeben Sie einen aussagekräftigen Namen und
 
 Nach dem Erstellen enthält die Bibliothek zunächst noch keine Variablen.
 
+Die Bibliothek dient als zentrale Ablage für Variablen, die von mehreren Fabric-Elementen verwendet werden können. So müssen gemeinsam genutzte Konfigurationswerte nicht in jeder Pipeline separat gepflegt werden.
+
 <div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-new-variable-button.png" alt="Leere Variablenbibliothek" /></div>
 
 Wählen Sie **New variable**, um die erste Variable anzulegen. Wiederholen Sie den Schritt, bis alle zentral zu verwaltenden Werte vorhanden sind.
@@ -48,6 +50,8 @@ Legen Sie die drei oben genannten Variablen mit passenden Namen und Datentypen a
 Die Standardwertemenge enthält `LowerLimit`, `UpperLimit` und `MeanValue`. Die ersten beiden sind Ganzzahlen, `MeanValue` ist eine Zahl. Die Werte sind `10`, `100` und `17.45`.
 
 Die Typen sollten zu den Parametern der Notebook- oder Pipeline-Aktivität passen. Dadurch werden unnötige Konvertierungen und unerwartete Vergleiche vermieden.
+
+Verwenden Sie möglichst dieselben Namen für Bibliotheksvariablen und Pipelineparameter. Dadurch bleibt die Zuordnung nachvollziehbar und Fehler beim Ersetzen der festen Werte werden vermieden.
 
 ## Bibliotheksvariablen in der Pipeline verwenden
 
@@ -87,6 +91,8 @@ Wiederholen Sie den Vorgang für `UpperLimit` und `MeanValue`. Danach verwenden 
 
 So ändert sich bei einem Wechsel der aktiven Wertemenge die Konfiguration, während Pipeline und Notebook unverändert bleiben.
 
+Prüfen Sie die aufgelösten Werte zunächst in einer nicht-produktiven Ausführung, bevor Sie eine andere Wertemenge für eine Produktionsausführung aktivieren.
+
 ## Alternative Wertemenge hinzufügen
 
 Für die Produktion werden häufig andere Grenzwerte benötigt. Wählen Sie **Add value set**, um eine weitere Gruppe von Werten anzulegen.
@@ -111,11 +117,26 @@ Es ist immer nur eine Wertemenge aktiv. Öffnen Sie das Menü der alternativen W
 
 Die aktive Wertemenge wird verwendet, wenn Fabric die Variablen auflöst. Prüfen Sie deshalb vor einer Ausführung oder Bereitstellung, dass die richtige Wertemenge aktiv ist.
 
+Der Name `PROD` macht eine Wertemenge nicht automatisch sicher. Entscheidend ist, welche Wertemenge derzeit aktiv ist.
+
 Fabric zeigt vor der Änderung einen Hinweis zur Auswirkungsanalyse an.
 
 <div align="center"><img src="/images/fabric-pipeline-deployment-parameters/vl-impact-awareness.png" alt="Warnung zur Auswirkungsanalyse" /></div>
 
 Die Warnung erinnert daran, dass eine Änderung alle abhängigen Elemente beeinflussen kann. Prüfen Sie die verwendenden Pipelines, Notebooks und anderen Elemente, bevor Sie die Änderung bestätigen.
+
+Wenn Umgebungen unabhängig voneinander betrieben werden müssen, sollte die Aktivierung Teil des Bereitstellungsprozesses sein. Dokumentieren Sie außerdem, wer diese Änderung durchführen darf.
+
+## Vorteile dieses Ansatzes
+
+Variablenbibliotheken mit Wertemengen bieten mehrere praktische Vorteile:
+
+- **Zentrale Konfiguration:** Werte werden an einer Stelle gepflegt, statt in mehreren Aktivitäten wiederholt zu werden.
+- **Trennung der Umgebungen:** Entwicklungs- und Produktionswerte können dieselben Namen und Datentypen verwenden, aber unterschiedliche Werte enthalten.
+- **Stabilere Bereitstellungen:** Die Pipeline-Definition bleibt unverändert, während die umgebungsspezifische Konfiguration separat ausgewählt wird.
+- **Bessere Nachvollziehbarkeit:** Der Hinweis zur Auswirkungsanalyse macht den Umfang einer Änderung vor ihrer Bestätigung sichtbar.
+
+Die Aktivierung einer Wertemenge bleibt dennoch eine gemeinsam genutzte Änderung. Verwenden Sie eine klare Namenskonvention, dokumentieren Sie die Werte und prüfen Sie die aktive Wertemenge vor einer Produktionsausführung.
 
 ## Zusammenfassung
 

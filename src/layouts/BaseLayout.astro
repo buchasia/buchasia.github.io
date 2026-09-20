@@ -100,12 +100,15 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
     script.async = true
     script.src = 'https://www.clarity.ms/tag/ykpeaidgbu'
     document.head.appendChild(script)
+    grantClarityConsent()
   }
   const showBanner = () => { if (banner) banner.hidden = false }
   const saveConsent = (value: ConsentValue) => {
     localStorage.setItem(consentKey, value)
     if (value === 'granted') loadClarity()
-    if (value === 'denied' && clarityWindow.clarity) clarityWindow.clarity('consent', false)
+    if (value === 'denied' && clarityWindow.clarity) {
+      clarityWindow.clarity('consentv2', { ad_storage: 'denied', analytics_storage: 'denied' })
+    }
     if (banner) banner.hidden = true
   }
   const storedConsent = localStorage.getItem(consentKey)
