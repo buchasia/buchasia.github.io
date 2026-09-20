@@ -14,7 +14,7 @@ export const formatDate = (date: Date, lang: Lang = 'en') =>
 export const isPublished = (post: BlogPost) =>
   import.meta.env.DEV || !post.data.draft
 
-const WORDS_PER_MINUTE = 200
+const WORDS_PER_MINUTE = 150
 const CODE_SECONDS_PER_LINE = 0.6
 const CODE_SECONDS_CAP = 120
 const DISPLAY_MATH_SECONDS = 12
