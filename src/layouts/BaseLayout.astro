@@ -86,17 +86,22 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   type ClarityFunction = ((...args: unknown[]) => void) & { q?: IArguments[] }
   const clarityWindow = window as Window & { clarity?: ClarityFunction }
   const consentKey = 'clarity-consent'
+  const clarityScriptId = 'clarity-script'
   const banner = document.querySelector<HTMLElement>('[data-consent-banner]')
   const grantClarityConsent = () => {
     if (clarityWindow.clarity) clarityWindow.clarity('consentv2', { ad_storage: 'denied', analytics_storage: 'granted' })
   }
   const loadClarity = () => {
-    if (clarityWindow.clarity) { grantClarityConsent(); return }
-    clarityWindow.clarity = function(...args: unknown[]) {
+    if (document.getElementById(clarityScriptId)) {
+      grantClarityConsent()
+      return
+    }
+    clarityWindow.clarity = clarityWindow.clarity || function() {
       const clarity = clarityWindow.clarity
       if (clarity) (clarity.q ??= []).push(arguments)
     }
     const script = document.createElement('script')
+    script.id = clarityScriptId
     script.async = true
     script.src = 'https://www.clarity.ms/tag/ykpeaidgbu'
     script.addEventListener('load', grantClarityConsent)
