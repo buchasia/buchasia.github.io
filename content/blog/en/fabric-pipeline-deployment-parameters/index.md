@@ -1,9 +1,8 @@
 ---
 title: Fabric Pipeline Deployment Strategy with Parameters
 date: "2026-09-12T10:00:00.000Z"
-description: ""
+description: "Learn how to use Microsoft Fabric variable libraries and value sets to manage pipeline parameters across development and production environments."
 tags: [microsoft fabric, data]
-draft: true
 ---
 
 When a data pipeline moves from development to production, the pipeline logic should usually remain the same while its configuration changes. Examples include notebook parameters, database names, workspace identifiers, and thresholds. Microsoft Fabric variable libraries provide a convenient way to keep these values in one place and switch between environments without editing every pipeline activity.
@@ -144,4 +143,3 @@ Variable libraries are a useful way to separate Fabric pipeline logic from envir
 ## Reference
 
 - [Variable library overview](https://learn.microsoft.com/en-us/fabric/cicd/variable-library/variable-library-overview) — Microsoft Learn
-

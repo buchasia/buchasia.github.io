@@ -3,7 +3,6 @@ title: Fabric-Pipeline-Bereitstellung mit Parametern
 date: "2026-09-12T10:00:00.000Z"
 description: "So verwalten Sie umgebungsspezifische Werte für eine Microsoft-Fabric-Pipeline mit Variablenbibliotheken und Wertemengen."
 tags: [microsoft fabric, data]
-draft: true
 ---
 
 Wenn eine Datenpipeline von der Entwicklung in die Produktion überführt wird, sollte die Logik der Pipeline meist gleich bleiben, während sich ihre Konfiguration ändert. Beispiele sind Notebook-Parameter, Datenbanknamen, Workspace-IDs und Grenzwerte. Variablenbibliotheken in Microsoft Fabric ermöglichen es, diese Werte zentral zu verwalten und zwischen Umgebungen zu wechseln, ohne jede Pipeline-Aktivität bearbeiten zu müssen.
