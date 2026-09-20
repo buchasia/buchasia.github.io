@@ -99,6 +99,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
     const script = document.createElement('script')
     script.async = true
     script.src = 'https://www.clarity.ms/tag/ykpeaidgbu'
+    script.addEventListener('load', grantClarityConsent)
     document.head.appendChild(script)
     grantClarityConsent()
   }
