@@ -1,13 +1,15 @@
 export const GPX_LIMITS = {
   maxFileBytes: 20 * 1024 * 1024,
   maxActivities: 100,
+  // At one sample per second, 100,000 points represent about 27.8 hours; file size may impose a lower limit.
   maxPoints: 100_000,
   maxSegments: 1_000,
   maxXmlDepth: 64,
   readChunkBytes: 64 * 1024,
 } as const
 
-export type GpxLocale = 'en' | 'de'
+// Selects user-facing validation text, not the language or contents of the GPX document.
+export type GpxMessageLocale = 'en' | 'de'
 
 export type GpxValidationErrorCode =
   | 'unsupportedFile'

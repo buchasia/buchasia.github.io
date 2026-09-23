@@ -1,6 +1,6 @@
-import type { GpxLocale, GpxValidationErrorCode } from './gpxValidationTypes'
+import type { GpxMessageLocale, GpxValidationErrorCode } from './gpxValidationTypes'
 
-const messages: Record<GpxLocale, Record<GpxValidationErrorCode, string>> = {
+const messages: Record<GpxMessageLocale, Record<GpxValidationErrorCode, string>> = {
   en: {
     unsupportedFile: 'Choose a GPX file ending in .gpx.',
     fileTooLarge: 'This GPX file is larger than the 20 MiB limit.',
@@ -31,11 +31,11 @@ const messages: Record<GpxLocale, Record<GpxValidationErrorCode, string>> = {
   },
 }
 
-export function getGpxValidationMessage(code: GpxValidationErrorCode, locale: GpxLocale) {
+export function getGpxValidationMessage(code: GpxValidationErrorCode, locale: GpxMessageLocale) {
   return messages[locale][code]
 }
 
-export function getInvalidCoordinateWarning(count: number, locale: GpxLocale) {
+export function getInvalidCoordinateWarning(count: number, locale: GpxMessageLocale) {
   return locale === 'de'
     ? count === 1
       ? '1 ungültige Koordinate wurde verworfen; die Route wird an dieser Stelle unterbrochen.'

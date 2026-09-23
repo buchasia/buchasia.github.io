@@ -108,6 +108,7 @@ export class GpxStreamValidator {
     const name = localName(tag)
     const uri = namespace(tag)
     const parent = this.stack.at(-1)
+    // Interpret only known Garmin heart-rate/cadence extensions; leave other vendor fields untouched.
     const isTrackPointExtension = name === 'TrackPointExtension' && trackPointExtensionNamespaces.has(uri)
     const isTrackPointMetric = Boolean(
       parent?.isTrackPointExtension && parent.namespace === uri && (name === 'hr' || name === 'cad'),

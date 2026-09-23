@@ -1,16 +1,12 @@
-import {
-  GpxValidationError,
-  getGpxValidationMessage,
-  parseGpxFile,
-  type GpxLocale,
-  type ValidatedGpx,
-} from '../utils/gpxValidation'
+import { getGpxValidationMessage } from '../utils/gpxValidationMessages'
+import { parseGpxFile } from '../utils/gpxFileParser'
+import { GpxValidationError, type GpxMessageLocale, type ValidatedGpx } from '../utils/gpxValidationTypes'
 
 type ParseRequest = {
   type: 'parse'
   requestId: string
   file: File
-  locale: GpxLocale
+  locale: GpxMessageLocale
 }
 
 type CancelRequest = {

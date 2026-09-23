@@ -1,16 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import {
-  GPX_LIMITS,
-  GpxStreamValidator,
-  GpxValidationError,
-  getGpxValidationMessage,
-  getInvalidCoordinateWarning,
-  parseGpxFile,
-  validateGpxFileMetadata,
-  type GpxValidationErrorCode,
-} from './gpxValidation'
+import { GPX_LIMITS, GpxValidationError, type GpxValidationErrorCode } from './gpxValidationTypes'
+import { GpxStreamValidator } from './gpxStreamValidator'
+import { parseGpxFile, validateGpxFileMetadata } from './gpxFileParser'
+import { getGpxValidationMessage, getInvalidCoordinateWarning } from './gpxValidationMessages'
 
 const ns = 'http://www.topografix.com/GPX/1/1'
+const errorCodes: GpxValidationErrorCode[] = [
+  'unsupportedFile', 'fileTooLarge', 'emptyFile', 'malformedXml', 'unsafeXml', 'unsupportedGpx',
+  'tooManyActivities', 'tooManyPoints', 'tooManySegments', 'xmlTooDeep', 'noUsableCoordinates', 'cancelled',
+]
 
 function parse(xml: string) {
   const validator = new GpxStreamValidator()
@@ -122,6 +120,10 @@ describe('GPX XML validation', () => {
   })
 
   it('returns localized error messages and invalid-coordinate warnings', () => {
+    for (const code of errorCodes) {
+      expect(getGpxValidationMessage(code, 'en')).toBeTruthy()
+      expect(getGpxValidationMessage(code, 'de')).toBeTruthy()
+    }
     expect(getGpxValidationMessage('fileTooLarge', 'en')).toContain('20 MiB')
     expect(getGpxValidationMessage('fileTooLarge', 'de')).toContain('20 MiB')
     expect(getInvalidCoordinateWarning(1, 'en')).toContain('1 invalid coordinate was discarded')
