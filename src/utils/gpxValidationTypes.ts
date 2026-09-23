@@ -35,6 +35,8 @@ export type GpxPoint = {
   longitude: number
   elevationText?: string
   timeText?: string
+  heartRateText?: string
+  cadenceText?: string
 } | null
 
 export type GpxSegment = {

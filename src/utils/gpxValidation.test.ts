@@ -86,6 +86,21 @@ describe('GPX XML validation', () => {
     ])
   })
 
+  it('preserves Garmin heart-rate and cadence samples from track-point extensions', () => {
+    const extensions = [
+      ['v1', 'http://www.garmin.com/xmlschemas/TrackPointExtension/v1'],
+      ['v2', 'http://www.garmin.com/xmlschemas/TrackPointExtension/v2'],
+    ].map(([version, namespace]) =>
+      `<trkpt lat="52.5" lon="13.4"><extensions><${version}:TrackPointExtension xmlns:${version}="${namespace}"><${version}:hr>147</${version}:hr><${version}:cad>82</${version}:cad></${version}:TrackPointExtension></extensions></trkpt>`,
+    ).join('')
+    const result = parse(trackXml(extensions))
+
+    expect(result.activities[0]?.segments[0]?.points).toEqual([
+      { latitude: 52.5, longitude: 13.4, heartRateText: '147', cadenceText: '82' },
+      { latitude: 52.5, longitude: 13.4, heartRateText: '147', cadenceText: '82' },
+    ])
+  })
+
   it('marks invalid coordinates as fragment breaks without bridging them', () => {
     const result = parse(trackXml(`${point()}${point('91', '13.4')}${point('51', '181')}${point('52', '13')}`))
     expect(result.pointCount).toBe(4)
