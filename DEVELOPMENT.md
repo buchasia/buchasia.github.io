@@ -11,6 +11,21 @@ npm run dev
 
 The local site is available at `http://localhost:4321`.
 
+## GPX extension support
+
+The bounded GPX parser reads heart-rate and cadence samples from Garmin
+TrackPointExtension v1/v2 and ClueTrust GPXData. ClueTrust values must be
+direct children of a GPX 1.0/1.1 `<trkpt><extensions>` element, in the
+`http://www.cluetrust.com/XML/GPXDATA/1/0` namespace: `hr` maps to heart rate
+and `cadence` maps to cadence. Other ClueTrust elements are ignored.
+
+Unqualified or otherwise unknown extension fields are not interpreted. The
+parser does not fetch the linked schema or any other network resources, and
+GPX files are processed locally in the browser.
+
+References: [ClueTrust GPXData schema](https://www.cluetrust.com/Schemas/gpxdata10.xsd)
+and [Strava's GPX upload format notes](https://developers.strava.com/docs/uploads/).
+
 After changing the Astro configuration or Markdown pipeline, restart the
 development server:
 

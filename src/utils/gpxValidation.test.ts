@@ -116,6 +116,32 @@ describe('GPX XML validation', () => {
     ])
   })
 
+  it('preserves ClueTrust heart-rate and cadence from direct track-point extension fields', () => {
+    const clueTrust = 'http://www.cluetrust.com/XML/GPXDATA/1/0'
+    const result = parse(trackXml([
+      `<trkpt lat="52.5" lon="13.4"><extensions><gpxdata:hr xmlns:gpxdata="${clueTrust}">147</gpxdata:hr><gpxdata:cadence xmlns:gpxdata="${clueTrust}">82</gpxdata:cadence></extensions></trkpt>`,
+      `<trkpt lat="52.6" lon="13.5"><extensions><gpxdata:hr xmlns:gpxdata="${clueTrust}">151</gpxdata:hr></extensions></trkpt>`,
+      `<trkpt lat="52.7" lon="13.6"><extensions><gpxdata:cadence xmlns:gpxdata="${clueTrust}">84</gpxdata:cadence></extensions></trkpt>`,
+    ].join('')))
+
+    expect(result.activities[0]?.segments[0]?.points).toEqual([
+      { latitude: 52.5, longitude: 13.4, heartRateText: '147', cadenceText: '82' },
+      { latitude: 52.6, longitude: 13.5, heartRateText: '151' },
+      { latitude: 52.7, longitude: 13.6, cadenceText: '84' },
+    ])
+  })
+
+  it('ignores unrecognized namespaces, generic fields, and ClueTrust fields outside the supported path', () => {
+    const clueTrust = 'http://www.cluetrust.com/XML/GPXDATA/1/0'
+    const result = parse(trackXml(point('52.5', '13.4', [
+      '<extensions><x:hr xmlns:x="https://example.test/extensions">147</x:hr><x:cadence xmlns:x="https://example.test/extensions">82</x:cadence></extensions>',
+      '<extensions><heartrate>148</heartrate><cadence>83</cadence></extensions>',
+      `<extensions><wrapper xmlns:gpxdata="${clueTrust}"><gpxdata:hr>149</gpxdata:hr><gpxdata:cadence>85</gpxdata:cadence></wrapper></extensions>`,
+    ].join(''))))
+
+    expect(result.activities[0]?.segments[0]?.points).toEqual([{ latitude: 52.5, longitude: 13.4 }])
+  })
+
   it('does not treat similarly named non-Garmin extension fields as Garmin metrics', () => {
     const otherVendorPoint = point('52.5', '13.4',
       '<extensions><x:TrackPointExtension xmlns:x="https://example.test/extensions"><x:hr>147</x:hr><x:cad>82</x:cad></x:TrackPointExtension></extensions>',

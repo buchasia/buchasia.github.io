@@ -11,6 +11,7 @@ const trackPointExtensionNamespaces = new Set([
   'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
   'http://www.garmin.com/xmlschemas/TrackPointExtension/v2',
 ])
+const clueTrustNamespace = 'http://www.cluetrust.com/XML/GPXDATA/1/0'
 
 // SAX delivers a point's attributes and child elements at different times, so collect them
 // here and emit the normalized GPX point only when its closing tag arrives.
@@ -25,7 +26,7 @@ type MutablePoint = {
 
 type Capture = {
   // One text element is captured at a time; MutablePoint accumulates all optional fields.
-  tag: 'name' | 'ele' | 'time' | 'hr' | 'cad'
+  tag: 'name' | 'ele' | 'time' | 'hr' | 'cad' | 'cadence'
   chunks: string[]
   point?: MutablePoint
   activity?: GpxActivity
@@ -52,6 +53,7 @@ export class GpxStreamValidator {
     isGpx: boolean
     isTrackPointExtension: boolean
     isTrackPointMetric: boolean
+    isClueTrustMetric: boolean
   }> = []
   private readonly activities: GpxActivity[] = []
   private rootNamespace = ''
@@ -124,6 +126,15 @@ export class GpxStreamValidator {
     const isTrackPointMetric = Boolean(
       parent?.isTrackPointExtension && parent.namespace === uri && (name === 'hr' || name === 'cad'),
     )
+    const trackPoint = this.stack.at(-2)
+    const isClueTrustMetric = Boolean(
+      uri === clueTrustNamespace
+      && (name === 'hr' || name === 'cadence')
+      && parent?.name === 'extensions'
+      && parent.namespace === this.rootNamespace
+      && trackPoint?.name === 'trkpt'
+      && trackPoint.namespace === this.rootNamespace,
+    )
 
     if (this.depth >= GPX_LIMITS.maxXmlDepth) throw new GpxValidationError('xmlTooDeep')
     if (this.depth === 0) {
@@ -150,11 +161,13 @@ export class GpxStreamValidator {
       this.capture = { tag: name, chunks: [], point: this.currentPoint }
     } else if (isTrackPointMetric && this.currentPoint) {
       this.capture = { tag: name === 'hr' ? 'hr' : 'cad', chunks: [], point: this.currentPoint }
+    } else if (isClueTrustMetric && this.currentPoint) {
+      this.capture = { tag: name === 'hr' ? 'hr' : 'cadence', chunks: [], point: this.currentPoint }
     } else if (isGpx && name === 'name' && this.currentActivity && parent?.name === (this.currentActivity.kind === 'track' ? 'trk' : 'rte')) {
       this.capture = { tag: 'name', chunks: [], activity: this.currentActivity }
     }
 
-    this.stack.push({ name, namespace: uri, isGpx, isTrackPointExtension, isTrackPointMetric })
+    this.stack.push({ name, namespace: uri, isGpx, isTrackPointExtension, isTrackPointMetric, isClueTrustMetric })
     this.depth += 1
   }
 
@@ -182,13 +195,13 @@ export class GpxStreamValidator {
   private close(rawName: string) {
     const name = rawName.includes(':') ? rawName.slice(rawName.lastIndexOf(':') + 1) : rawName
     const current = this.stack.at(-1)
-    if ((current?.isGpx || current?.isTrackPointMetric) && this.capture?.tag === name) {
+    if ((current?.isGpx || current?.isTrackPointMetric || current?.isClueTrustMetric) && this.capture?.tag === name) {
       const text = this.capture.chunks.join('').trim()
       if (this.capture.point) {
         if (name === 'ele') this.capture.point.elevationText = text
         else if (name === 'time') this.capture.point.timeText = text
         else if (name === 'hr') this.capture.point.heartRateText = text
-        else if (name === 'cad') this.capture.point.cadenceText = text
+        else if (name === 'cad' || name === 'cadence') this.capture.point.cadenceText = text
       } else if (this.capture.activity && name === 'name' && text) {
         this.capture.activity.name = text
       }
