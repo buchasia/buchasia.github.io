@@ -19,6 +19,7 @@ const de = lang === 'de'
 </section>
 <script>
   import { getArtworkDimensions, DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
+  import { getPosterLayout } from '../utils/artworkLayout'
   import { getArtworkTheme, DEFAULT_ARTWORK_THEME, type ArtworkTheme } from '../utils/artworkThemes'
   import { getArtworkTemplate, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplate } from '../utils/artworkTemplates'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
@@ -62,15 +63,18 @@ const de = lang === 'de'
     const render = () => {
       if (!selection || !svg || !artwork || !description) return
       const dimensions = getArtworkDimensions(settings)
-      const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx, template.routePadding)
+      artwork.replaceChildren()
+      svg.setAttribute('viewBox', `0 0 ${dimensions.widthPx} ${dimensions.heightPx}`)
+      svg.style.backgroundColor = theme.background
+      const statisticKeys: GpxVisibleStatistic[] = ['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime']
+      const selectedStatisticKeys = statisticKeys.filter(key => visibleStatistics.has(key))
+      const layout = getPosterLayout({ width: dimensions.widthPx, height: dimensions.heightPx, routePadding: template.routePadding, hasTitle: Boolean(settings.title.trim()), statisticCount: selectedStatisticKeys.length, statisticColumns: template.statisticsColumns })
+      const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx, layout.routePadding)
       if (!projection.hasDrawableRoute) {
         setStatus(locale === 'de' ? 'Für die Vorschau werden mindestens zwei verschiedene Punkte in einem sichtbaren Fragment benötigt.' : 'The preview needs at least two distinct points in one visible fragment.')
         if (meta) meta.textContent = ''
         return
       }
-      artwork.replaceChildren()
-      svg.setAttribute('viewBox', `0 0 ${dimensions.widthPx} ${dimensions.heightPx}`)
-      svg.style.backgroundColor = theme.background
       const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: theme.background })
       artwork.appendChild(background)
       const routeGroup = create('g', { fill: 'none', stroke: theme.routeColor, 'stroke-width': String(Math.max(dimensions.widthPx / 180, 8)), 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
@@ -80,7 +84,10 @@ const de = lang === 'de'
       })
       artwork.appendChild(routeGroup)
       const textGroup = create('g', { fill: theme.textColor }) as SVGGElement
-      if (settings.title.trim()) addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, dimensions.heightPx * template.titleY, dimensions.widthPx / 20, theme.textColor, '600')
+      if (settings.title.trim()) {
+        addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, layout.headerY, dimensions.widthPx / 24, theme.textColor, '600')
+        textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.88), y1: String(layout.headerRuleY), y2: String(layout.headerRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: '0.45' }))
+      }
       const stats = calculateGpxStatistics(selection.gpx, selection.option)
       const unit = settings.distanceUnit as GpxDistanceUnit
       const values: Partial<Record<GpxVisibleStatistic, string>> = {
@@ -93,14 +100,17 @@ const de = lang === 'de'
         startTime: stats.startTimeMs === undefined ? unavailable : formatGpxDateTime(stats.startTimeMs, locale),
         endTime: stats.endTimeMs === undefined ? unavailable : formatGpxDateTime(stats.endTimeMs, locale),
       }
-      const statisticKeys: GpxVisibleStatistic[] = ['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime']
-      statisticKeys.filter(key => visibleStatistics.has(key)).forEach((key, index) => {
-        const column = index % 2
-        const row = Math.floor(index / 2)
-        const x = dimensions.widthPx * (column ? 0.62 : 0.12)
-        const y = dimensions.heightPx * template.statisticsY + row * dimensions.heightPx / 28
-        addText(textGroup, labels[key], x, y, dimensions.widthPx / 105, theme.statisticColor, '400')
-        addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 42, dimensions.widthPx / 62, theme.statisticColor, '600')
+      if (selectedStatisticKeys.length) {
+        textGroup.appendChild(create('rect', { x: String(dimensions.widthPx * 0.09), y: String(layout.statisticsRuleY + 28), width: String(dimensions.widthPx * 0.82), height: String(dimensions.heightPx - layout.statisticsRuleY - 110), fill: theme.background, opacity: '0.88' }))
+        textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.88), y1: String(layout.statisticsRuleY), y2: String(layout.statisticsRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: '0.45' }))
+      }
+      selectedStatisticKeys.forEach((key, index) => {
+        const column = index % template.statisticsColumns
+        const row = Math.floor(index / template.statisticsColumns)
+        const x = template.statisticsColumns === 1 ? dimensions.widthPx * 0.12 : dimensions.widthPx * (column ? 0.57 : 0.12)
+        const y = layout.statisticsY + row * layout.statisticsRowHeight
+        addText(textGroup, labels[key], x, y, dimensions.widthPx / 115, theme.statisticColor, '400')
+        addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 48, dimensions.widthPx / 68, theme.statisticColor, '600')
       })
       artwork.appendChild(textGroup)
       const scaleGroup = create('g', { stroke: theme.textColor, fill: theme.textColor }) as SVGGElement
