@@ -12,41 +12,43 @@ const themeLabels: Record<ArtworkThemeId, string> = { paper: labels.paper, night
 ---
 <fieldset class="theme-picker" data-artwork-theme-picker data-locale={lang}>
   <legend>{labels.legend}</legend>
-  <div class="theme-options">
+  <label class="picker-label" for={`artwork-theme-${lang}`}>{labels.legend}</label>
+  <div class="theme-select-row">
+    <select id={`artwork-theme-${lang}`} name={`artwork-theme-${lang}`} data-artwork-theme-select>
     {Object.values(ARTWORK_THEMES).map(theme => (
-      <label class="theme-option" data-theme-option={theme.id}>
-        <input type="radio" name={`artwork-theme-${lang}`} value={theme.id} checked={theme.id === DEFAULT_ARTWORK_THEME} />
-        <span class="theme-swatch" aria-hidden="true" style={`background:${theme.background};border-color:${theme.textColor};`}><span style={`background:${theme.routeColor};`}></span></span>
-        <span class="theme-name">{themeLabels[theme.id]}</span>
-      </label>
+      <option value={theme.id} selected={theme.id === DEFAULT_ARTWORK_THEME}>{themeLabels[theme.id]}</option>
     ))}
+    </select>
+    <span class="theme-swatch" data-theme-swatch aria-hidden="true"><span></span></span>
   </div>
 </fieldset>
 <script>
   import { getArtworkTheme, type ArtworkThemeId } from '../utils/artworkThemes'
 
   document.querySelectorAll<HTMLElement>('[data-artwork-theme-picker]').forEach((picker) => {
+    const select = picker.querySelector<HTMLSelectElement>('[data-artwork-theme-select]')
+    const swatch = picker.querySelector<HTMLElement>('[data-theme-swatch]')
     const announce = (themeId: string) => {
       const theme = getArtworkTheme(themeId)
       picker.dispatchEvent(new CustomEvent('artworkthemechange', { bubbles: true, detail: theme }))
       picker.dataset.selectedTheme = theme.id
+      if (swatch) {
+        swatch.style.background = theme.background
+        swatch.style.borderColor = theme.textColor
+        const routeSwatch = swatch.querySelector<HTMLElement>('span')
+        if (routeSwatch) routeSwatch.style.background = theme.routeColor
+      }
     }
-    picker.addEventListener('change', (event) => {
-      const input = (event.target as HTMLInputElement).closest('input[type="radio"]') as HTMLInputElement | null
-      if (input) announce(input.value as ArtworkThemeId)
-    })
-    const selected = picker.querySelector<HTMLInputElement>('input:checked')
-    if (selected) announce(selected.value)
+    select?.addEventListener('change', () => announce(select.value as ArtworkThemeId))
+    if (select) announce(select.value)
   })
 </script>
 <style>
   .theme-picker { margin:28px 0 0; padding:0; border:0; }
   .theme-picker legend { margin-bottom:12px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
-  .theme-options { display:flex; flex-wrap:wrap; gap:10px; }
-  .theme-option { display:flex; align-items:center; gap:9px; padding:9px 12px; border:1px solid var(--line); color:var(--muted); cursor:pointer; font-size:var(--font-size-small); }
-  .theme-option:has(input:checked) { border-color:var(--accent); color:var(--ink); }
-  .theme-option input { position:absolute; opacity:0; }
-  .theme-option input:focus-visible + .theme-swatch { outline:2px solid var(--accent); outline-offset:3px; }
+  .picker-label { display:block; margin-bottom:6px; color:var(--muted); font-size:var(--font-size-label); }
+  .theme-select-row { display:flex; align-items:center; gap:10px; }
+  .theme-select-row select { flex:1; }
   .theme-swatch { display:grid; place-items:center; width:24px; height:24px; border:2px solid; border-radius:50%; }
   .theme-swatch span { width:10px; height:10px; border-radius:50%; }
 </style>
