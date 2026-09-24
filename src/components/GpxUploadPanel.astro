@@ -6,10 +6,10 @@ const { lang } = Astro.props
 const de = lang === 'de'
 const labels = de
   ? {
-    choose: 'GPX-Datei auswählen', drop: 'oder hierher ziehen', hint: 'Nur GPX-Dateien, maximal 20 MiB.', reset: 'Datei entfernen', selected: 'Ausgewählte Datei', processing: 'GPX-Datei wird verarbeitet …', ready: 'GPX-Datei erfolgreich verarbeitet.', activities: 'Aktivitäten', points: 'Punkte', invalid: 'Verworfene Koordinaten', route: 'Route auswählen', noFile: 'Noch keine Datei ausgewählt.',
+    choose: 'GPX-Datei auswählen', drop: 'oder hierher ziehen', hint: 'Nur GPX-Dateien, maximal 20 MiB.', reset: 'Datei entfernen', selected: 'Ausgewählte Datei', processing: 'GPX-Datei wird verarbeitet …', ready: 'GPX-Datei erfolgreich verarbeitet.', activities: 'Aktivitäten', points: 'Punkte', invalid: 'Verworfene Koordinaten', route: 'Route auswählen', statistics: 'Routenstatistiken', distance: 'Distanz', recordedTime: 'Aufgezeichnete Zeit', pace: 'Tempo', gain: 'Höhenmeter (Schätzung)', loss: 'Höhenverlust (Schätzung)', range: 'Höhenbereich', start: 'Start (UTC)', end: 'Ende (UTC)', units: 'Einheiten', metric: 'Kilometer / Meter', imperial: 'Meilen / Fuß', noValue: '—', noFile: 'Noch keine Datei ausgewählt.',
   }
   : {
-    choose: 'Choose a GPX file', drop: 'or drop it here', hint: 'GPX files only, up to 20 MiB.', reset: 'Remove file', selected: 'Selected file', processing: 'Processing GPX file …', ready: 'GPX file processed successfully.', activities: 'Activities', points: 'Points', invalid: 'Discarded coordinates', route: 'Choose route', noFile: 'No file selected yet.',
+    choose: 'Choose a GPX file', drop: 'or drop it here', hint: 'GPX files only, up to 20 MiB.', reset: 'Remove file', selected: 'Selected file', processing: 'Processing GPX file …', ready: 'GPX file processed successfully.', activities: 'Activities', points: 'Points', invalid: 'Discarded coordinates', route: 'Choose route', statistics: 'Route statistics', distance: 'Distance', recordedTime: 'Recorded time', pace: 'Pace', gain: 'Elevation gain (estimate)', loss: 'Elevation loss (estimate)', range: 'Elevation range', start: 'Start (UTC)', end: 'End (UTC)', units: 'Units', metric: 'Kilometres / metres', imperial: 'Miles / feet', noValue: '—', noFile: 'No file selected yet.',
   }
 ---
 <section class="gpx-upload" data-gpx-upload data-locale={lang} aria-labelledby={`gpx-upload-title-${lang}`}>
@@ -31,12 +31,26 @@ const labels = de
     </dl>
     <label class="gpx-route-label" for={`gpx-route-${lang}`}>{labels.route}</label>
     <select id={`gpx-route-${lang}`} class="gpx-route-select" data-gpx-route-select></select>
+    <div class="gpx-statistics" data-gpx-statistics>
+      <div class="gpx-statistics-heading"><h3>{labels.statistics}</h3><label for={`gpx-units-${lang}`}>{labels.units}</label><select id={`gpx-units-${lang}`} data-gpx-units><option value="metric">{labels.metric}</option><option value="imperial">{labels.imperial}</option></select></div>
+      <dl>
+        <div><dt>{labels.distance}</dt><dd data-gpx-stat-distance>{labels.noValue}</dd></div>
+        <div><dt>{labels.recordedTime}</dt><dd data-gpx-stat-time>{labels.noValue}</dd></div>
+        <div><dt>{labels.pace}</dt><dd data-gpx-stat-pace>{labels.noValue}</dd></div>
+        <div><dt>{labels.gain}</dt><dd data-gpx-stat-gain>{labels.noValue}</dd></div>
+        <div><dt>{labels.loss}</dt><dd data-gpx-stat-loss>{labels.noValue}</dd></div>
+        <div><dt>{labels.range}</dt><dd data-gpx-stat-range>{labels.noValue}</dd></div>
+        <div><dt>{labels.start}</dt><dd data-gpx-stat-start>{labels.noValue}</dd></div>
+        <div><dt>{labels.end}</dt><dd data-gpx-stat-end>{labels.noValue}</dd></div>
+      </dl>
+    </div>
     <button type="button" class="gpx-reset" data-gpx-reset>{labels.reset}</button>
   </div>
 </section>
 <script>
   import { getGpxValidationMessage } from '../utils/gpxValidationMessages'
   import { getDefaultGpxRouteSelection, getGpxRouteSelectionOptions, type GpxRouteSelectionOption } from '../utils/gpxRouteSelection'
+  import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
   import type { GpxMessageLocale, GpxValidationErrorCode, ValidatedGpx } from '../utils/gpxValidationTypes'
 
   type WorkerResponse = {
@@ -58,10 +72,21 @@ const labels = de
     const points = panel.querySelector<HTMLElement>('[data-gpx-points]')
     const invalid = panel.querySelector<HTMLElement>('[data-gpx-invalid]')
     const routeSelect = panel.querySelector<HTMLSelectElement>('[data-gpx-route-select]')
+    const units = panel.querySelector<HTMLSelectElement>('[data-gpx-units]')
+    const statistics = panel.querySelector<HTMLElement>('[data-gpx-statistics]')
+    const statDistance = panel.querySelector<HTMLElement>('[data-gpx-stat-distance]')
+    const statTime = panel.querySelector<HTMLElement>('[data-gpx-stat-time]')
+    const statPace = panel.querySelector<HTMLElement>('[data-gpx-stat-pace]')
+    const statGain = panel.querySelector<HTMLElement>('[data-gpx-stat-gain]')
+    const statLoss = panel.querySelector<HTMLElement>('[data-gpx-stat-loss]')
+    const statRange = panel.querySelector<HTMLElement>('[data-gpx-stat-range]')
+    const statStart = panel.querySelector<HTMLElement>('[data-gpx-stat-start]')
+    const statEnd = panel.querySelector<HTMLElement>('[data-gpx-stat-end]')
     let worker = new Worker(new URL('../workers/gpxValidation.worker.ts', import.meta.url), { type: 'module' })
     let requestNumber = 0
     let parsedGpx: ValidatedGpx | undefined
     let selectionOptions: GpxRouteSelectionOption[] = []
+    let currentSelection: GpxRouteSelectionOption | undefined
 
     const hideError = () => {
       if (error) { error.hidden = true; error.textContent = '' }
@@ -83,12 +108,27 @@ const labels = de
       if (points) points.textContent = '0'
       if (invalid) invalid.textContent = '0'
       if (routeSelect) routeSelect.replaceChildren()
+      if (statistics) statistics.hidden = true
       parsedGpx = undefined
       selectionOptions = []
+      currentSelection = undefined
     }
     const renderSelection = (option: GpxRouteSelectionOption | undefined) => {
       if (!parsedGpx || !option) return
+      currentSelection = option
       if (points) points.textContent = String(option.usablePointCount)
+      const stats = calculateGpxStatistics(parsedGpx, option)
+      const unit = (units?.value ?? 'metric') as GpxDistanceUnit
+      const noValue = locale === 'de' ? '—' : '—'
+      if (statDistance) statDistance.textContent = formatGpxDistance(stats.distanceMeters, unit)
+      if (statTime) statTime.textContent = stats.recordedTimeSeconds === undefined ? noValue : formatGpxDuration(stats.recordedTimeSeconds)
+      if (statPace) statPace.textContent = stats.paceSecondsPerKm === undefined ? noValue : formatGpxPace(stats.paceSecondsPerKm, unit)
+      if (statGain) statGain.textContent = stats.elevationGainMeters === undefined ? noValue : formatGpxElevation(stats.elevationGainMeters, unit)
+      if (statLoss) statLoss.textContent = stats.elevationLossMeters === undefined ? noValue : formatGpxElevation(stats.elevationLossMeters, unit)
+      if (statRange) statRange.textContent = stats.minimumElevationMeters === undefined || stats.maximumElevationMeters === undefined ? noValue : `${formatGpxElevation(stats.minimumElevationMeters, unit)} – ${formatGpxElevation(stats.maximumElevationMeters, unit)}`
+      if (statStart) statStart.textContent = stats.startTimeMs === undefined ? noValue : formatGpxDateTime(stats.startTimeMs, locale)
+      if (statEnd) statEnd.textContent = stats.endTimeMs === undefined ? noValue : formatGpxDateTime(stats.endTimeMs, locale)
+      if (statistics) statistics.hidden = false
       panel.dispatchEvent(new CustomEvent('gpxselectionchange', { bubbles: true, detail: { gpx: parsedGpx, option } }))
     }
     const renderRouteOptions = () => {
@@ -149,6 +189,7 @@ const labels = de
     })
     reset?.addEventListener('click', resetPanel)
     routeSelect?.addEventListener('change', () => renderSelection(selectionOptions.find(option => option.id === routeSelect.value)))
+    units?.addEventListener('change', () => renderSelection(currentSelection))
   })
 </script>
 <style>
@@ -170,6 +211,13 @@ const labels = de
   .gpx-route-label { display:block; margin:0 0 7px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
   .gpx-route-select { width:100%; margin-bottom:18px; padding:10px 12px; border:1px solid var(--line); border-radius:0; background:var(--paper); color:var(--ink); font:inherit; }
   .gpx-route-select:focus { outline:2px solid var(--accent); outline-offset:2px; }
+  .gpx-statistics { margin:0 0 18px; padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .gpx-statistics-heading { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .gpx-statistics-heading h3 { margin:0 auto 0 0; color:var(--ink); font-size:var(--font-size-small); }
+  .gpx-statistics-heading label { color:var(--muted); font-size:var(--font-size-label); }
+  .gpx-statistics-heading select { padding:5px 8px; border:1px solid var(--line); background:var(--paper); color:var(--ink); font:inherit; font-size:var(--font-size-label); }
+  .gpx-statistics dl { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px 22px; margin:0; }
+  .gpx-statistics dd { max-width:100%; overflow-wrap:anywhere; }
   .gpx-reset { padding:9px 13px; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; font:inherit; font-size:var(--font-size-small); }
   .gpx-reset:hover { border-color:var(--accent); color:var(--accent); }
 </style>
