@@ -1,0 +1,140 @@
+---
+import type { Lang } from '../utils/i18n'
+
+type Props = { lang: Lang }
+const { lang } = Astro.props
+const de = lang === 'de'
+const labels = de
+  ? {
+    choose: 'GPX-Datei auswählen', drop: 'oder hierher ziehen', hint: 'Nur GPX-Dateien, maximal 20 MiB.', reset: 'Datei entfernen', selected: 'Ausgewählte Datei', processing: 'GPX-Datei wird verarbeitet …', ready: 'GPX-Datei erfolgreich verarbeitet.', activities: 'Aktivitäten', points: 'Punkte', invalid: 'Verworfene Koordinaten', noFile: 'Noch keine Datei ausgewählt.',
+  }
+  : {
+    choose: 'Choose a GPX file', drop: 'or drop it here', hint: 'GPX files only, up to 20 MiB.', reset: 'Remove file', selected: 'Selected file', processing: 'Processing GPX file …', ready: 'GPX file processed successfully.', activities: 'Activities', points: 'Points', invalid: 'Discarded coordinates', noFile: 'No file selected yet.',
+  }
+---
+<section class="gpx-upload" data-gpx-upload data-locale={lang} aria-labelledby={`gpx-upload-title-${lang}`}>
+  <h2 id={`gpx-upload-title-${lang}`}>{de ? 'GPX-Route laden' : 'Load a GPX route'}</h2>
+  <p class="gpx-upload-hint">{labels.hint}</p>
+  <label class="gpx-dropzone" data-gpx-dropzone>
+    <input type="file" accept=".gpx,application/gpx+xml" data-gpx-file-input />
+    <span class="gpx-dropzone-title">{labels.choose}</span>
+    <span class="gpx-dropzone-subtitle">{labels.drop}</span>
+  </label>
+  <div class="gpx-status" data-gpx-status aria-live="polite">{labels.noFile}</div>
+  <p class="gpx-error" data-gpx-error role="alert" hidden></p>
+  <div class="gpx-result" data-gpx-result hidden>
+    <p><strong>{labels.selected}:</strong> <span data-gpx-filename></span></p>
+    <dl>
+      <div><dt>{labels.activities}</dt><dd data-gpx-activities>0</dd></div>
+      <div><dt>{labels.points}</dt><dd data-gpx-points>0</dd></div>
+      <div><dt>{labels.invalid}</dt><dd data-gpx-invalid>0</dd></div>
+    </dl>
+    <button type="button" class="gpx-reset" data-gpx-reset>{labels.reset}</button>
+  </div>
+</section>
+<script>
+  import { getGpxValidationMessage } from '../utils/gpxValidationMessages'
+  import type { GpxMessageLocale, GpxValidationErrorCode, ValidatedGpx } from '../utils/gpxValidationTypes'
+
+  type WorkerResponse = {
+    requestId: string
+    result?: ValidatedGpx
+    error?: { code: GpxValidationErrorCode; message: string }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-gpx-upload]').forEach((panel) => {
+    const locale = panel.dataset.locale as GpxMessageLocale
+    const input = panel.querySelector<HTMLInputElement>('[data-gpx-file-input]')
+    const dropzone = panel.querySelector<HTMLElement>('[data-gpx-dropzone]')
+    const status = panel.querySelector<HTMLElement>('[data-gpx-status]')
+    const error = panel.querySelector<HTMLElement>('[data-gpx-error]')
+    const result = panel.querySelector<HTMLElement>('[data-gpx-result]')
+    const reset = panel.querySelector<HTMLButtonElement>('[data-gpx-reset]')
+    const filename = panel.querySelector<HTMLElement>('[data-gpx-filename]')
+    const activities = panel.querySelector<HTMLElement>('[data-gpx-activities]')
+    const points = panel.querySelector<HTMLElement>('[data-gpx-points]')
+    const invalid = panel.querySelector<HTMLElement>('[data-gpx-invalid]')
+    let worker = new Worker(new URL('../workers/gpxValidation.worker.ts', import.meta.url), { type: 'module' })
+    let requestNumber = 0
+
+    const hideError = () => {
+      if (error) { error.hidden = true; error.textContent = '' }
+    }
+    const showError = (message: string) => {
+      if (error) { error.hidden = false; error.textContent = message }
+      if (status) status.textContent = ''
+    }
+    const cancelCurrent = () => {
+      requestNumber += 1
+      worker.postMessage({ type: 'cancel', requestId: String(requestNumber - 1) })
+      worker.terminate()
+      worker = new Worker(new URL('../workers/gpxValidation.worker.ts', import.meta.url), { type: 'module' })
+    }
+    const clearResult = () => {
+      if (result) result.hidden = true
+      if (filename) filename.textContent = ''
+      if (activities) activities.textContent = '0'
+      if (points) points.textContent = '0'
+      if (invalid) invalid.textContent = '0'
+    }
+    const resetPanel = () => {
+      cancelCurrent()
+      clearResult()
+      hideError()
+      if (input) input.value = ''
+      if (status) status.textContent = locale === 'de' ? 'Noch keine Datei ausgewählt.' : 'No file selected yet.'
+    }
+    const process = (file: File) => {
+      cancelCurrent()
+      const requestId = String(requestNumber)
+      hideError()
+      clearResult()
+      if (status) status.textContent = locale === 'de' ? 'GPX-Datei wird verarbeitet …' : 'Processing GPX file …'
+      worker.onmessage = ({ data }: MessageEvent<WorkerResponse>) => {
+        if (data.requestId !== requestId || requestId !== String(requestNumber)) return
+        if (data.error) {
+          showError(data.error.message || getGpxValidationMessage(data.error.code, locale))
+          return
+        }
+        if (!data.result) return
+        if (filename) filename.textContent = file.name
+        if (activities) activities.textContent = String(data.result.activities.length)
+        if (points) points.textContent = String(data.result.usablePointCount)
+        if (invalid) invalid.textContent = String(data.result.invalidCoordinateCount)
+        if (result) result.hidden = false
+        if (status) status.textContent = locale === 'de' ? 'GPX-Datei erfolgreich verarbeitet.' : 'GPX file processed successfully.'
+        panel.dispatchEvent(new CustomEvent('gpxroutechange', { bubbles: true, detail: data.result }))
+      }
+      worker.postMessage({ type: 'parse', requestId, file, locale })
+    }
+    input?.addEventListener('change', () => { const file = input.files?.[0]; if (file) process(file) })
+    dropzone?.addEventListener('dragover', (event) => { event.preventDefault(); dropzone.dataset.dragging = 'true' })
+    dropzone?.addEventListener('dragleave', () => { delete dropzone.dataset.dragging })
+    dropzone?.addEventListener('drop', (event) => {
+      event.preventDefault()
+      delete dropzone.dataset.dragging
+      const file = event.dataTransfer?.files[0]
+      if (file) process(file)
+    })
+    reset?.addEventListener('click', resetPanel)
+  })
+</script>
+<style>
+  .gpx-upload { max-width:680px; margin-top:36px; padding:24px; border:1px solid var(--line); background:var(--wash); }
+  .gpx-upload h2 { margin:0 0 8px; }
+  .gpx-upload-hint { margin:0 0 18px; color:var(--muted); font-size:var(--font-size-small); }
+  .gpx-dropzone { display:grid; place-items:center; gap:7px; min-height:150px; padding:24px; border:1px dashed var(--accent); text-align:center; cursor:pointer; }
+  .gpx-dropzone[data-dragging="true"], .gpx-dropzone:hover { background:var(--paper); }
+  .gpx-dropzone input { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .gpx-dropzone input:focus-visible + .gpx-dropzone-title { outline:2px solid var(--accent); outline-offset:4px; }
+  .gpx-dropzone-title { color:var(--ink); font-weight:700; }
+  .gpx-dropzone-subtitle, .gpx-status, .gpx-result, .gpx-upload dt { color:var(--muted); font-size:var(--font-size-small); }
+  .gpx-status { min-height:1.5em; margin-top:16px; }
+  .gpx-error { margin:8px 0 0; color:#ff9f9f; font-size:var(--font-size-small); }
+  .gpx-result { padding-top:16px; border-top:1px solid var(--line); }
+  .gpx-result p { margin:0 0 14px; color:var(--ink); overflow-wrap:anywhere; }
+  .gpx-result dl { display:flex; flex-wrap:wrap; gap:18px 28px; margin:0 0 18px; }
+  .gpx-result dd { margin:4px 0 0; color:var(--ink); font-weight:700; }
+  .gpx-reset { padding:9px 13px; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; font:inherit; font-size:var(--font-size-small); }
+  .gpx-reset:hover { border-color:var(--accent); color:var(--accent); }
+</style>

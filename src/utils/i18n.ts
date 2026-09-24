@@ -8,7 +8,7 @@ export const localizedPath = (lang: Lang, path: string) => (lang === DEFAULT_LAN
 
 const dictionaries = {
   en: {
-    nav: { posts: 'Posts', about: 'About', tags: 'Tags', search: 'Search', runs: 'Runs' },
+    nav: { posts: 'Posts', about: 'About', tags: 'Tags', search: 'Search', runs: 'Runs', visualizer: 'Visualizer' },
     footer: (year: number) => `Copyright © ${year} | All rights reserved.`,
     langSwitch: { label: 'DE', ariaLabel: 'Auf Deutsch lesen' },
     translationNotice: '',
@@ -53,7 +53,7 @@ const dictionaries = {
     dateLocale: 'en-US',
   },
   de: {
-    nav: { posts: 'Beiträge', about: 'Über mich', tags: 'Schlagwörter', search: 'Suche', runs: 'Läufe' },
+    nav: { posts: 'Beiträge', about: 'Über mich', tags: 'Schlagwörter', search: 'Suche', runs: 'Läufe', visualizer: 'Visualizer' },
     footer: (year: number) => `Copyright © ${year} | Alle Rechte vorbehalten.`,
     langSwitch: { label: 'EN', ariaLabel: 'Read in English' },
     translationNotice:

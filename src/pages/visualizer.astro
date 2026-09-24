@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import GpxUploadPanel from '../components/GpxUploadPanel.astro'
+---
+<BaseLayout title="Route visualizer" lang="en" altPath="/visualizer/">
+  <section class="about">
+    <p class="eyebrow">Route artwork</p>
+    <h1>Route visualizer</h1>
+    <p>Select a GPX file to process its route locally in your browser. The original file is never uploaded or stored.</p>
+    <GpxUploadPanel lang="en" />
+  </section>
+</BaseLayout>
