@@ -1,0 +1,129 @@
+---
+import type { Lang } from '../utils/i18n'
+
+type Props = { lang: Lang }
+const { lang } = Astro.props
+const de = lang === 'de'
+---
+<section class="route-preview" data-route-preview data-locale={lang} aria-labelledby={`route-preview-title-${lang}`}>
+  <h2 id={`route-preview-title-${lang}`}>{de ? 'Vorschau' : 'Preview'}</h2>
+  <p class="route-preview-status" data-preview-status aria-live="polite">{de ? 'Wähle eine GPX-Datei aus, um die Vorschau zu sehen.' : 'Choose a GPX file to see the preview.'}</p>
+  <div class="route-preview-frame" data-preview-frame hidden>
+    <svg data-preview-svg role="img" preserveAspectRatio="xMidYMid meet">
+      <title data-preview-svg-title>{de ? 'Routen-Artwork-Vorschau' : 'Route artwork preview'}</title>
+      <desc data-preview-svg-description></desc>
+      <g data-preview-artwork></g>
+    </svg>
+  </div>
+  <p class="route-preview-meta" data-preview-meta aria-live="polite"></p>
+</section>
+<script>
+  import { getArtworkDimensions, DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
+  import { getArtworkTheme, DEFAULT_ARTWORK_THEME, type ArtworkTheme } from '../utils/artworkThemes'
+  import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
+  import { DEFAULT_VISIBLE_STATISTICS, type GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
+  import { projectRoute } from '../utils/routeProjection'
+  import type { ValidatedGpx } from '../utils/gpxValidationTypes'
+  import type { GpxRouteSelectionOption } from '../utils/gpxRouteSelection'
+
+  type SelectionDetail = { gpx: ValidatedGpx; option: GpxRouteSelectionOption }
+  type SvgElement = SVGElement & { textContent: string | null }
+
+  document.querySelectorAll<HTMLElement>('[data-route-preview]').forEach((preview) => {
+    const locale = preview.dataset.locale === 'de' ? 'de' : 'en'
+    const status = preview.querySelector<HTMLElement>('[data-preview-status]')
+    const frame = preview.querySelector<HTMLElement>('[data-preview-frame]')
+    const svg = preview.querySelector<SVGSVGElement>('[data-preview-svg]')
+    const artwork = preview.querySelector<SVGGElement>('[data-preview-artwork]')
+    const description = preview.querySelector<SVGDescElement>('[data-preview-svg-description]')
+    const meta = preview.querySelector<HTMLElement>('[data-preview-meta]')
+    let selection: SelectionDetail | undefined
+    let theme: ArtworkTheme = getArtworkTheme(DEFAULT_ARTWORK_THEME)
+    let settings: ArtworkSettings = { ...DEFAULT_ARTWORK_SETTINGS }
+    let visibleStatistics = new Set<GpxVisibleStatistic>(DEFAULT_VISIBLE_STATISTICS)
+    const svgNamespace = 'http://www.w3.org/2000/svg'
+    const unavailable = locale === 'de' ? '—' : '—'
+    const labels = locale === 'de'
+      ? { distance: 'Distanz', recordedTime: 'Zeit', pace: 'Tempo', elevationGain: 'Höhenmeter', elevationLoss: 'Höhenverlust', elevationRange: 'Höhenbereich', startTime: 'Start', endTime: 'Ende', scale: 'Maßstab' }
+      : { distance: 'Distance', recordedTime: 'Time', pace: 'Pace', elevationGain: 'Elevation gain', elevationLoss: 'Elevation loss', elevationRange: 'Elevation range', startTime: 'Start', endTime: 'End', scale: 'Scale' }
+    const create = (name: string, attributes: Record<string, string>, text?: string): SvgElement => {
+      const element = document.createElementNS(svgNamespace, name) as SvgElement
+      Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value))
+      if (text !== undefined) element.textContent = text
+      return element
+    }
+    const addText = (group: SVGGElement, text: string, x: number, y: number, size: number, color: string, weight = '400') => group.appendChild(create('text', { x: String(x), y: String(y), fill: color, 'font-family': 'DM Sans, sans-serif', 'font-size': String(size), 'font-weight': weight }, text))
+    const setStatus = (message: string, hasPreview = false) => {
+      if (status) status.textContent = message
+      if (frame) frame.hidden = !hasPreview
+    }
+    const render = () => {
+      if (!selection || !svg || !artwork || !description) return
+      const dimensions = getArtworkDimensions(settings)
+      const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx)
+      if (!projection.hasDrawableRoute) {
+        setStatus(locale === 'de' ? 'Für die Vorschau werden mindestens zwei verschiedene Punkte in einem sichtbaren Fragment benötigt.' : 'The preview needs at least two distinct points in one visible fragment.')
+        if (meta) meta.textContent = ''
+        return
+      }
+      artwork.replaceChildren()
+      svg.setAttribute('viewBox', `0 0 ${dimensions.widthPx} ${dimensions.heightPx}`)
+      svg.style.backgroundColor = theme.background
+      const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: theme.background })
+      artwork.appendChild(background)
+      const routeGroup = create('g', { fill: 'none', stroke: theme.routeColor, 'stroke-width': String(Math.max(dimensions.widthPx / 180, 8)), 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
+      projection.paths.forEach(path => {
+        const d = path.map((point, index) => `${index ? 'L' : 'M'} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(' ')
+        routeGroup.appendChild(create('path', { d }))
+      })
+      artwork.appendChild(routeGroup)
+      const textGroup = create('g', { fill: theme.textColor }) as SVGGElement
+      if (settings.title.trim()) addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, dimensions.heightPx - 430, dimensions.widthPx / 20, theme.textColor, '600')
+      const stats = calculateGpxStatistics(selection.gpx, selection.option)
+      const unit = settings.distanceUnit as GpxDistanceUnit
+      const values: Partial<Record<GpxVisibleStatistic, string>> = {
+        distance: formatGpxDistance(stats.distanceMeters, unit),
+        recordedTime: stats.recordedTimeSeconds === undefined ? unavailable : formatGpxDuration(stats.recordedTimeSeconds),
+        pace: stats.paceSecondsPerKm === undefined ? unavailable : formatGpxPace(stats.paceSecondsPerKm, unit),
+        elevationGain: stats.elevationGainMeters === undefined ? unavailable : formatGpxElevation(stats.elevationGainMeters, unit),
+        elevationLoss: stats.elevationLossMeters === undefined ? unavailable : formatGpxElevation(stats.elevationLossMeters, unit),
+        elevationRange: stats.minimumElevationMeters === undefined || stats.maximumElevationMeters === undefined ? unavailable : `${formatGpxElevation(stats.minimumElevationMeters, unit)} – ${formatGpxElevation(stats.maximumElevationMeters, unit)}`,
+        startTime: stats.startTimeMs === undefined ? unavailable : formatGpxDateTime(stats.startTimeMs, locale),
+        endTime: stats.endTimeMs === undefined ? unavailable : formatGpxDateTime(stats.endTimeMs, locale),
+      }
+      const statisticKeys: GpxVisibleStatistic[] = ['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime']
+      statisticKeys.filter(key => visibleStatistics.has(key)).forEach((key, index) => {
+        const column = index % 2
+        const row = Math.floor(index / 2)
+        const x = dimensions.widthPx * (column ? 0.62 : 0.12)
+        const y = dimensions.heightPx - 300 - row * 100
+        addText(textGroup, labels[key], x, y, dimensions.widthPx / 105, theme.statisticColor, '400')
+        addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 42, dimensions.widthPx / 62, theme.statisticColor, '600')
+      })
+      artwork.appendChild(textGroup)
+      const scaleGroup = create('g', { stroke: theme.textColor, fill: theme.textColor }) as SVGGElement
+      const scaleWidth = dimensions.widthPx * 0.16
+      const scaleY = dimensions.heightPx - 150
+      scaleGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.12 + scaleWidth), y1: String(scaleY), y2: String(scaleY), stroke: theme.textColor, 'stroke-width': String(Math.max(dimensions.widthPx / 240, 6)) }))
+      addText(scaleGroup, `${labels.scale}: ${formatGpxDistance(projection.scaleKilometres * 1000, unit)}`, dimensions.widthPx * 0.12, scaleY - 25, dimensions.widthPx / 105, theme.textColor)
+      artwork.appendChild(scaleGroup)
+      const summary = locale === 'de' ? `Routen-Artwork mit ${projection.paths.length} sichtbaren Fragmenten, Thema ${theme.label}.` : `Route artwork with ${projection.paths.length} visible fragments, ${theme.label} theme.`
+      description.textContent = summary
+      svg.setAttribute('aria-label', summary)
+      setStatus('', true)
+      if (meta) meta.textContent = `${theme.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
+    }
+    document.addEventListener('gpxselectionchange', event => { selection = (event as CustomEvent<SelectionDetail>).detail; render() })
+    document.addEventListener('gpxvisiblemetricschange', event => { visibleStatistics = new Set((event as CustomEvent<string[]>).detail as GpxVisibleStatistic[]); render() })
+    document.addEventListener('artworkthemechange', event => { theme = (event as CustomEvent<ArtworkTheme>).detail; render() })
+    document.addEventListener('artworksettingschange', event => { settings = (event as CustomEvent<ArtworkSettings>).detail; render() })
+  })
+</script>
+<style>
+  .route-preview { margin-top:48px; }
+  .route-preview h2 { margin-bottom:8px; }
+  .route-preview-status, .route-preview-meta { color:var(--muted); font-size:var(--font-size-small); }
+  .route-preview-frame { display:grid; place-items:center; margin-top:18px; padding:24px; background:var(--wash); border:1px solid var(--line); }
+  .route-preview-frame svg { display:block; width:min(100%, 620px); height:auto; max-height:800px; border:1px solid var(--line); box-shadow:0 14px 35px #0005; }
+  .route-preview-meta { margin-top:12px; }
+</style>
