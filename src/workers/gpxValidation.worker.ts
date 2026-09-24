@@ -43,6 +43,7 @@ workerScope.addEventListener('message', ({ data }) => {
   void parseGpxFile(data.file, controller.signal).then(
     result => workerScope.postMessage({ requestId: data.requestId, result }),
     error => {
+      // Preserve specific validation messages; unclassified failures use the generic malformed-input message.
       const code = error instanceof GpxValidationError ? error.code : 'malformedXml'
       workerScope.postMessage({
         requestId: data.requestId,

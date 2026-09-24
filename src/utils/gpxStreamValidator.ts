@@ -5,11 +5,15 @@ const gpxNamespaces = new Set([
   'http://www.topografix.com/GPX/1/0',
   'http://www.topografix.com/GPX/1/1',
 ])
+// Phase 1 reads only the Garmin TrackPointExtension fields needed for heart rate and cadence.
+// Other vendor extension fields are not interpreted or retained.
 const trackPointExtensionNamespaces = new Set([
   'http://www.garmin.com/xmlschemas/TrackPointExtension/v1',
   'http://www.garmin.com/xmlschemas/TrackPointExtension/v2',
 ])
 
+// SAX delivers a point's attributes and child elements at different times, so collect them
+// here and emit the normalized GPX point only when its closing tag arrives.
 type MutablePoint = {
   latitude: number
   longitude: number
@@ -20,6 +24,7 @@ type MutablePoint = {
 }
 
 type Capture = {
+  // One text element is captured at a time; MutablePoint accumulates all optional fields.
   tag: 'name' | 'ele' | 'time' | 'hr' | 'cad'
   chunks: string[]
   point?: MutablePoint
@@ -64,10 +69,15 @@ export class GpxStreamValidator {
 
   constructor() {
     this.xml = createXmlParser(true, { xmlns: true, strictEntities: true } as SAXOptions & { strictEntities: boolean })
+    // SAX syntax errors become malformedXml; declarations that can load or define external
+    // content are rejected separately as unsafeXml.
     this.xml.onerror = () => { throw new GpxValidationError('malformedXml') }
+    // Reject DTDs so entity declarations or external DTD references cannot be used.
     this.xml.ondoctype = () => { throw new GpxValidationError('unsafeXml') }
+    // SGML declarations are outside the accepted GPX/XML input profile too.
     this.xml.onsgmldeclaration = () => { throw new GpxValidationError('unsafeXml') }
     this.xml.onprocessinginstruction = (instruction) => {
+      // Allow only an XML processing instruction outside elements; reject stylesheets and other PIs.
       if (instruction.name.toLowerCase() !== 'xml' || this.depth > 0) {
         throw new GpxValidationError('unsafeXml')
       }
@@ -108,7 +118,8 @@ export class GpxStreamValidator {
     const name = localName(tag)
     const uri = namespace(tag)
     const parent = this.stack.at(-1)
-    // Interpret only known Garmin heart-rate/cadence extensions; leave other vendor fields untouched.
+    // Match by namespace as well as local name so similarly named elements from other vendors
+    // are not mistaken for Garmin metrics.
     const isTrackPointExtension = name === 'TrackPointExtension' && trackPointExtensionNamespaces.has(uri)
     const isTrackPointMetric = Boolean(
       parent?.isTrackPointExtension && parent.namespace === uri && (name === 'hr' || name === 'cad'),
@@ -120,6 +131,7 @@ export class GpxStreamValidator {
       this.rootNamespace = uri
     }
 
+    // GPX elements must stay in the root GPX namespace; extension elements cannot impersonate them.
     const isGpx = uri === this.rootNamespace && Boolean(this.rootNamespace)
     if (isGpx && this.depth === 1 && (name === 'trk' || name === 'rte')) {
       if (this.activities.length >= GPX_LIMITS.maxActivities) {
@@ -183,6 +195,7 @@ export class GpxStreamValidator {
       this.capture = undefined
     }
 
+    // Invalid points are kept as null separators so later statistics/rendering cannot bridge a bad fix.
     if (current?.isGpx && (name === 'trkpt' || name === 'rtept') && this.currentPoint) {
       const { latitude, longitude, ...metadata } = this.currentPoint
       if (Number.isFinite(latitude) && Number.isFinite(longitude)) {

@@ -50,6 +50,23 @@ describe('GPX input bounds', () => {
     await expect(parseGpxFile(file)).rejects.toMatchObject({ code: 'fileTooLarge' })
   })
 
+  it('decodes UTF-8 across chunk boundaries and rejects invalid byte sequences', async () => {
+    const prefix = `<gpx xmlns="${ns}" version="1.1"><trk><name>`
+    const padding = 'a'.repeat(GPX_LIMITS.readChunkBytes - prefix.length - 1)
+    const xml = `${prefix}${padding}é</name><trkseg>${point()}</trkseg></trk></gpx>`
+    const validFile = new File([new TextEncoder().encode(xml)], 'route.gpx')
+    const result = await parseGpxFile(validFile)
+    expect(result.activities[0]?.name).toBe(`${padding}é`)
+
+    const invalidBytes = new TextEncoder().encode(trackXml(point()))
+    const malformedUtf8 = new Uint8Array(invalidBytes.length + 1)
+    malformedUtf8.set(invalidBytes.subarray(0, 10))
+    malformedUtf8[10] = 0xff
+    malformedUtf8.set(invalidBytes.subarray(10), 11)
+    const invalidFile = new File([malformedUtf8], 'route.gpx')
+    await expect(parseGpxFile(invalidFile)).rejects.toMatchObject({ code: 'malformedXml' })
+  })
+
   it('enforces activity, segment, point, and XML-depth limits during streaming', () => {
     const activities = Array.from({ length: GPX_LIMITS.maxActivities + 1 }, () =>
       `<trk><trkseg>${point()}</trkseg></trk>`).join('')
@@ -97,6 +114,14 @@ describe('GPX XML validation', () => {
       { latitude: 52.5, longitude: 13.4, heartRateText: '147', cadenceText: '82' },
       { latitude: 52.5, longitude: 13.4, heartRateText: '147', cadenceText: '82' },
     ])
+  })
+
+  it('does not treat similarly named non-Garmin extension fields as Garmin metrics', () => {
+    const otherVendorPoint = point('52.5', '13.4',
+      '<extensions><x:TrackPointExtension xmlns:x="https://example.test/extensions"><x:hr>147</x:hr><x:cad>82</x:cad></x:TrackPointExtension></extensions>',
+    )
+    const result = parse(trackXml(otherVendorPoint))
+    expect(result.activities[0]?.segments[0]?.points).toEqual([{ latitude: 52.5, longitude: 13.4 }])
   })
 
   it('marks invalid coordinates as fragment breaks without bridging them', () => {
