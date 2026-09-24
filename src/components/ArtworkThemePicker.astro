@@ -1,0 +1,52 @@
+---
+import { ARTWORK_THEMES, DEFAULT_ARTWORK_THEME, type ArtworkThemeId } from '../utils/artworkThemes'
+import type { Lang } from '../utils/i18n'
+
+type Props = { lang: Lang }
+const { lang } = Astro.props
+const de = lang === 'de'
+const labels = de
+  ? { legend: 'Artwork-Stil', paper: 'Papier', night: 'Nacht', botanical: 'Botanisch' }
+  : { legend: 'Artwork theme', paper: 'Paper', night: 'Night', botanical: 'Botanical' }
+const themeLabels: Record<ArtworkThemeId, string> = { paper: labels.paper, night: labels.night, botanical: labels.botanical }
+---
+<fieldset class="theme-picker" data-artwork-theme-picker data-locale={lang}>
+  <legend>{labels.legend}</legend>
+  <div class="theme-options">
+    {Object.values(ARTWORK_THEMES).map(theme => (
+      <label class="theme-option" data-theme-option={theme.id}>
+        <input type="radio" name={`artwork-theme-${lang}`} value={theme.id} checked={theme.id === DEFAULT_ARTWORK_THEME} />
+        <span class="theme-swatch" aria-hidden="true" style={`background:${theme.background};border-color:${theme.textColor};`}><span style={`background:${theme.routeColor};`}></span></span>
+        <span class="theme-name">{themeLabels[theme.id]}</span>
+      </label>
+    ))}
+  </div>
+</fieldset>
+<script>
+  import { getArtworkTheme, type ArtworkThemeId } from '../utils/artworkThemes'
+
+  document.querySelectorAll<HTMLElement>('[data-artwork-theme-picker]').forEach((picker) => {
+    const announce = (themeId: string) => {
+      const theme = getArtworkTheme(themeId)
+      picker.dispatchEvent(new CustomEvent('artworkthemechange', { bubbles: true, detail: theme }))
+      picker.dataset.selectedTheme = theme.id
+    }
+    picker.addEventListener('change', (event) => {
+      const input = (event.target as HTMLInputElement).closest('input[type="radio"]') as HTMLInputElement | null
+      if (input) announce(input.value as ArtworkThemeId)
+    })
+    const selected = picker.querySelector<HTMLInputElement>('input:checked')
+    if (selected) announce(selected.value)
+  })
+</script>
+<style>
+  .theme-picker { margin:28px 0 0; padding:0; border:0; }
+  .theme-picker legend { margin-bottom:12px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
+  .theme-options { display:flex; flex-wrap:wrap; gap:10px; }
+  .theme-option { display:flex; align-items:center; gap:9px; padding:9px 12px; border:1px solid var(--line); color:var(--muted); cursor:pointer; font-size:var(--font-size-small); }
+  .theme-option:has(input:checked) { border-color:var(--accent); color:var(--ink); }
+  .theme-option input { position:absolute; opacity:0; }
+  .theme-option input:focus-visible + .theme-swatch { outline:2px solid var(--accent); outline-offset:3px; }
+  .theme-swatch { display:grid; place-items:center; width:24px; height:24px; border:2px solid; border-radius:50%; }
+  .theme-swatch span { width:10px; height:10px; border-radius:50%; }
+</style>
