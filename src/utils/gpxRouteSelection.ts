@@ -12,17 +12,15 @@ export type GpxRouteSelectionOption = {
 const usablePoints = (points: GpxPoint[]) => points.reduce((count, point) => count + (point ? 1 : 0), 0)
 const activityPointCount = (activity: GpxActivity) => activity.segments.reduce((count, segment) => count + usablePoints(segment.points), 0)
 
-const activityKindLabel = (activity: GpxActivity, index: number, locale: GpxMessageLocale) => {
-  const fallback = locale === 'de'
-    ? activity.kind === 'track' ? `Track ${index + 1}` : `Route ${index + 1}`
-    : activity.kind === 'track' ? `Track ${index + 1}` : `Route ${index + 1}`
+const activityKindLabel = (activity: GpxActivity, index: number) => {
+  const fallback = activity.kind === 'track' ? `Track ${index + 1}` : `Route ${index + 1}`
   return activity.name?.trim() || fallback
 }
 
 export const getGpxRouteSelectionOptions = (gpx: ValidatedGpx, locale: GpxMessageLocale): GpxRouteSelectionOption[] => {
   const options: GpxRouteSelectionOption[] = []
   gpx.activities.forEach((activity, activityIndex) => {
-    const label = activityKindLabel(activity, activityIndex, locale)
+    const label = activityKindLabel(activity, activityIndex)
     options.push({ id: `activity-${activityIndex}`, label, activityIndices: [activityIndex], usablePointCount: activityPointCount(activity) })
     activity.segments.forEach((segment, segmentIndex) => {
       options.push({
