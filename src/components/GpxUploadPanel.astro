@@ -6,10 +6,10 @@ const { lang } = Astro.props
 const de = lang === 'de'
 const labels = de
   ? {
-    choose: 'GPX-Datei auswählen', drop: 'oder hierher ziehen', hint: 'Nur GPX-Dateien, maximal 20 MiB.', reset: 'Datei entfernen', selected: 'Ausgewählte Datei', processing: 'GPX-Datei wird verarbeitet …', ready: 'GPX-Datei erfolgreich verarbeitet.', activities: 'Aktivitäten', points: 'Punkte', invalid: 'Verworfene Koordinaten', noFile: 'Noch keine Datei ausgewählt.',
+    choose: 'GPX-Datei auswählen', drop: 'oder hierher ziehen', hint: 'Nur GPX-Dateien, maximal 20 MiB.', reset: 'Datei entfernen', selected: 'Ausgewählte Datei', processing: 'GPX-Datei wird verarbeitet …', ready: 'GPX-Datei erfolgreich verarbeitet.', activities: 'Aktivitäten', points: 'Punkte', invalid: 'Verworfene Koordinaten', route: 'Route auswählen', noFile: 'Noch keine Datei ausgewählt.',
   }
   : {
-    choose: 'Choose a GPX file', drop: 'or drop it here', hint: 'GPX files only, up to 20 MiB.', reset: 'Remove file', selected: 'Selected file', processing: 'Processing GPX file …', ready: 'GPX file processed successfully.', activities: 'Activities', points: 'Points', invalid: 'Discarded coordinates', noFile: 'No file selected yet.',
+    choose: 'Choose a GPX file', drop: 'or drop it here', hint: 'GPX files only, up to 20 MiB.', reset: 'Remove file', selected: 'Selected file', processing: 'Processing GPX file …', ready: 'GPX file processed successfully.', activities: 'Activities', points: 'Points', invalid: 'Discarded coordinates', route: 'Choose route', noFile: 'No file selected yet.',
   }
 ---
 <section class="gpx-upload" data-gpx-upload data-locale={lang} aria-labelledby={`gpx-upload-title-${lang}`}>
@@ -29,11 +29,14 @@ const labels = de
       <div><dt>{labels.points}</dt><dd data-gpx-points>0</dd></div>
       <div><dt>{labels.invalid}</dt><dd data-gpx-invalid>0</dd></div>
     </dl>
+    <label class="gpx-route-label" for={`gpx-route-${lang}`}>{labels.route}</label>
+    <select id={`gpx-route-${lang}`} class="gpx-route-select" data-gpx-route-select></select>
     <button type="button" class="gpx-reset" data-gpx-reset>{labels.reset}</button>
   </div>
 </section>
 <script>
   import { getGpxValidationMessage } from '../utils/gpxValidationMessages'
+  import { getDefaultGpxRouteSelection, getGpxRouteSelectionOptions, type GpxRouteSelectionOption } from '../utils/gpxRouteSelection'
   import type { GpxMessageLocale, GpxValidationErrorCode, ValidatedGpx } from '../utils/gpxValidationTypes'
 
   type WorkerResponse = {
@@ -54,8 +57,11 @@ const labels = de
     const activities = panel.querySelector<HTMLElement>('[data-gpx-activities]')
     const points = panel.querySelector<HTMLElement>('[data-gpx-points]')
     const invalid = panel.querySelector<HTMLElement>('[data-gpx-invalid]')
+    const routeSelect = panel.querySelector<HTMLSelectElement>('[data-gpx-route-select]')
     let worker = new Worker(new URL('../workers/gpxValidation.worker.ts', import.meta.url), { type: 'module' })
     let requestNumber = 0
+    let parsedGpx: ValidatedGpx | undefined
+    let selectionOptions: GpxRouteSelectionOption[] = []
 
     const hideError = () => {
       if (error) { error.hidden = true; error.textContent = '' }
@@ -76,6 +82,29 @@ const labels = de
       if (activities) activities.textContent = '0'
       if (points) points.textContent = '0'
       if (invalid) invalid.textContent = '0'
+      if (routeSelect) routeSelect.replaceChildren()
+      parsedGpx = undefined
+      selectionOptions = []
+    }
+    const renderSelection = (option: GpxRouteSelectionOption | undefined) => {
+      if (!parsedGpx || !option) return
+      if (points) points.textContent = String(option.usablePointCount)
+      panel.dispatchEvent(new CustomEvent('gpxselectionchange', { bubbles: true, detail: { gpx: parsedGpx, option } }))
+    }
+    const renderRouteOptions = () => {
+      if (!parsedGpx || !routeSelect) return
+      selectionOptions = getGpxRouteSelectionOptions(parsedGpx, locale)
+      routeSelect.replaceChildren(...selectionOptions.map(option => {
+        const element = document.createElement('option')
+        element.value = option.id
+        element.textContent = option.label
+        return element
+      }))
+      const defaultOption = getDefaultGpxRouteSelection(parsedGpx, selectionOptions)
+      if (defaultOption) {
+        routeSelect.value = defaultOption.id
+        renderSelection(defaultOption)
+      }
     }
     const resetPanel = () => {
       cancelCurrent()
@@ -97,11 +126,13 @@ const labels = de
           return
         }
         if (!data.result) return
+        parsedGpx = data.result
         if (filename) filename.textContent = file.name
         if (activities) activities.textContent = String(data.result.activities.length)
         if (points) points.textContent = String(data.result.usablePointCount)
         if (invalid) invalid.textContent = String(data.result.invalidCoordinateCount)
         if (result) result.hidden = false
+        renderRouteOptions()
         if (status) status.textContent = locale === 'de' ? 'GPX-Datei erfolgreich verarbeitet.' : 'GPX file processed successfully.'
         panel.dispatchEvent(new CustomEvent('gpxroutechange', { bubbles: true, detail: data.result }))
       }
@@ -117,6 +148,7 @@ const labels = de
       if (file) process(file)
     })
     reset?.addEventListener('click', resetPanel)
+    routeSelect?.addEventListener('change', () => renderSelection(selectionOptions.find(option => option.id === routeSelect.value)))
   })
 </script>
 <style>
@@ -135,6 +167,9 @@ const labels = de
   .gpx-result p { margin:0 0 14px; color:var(--ink); overflow-wrap:anywhere; }
   .gpx-result dl { display:flex; flex-wrap:wrap; gap:18px 28px; margin:0 0 18px; }
   .gpx-result dd { margin:4px 0 0; color:var(--ink); font-weight:700; }
+  .gpx-route-label { display:block; margin:0 0 7px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
+  .gpx-route-select { width:100%; margin-bottom:18px; padding:10px 12px; border:1px solid var(--line); border-radius:0; background:var(--paper); color:var(--ink); font:inherit; }
+  .gpx-route-select:focus { outline:2px solid var(--accent); outline-offset:2px; }
   .gpx-reset { padding:9px 13px; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; font:inherit; font-size:var(--font-size-small); }
   .gpx-reset:hover { border-color:var(--accent); color:var(--accent); }
 </style>
