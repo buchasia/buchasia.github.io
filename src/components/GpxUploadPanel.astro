@@ -33,15 +33,25 @@ const labels = de
     <select id={`gpx-route-${lang}`} class="gpx-route-select" data-gpx-route-select></select>
     <div class="gpx-statistics" data-gpx-statistics>
       <div class="gpx-statistics-heading"><h3>{labels.statistics}</h3><label for={`gpx-units-${lang}`}>{labels.units}</label><select id={`gpx-units-${lang}`} data-gpx-units><option value="metric">{labels.metric}</option><option value="imperial">{labels.imperial}</option></select></div>
+      <fieldset class="gpx-statistic-controls"><legend>{de ? 'Anzuzeigende Statistiken' : 'Visible statistics'}</legend>
+        <label><input type="checkbox" data-gpx-stat-toggle="distance" checked /> {labels.distance}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="recordedTime" checked /> {labels.recordedTime}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="pace" checked /> {labels.pace}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="elevationGain" checked /> {labels.gain}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="elevationLoss" /> {labels.loss}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="elevationRange" /> {labels.range}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="startTime" /> {labels.start}</label>
+        <label><input type="checkbox" data-gpx-stat-toggle="endTime" /> {labels.end}</label>
+      </fieldset>
       <dl>
-        <div><dt>{labels.distance}</dt><dd data-gpx-stat-distance>{labels.noValue}</dd></div>
-        <div><dt>{labels.recordedTime}</dt><dd data-gpx-stat-time>{labels.noValue}</dd></div>
-        <div><dt>{labels.pace}</dt><dd data-gpx-stat-pace>{labels.noValue}</dd></div>
-        <div><dt>{labels.gain}</dt><dd data-gpx-stat-gain>{labels.noValue}</dd></div>
-        <div><dt>{labels.loss}</dt><dd data-gpx-stat-loss>{labels.noValue}</dd></div>
-        <div><dt>{labels.range}</dt><dd data-gpx-stat-range>{labels.noValue}</dd></div>
-        <div><dt>{labels.start}</dt><dd data-gpx-stat-start>{labels.noValue}</dd></div>
-        <div><dt>{labels.end}</dt><dd data-gpx-stat-end>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="distance"><dt>{labels.distance}</dt><dd data-gpx-stat-distance>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="recordedTime"><dt>{labels.recordedTime}</dt><dd data-gpx-stat-time>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="pace"><dt>{labels.pace}</dt><dd data-gpx-stat-pace>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="elevationGain"><dt>{labels.gain}</dt><dd data-gpx-stat-gain>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="elevationLoss"><dt>{labels.loss}</dt><dd data-gpx-stat-loss>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="elevationRange"><dt>{labels.range}</dt><dd data-gpx-stat-range>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="startTime"><dt>{labels.start}</dt><dd data-gpx-stat-start>{labels.noValue}</dd></div>
+        <div data-gpx-stat-row="endTime"><dt>{labels.end}</dt><dd data-gpx-stat-end>{labels.noValue}</dd></div>
       </dl>
     </div>
     <button type="button" class="gpx-reset" data-gpx-reset>{labels.reset}</button>
@@ -51,6 +61,7 @@ const labels = de
   import { getGpxValidationMessage } from '../utils/gpxValidationMessages'
   import { getDefaultGpxRouteSelection, getGpxRouteSelectionOptions, type GpxRouteSelectionOption } from '../utils/gpxRouteSelection'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
+  import { DEFAULT_VISIBLE_STATISTICS, getAvailableVisibleStatistics, type GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
   import type { GpxMessageLocale, GpxValidationErrorCode, ValidatedGpx } from '../utils/gpxValidationTypes'
 
   type WorkerResponse = {
@@ -82,6 +93,8 @@ const labels = de
     const statRange = panel.querySelector<HTMLElement>('[data-gpx-stat-range]')
     const statStart = panel.querySelector<HTMLElement>('[data-gpx-stat-start]')
     const statEnd = panel.querySelector<HTMLElement>('[data-gpx-stat-end]')
+    const statToggles = [...panel.querySelectorAll<HTMLInputElement>('[data-gpx-stat-toggle]')]
+    const statRows = [...panel.querySelectorAll<HTMLElement>('[data-gpx-stat-row]')]
     let worker = new Worker(new URL('../workers/gpxValidation.worker.ts', import.meta.url), { type: 'module' })
     let requestNumber = 0
     let parsedGpx: ValidatedGpx | undefined
@@ -112,12 +125,27 @@ const labels = de
       parsedGpx = undefined
       selectionOptions = []
       currentSelection = undefined
+      statToggles.forEach(toggle => {
+        toggle.disabled = false
+        toggle.checked = DEFAULT_VISIBLE_STATISTICS.includes(toggle.dataset.gpxStatToggle as GpxVisibleStatistic)
+      })
+      statRows.forEach(row => { row.hidden = false })
     }
     const renderSelection = (option: GpxRouteSelectionOption | undefined) => {
       if (!parsedGpx || !option) return
       currentSelection = option
       if (points) points.textContent = String(option.usablePointCount)
       const stats = calculateGpxStatistics(parsedGpx, option)
+      const available = getAvailableVisibleStatistics(stats)
+      statToggles.forEach(toggle => {
+        const key = toggle.dataset.gpxStatToggle as GpxVisibleStatistic
+        toggle.disabled = !available.has(key)
+        if (toggle.disabled) toggle.checked = false
+      })
+      statRows.forEach(row => {
+        const toggle = statToggles.find(item => item.dataset.gpxStatToggle === row.dataset.gpxStatRow)
+        row.hidden = !toggle?.checked
+      })
       const unit = (units?.value ?? 'metric') as GpxDistanceUnit
       const noValue = locale === 'de' ? '—' : '—'
       if (statDistance) statDistance.textContent = formatGpxDistance(stats.distanceMeters, unit)
@@ -190,6 +218,13 @@ const labels = de
     reset?.addEventListener('click', resetPanel)
     routeSelect?.addEventListener('change', () => renderSelection(selectionOptions.find(option => option.id === routeSelect.value)))
     units?.addEventListener('change', () => renderSelection(currentSelection))
+    statToggles.forEach(toggle => toggle.addEventListener('change', () => {
+      statRows.forEach(row => {
+        const item = statToggles.find(candidate => candidate.dataset.gpxStatToggle === row.dataset.gpxStatRow)
+        row.hidden = !item?.checked
+      })
+      panel.dispatchEvent(new CustomEvent('gpxvisiblemetricschange', { bubbles: true, detail: statToggles.filter(item => item.checked).map(item => item.dataset.gpxStatToggle) }))
+    }))
   })
 </script>
 <style>
@@ -216,6 +251,11 @@ const labels = de
   .gpx-statistics-heading h3 { margin:0 auto 0 0; color:var(--ink); font-size:var(--font-size-small); }
   .gpx-statistics-heading label { color:var(--muted); font-size:var(--font-size-label); }
   .gpx-statistics-heading select { padding:5px 8px; border:1px solid var(--line); background:var(--paper); color:var(--ink); font:inherit; font-size:var(--font-size-label); }
+  .gpx-statistic-controls { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px 14px; margin:0 0 16px; padding:0; border:0; }
+  .gpx-statistic-controls legend { grid-column:1 / -1; margin-bottom:2px; color:var(--muted); font-size:var(--font-size-label); }
+  .gpx-statistic-controls label { color:var(--muted); font-size:var(--font-size-small); }
+  .gpx-statistic-controls input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .gpx-statistic-controls input:disabled + * { opacity:.6; }
   .gpx-statistics dl { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:14px 22px; margin:0; }
   .gpx-statistics dd { max-width:100%; overflow-wrap:anywhere; }
   .gpx-reset { padding:9px 13px; border:1px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; font:inherit; font-size:var(--font-size-small); }
