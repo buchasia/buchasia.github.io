@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import GpxUploadPanel from '../../components/GpxUploadPanel.astro'
+import ArtworkThemePicker from '../../components/ArtworkThemePicker.astro'
 ---
 <BaseLayout title="Routen-Visualizer" lang="de" altPath="/visualizer/">
   <section class="about">
@@ -8,5 +9,6 @@ import GpxUploadPanel from '../../components/GpxUploadPanel.astro'
     <h1>Routen-Visualizer</h1>
     <p>Wähle eine GPX-Datei aus, um ihre Route lokal im Browser zu verarbeiten. Die Originaldatei wird weder hochgeladen noch gespeichert.</p>
     <GpxUploadPanel lang="de" />
+    <ArtworkThemePicker lang="de" />
   </section>
 </BaseLayout>
