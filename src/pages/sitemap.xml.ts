@@ -3,7 +3,7 @@ import { getBlogPosts, getPostSlug } from '../utils/posts'
 import { fetchRuns, getRunYear } from '../utils/runs'
 
 const site = 'https://www.chhitizbuchasia.com'
-const pages = ['/', '/posts/', '/about/', '/tags/', '/search/', '/runs/', '/runs/achievements/', '/privacy/', '/licenses/', '/de/', '/de/posts/', '/de/about/', '/de/tags/', '/de/search/', '/de/runs/', '/de/runs/achievements/', '/de/privacy/', '/de/licenses/']
+const pages = ['/', '/posts/', '/about/', '/tags/', '/search/', '/runs/', '/runs/achievements/', '/visualizer/', '/privacy/', '/licenses/', '/de/', '/de/posts/', '/de/about/', '/de/tags/', '/de/search/', '/de/runs/', '/de/runs/achievements/', '/de/visualizer/', '/de/privacy/', '/de/licenses/']
 
 export const GET: APIRoute = async () => {
   const en = await getBlogPosts('en')
