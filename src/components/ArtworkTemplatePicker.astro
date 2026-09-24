@@ -16,34 +16,35 @@ const templateLabels: Record<ArtworkTemplateId, { label: string; description: st
 ---
 <fieldset class="template-picker" data-artwork-template-picker>
   <legend>{labels.legend}</legend>
-  <div class="template-options">
+  <label class="picker-label" for={`artwork-template-${lang}`}>{labels.legend}</label>
+  <select id={`artwork-template-${lang}`} name={`artwork-template-${lang}`} data-artwork-template-select>
     {Object.values(ARTWORK_TEMPLATES).map(template => (
-      <label class="template-option">
-        <input type="radio" name={`artwork-template-${lang}`} value={template.id} checked={template.id === DEFAULT_ARTWORK_TEMPLATE} />
-        <span><strong>{templateLabels[template.id].label}</strong><small>{templateLabels[template.id].description}</small></span>
-      </label>
+      <option value={template.id} selected={template.id === DEFAULT_ARTWORK_TEMPLATE} data-description={templateLabels[template.id].description}>{templateLabels[template.id].label}</option>
     ))}
-  </div>
+  </select>
+  <p class="picker-description" data-artwork-template-description></p>
 </fieldset>
 <script>
   import { getArtworkTemplate, type ArtworkTemplateId } from '../utils/artworkTemplates'
 
   document.querySelectorAll<HTMLElement>('[data-artwork-template-picker]').forEach((picker) => {
-    const announce = (id: string) => picker.dispatchEvent(new CustomEvent('artworktemplatechange', { bubbles: true, detail: getArtworkTemplate(id) }))
-    picker.addEventListener('change', event => {
-      const input = (event.target as HTMLInputElement).closest('input[type="radio"]') as HTMLInputElement | null
-      if (input) announce(input.value as ArtworkTemplateId)
-    })
+    const select = picker.querySelector<HTMLSelectElement>('[data-artwork-template-select]')
+    const description = picker.querySelector<HTMLElement>('[data-artwork-template-description]')
+    const announce = (id: string) => {
+      const template = getArtworkTemplate(id)
+      const option = select?.selectedOptions[0]
+      if (description) description.textContent = option?.dataset.description ?? template.description
+      picker.dispatchEvent(new CustomEvent('artworktemplatechange', { bubbles: true, detail: template }))
+    }
+    select?.addEventListener('change', () => announce(select.value as ArtworkTemplateId))
+    if (select) announce(select.value)
   })
 </script>
 <style>
   .template-picker { margin:0; padding:0; border:0; }
   .template-picker legend { margin-bottom:12px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
-  .template-options { display:grid; gap:10px; }
-  .template-option { display:flex; gap:10px; padding:12px; border:1px solid var(--line); color:var(--muted); cursor:pointer; }
-  .template-option:has(input:checked) { border-color:var(--accent); color:var(--ink); }
-  .template-option input { margin-top:3px; }
-  .template-option input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
-  .template-option span { display:grid; gap:4px; }
-  .template-option small { font-size:var(--font-size-label); line-height:1.4; }
+  .picker-label { display:block; margin-bottom:6px; color:var(--muted); font-size:var(--font-size-label); }
+  .template-picker select, .theme-picker select { width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:0; background:var(--wash); color:var(--ink); font:inherit; font-size:var(--font-size-small); }
+  .template-picker select:focus-visible, .theme-picker select:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .picker-description { margin:8px 0 0; color:var(--muted); font-size:var(--font-size-label); line-height:1.4; }
 </style>
