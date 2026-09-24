@@ -1,18 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import GpxUploadPanel from '../components/GpxUploadPanel.astro'
-import ArtworkThemePicker from '../components/ArtworkThemePicker.astro'
-import ArtworkSettingsPanel from '../components/ArtworkSettingsPanel.astro'
-import RoutePosterPreview from '../components/RoutePosterPreview.astro'
+import VisualizerWorkflow from '../components/VisualizerWorkflow.astro'
 ---
 <BaseLayout title="Route visualizer" lang="en" altPath="/visualizer/">
   <section class="about">
     <p class="eyebrow">Route artwork</p>
     <h1>Route visualizer</h1>
     <p>Select a GPX file to process its route locally in your browser. The original file is never uploaded or stored.</p>
-    <GpxUploadPanel lang="en" />
-    <ArtworkThemePicker lang="en" />
-    <ArtworkSettingsPanel lang="en" />
-    <RoutePosterPreview lang="en" />
+    <VisualizerWorkflow lang="en" />
   </section>
 </BaseLayout>

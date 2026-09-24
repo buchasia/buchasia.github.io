@@ -20,6 +20,7 @@ const de = lang === 'de'
 <script>
   import { getArtworkDimensions, DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
   import { getArtworkTheme, DEFAULT_ARTWORK_THEME, type ArtworkTheme } from '../utils/artworkThemes'
+  import { getArtworkTemplate, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplate } from '../utils/artworkTemplates'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
   import { DEFAULT_VISIBLE_STATISTICS, type GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
   import { projectRoute } from '../utils/routeProjection'
@@ -39,6 +40,7 @@ const de = lang === 'de'
     const meta = preview.querySelector<HTMLElement>('[data-preview-meta]')
     let selection: SelectionDetail | undefined
     let theme: ArtworkTheme = getArtworkTheme(DEFAULT_ARTWORK_THEME)
+    let template: ArtworkTemplate = getArtworkTemplate(DEFAULT_ARTWORK_TEMPLATE)
     let settings: ArtworkSettings = { ...DEFAULT_ARTWORK_SETTINGS }
     let visibleStatistics = new Set<GpxVisibleStatistic>(DEFAULT_VISIBLE_STATISTICS)
     const svgNamespace = 'http://www.w3.org/2000/svg'
@@ -60,7 +62,7 @@ const de = lang === 'de'
     const render = () => {
       if (!selection || !svg || !artwork || !description) return
       const dimensions = getArtworkDimensions(settings)
-      const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx)
+      const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx, template.routePadding)
       if (!projection.hasDrawableRoute) {
         setStatus(locale === 'de' ? 'Für die Vorschau werden mindestens zwei verschiedene Punkte in einem sichtbaren Fragment benötigt.' : 'The preview needs at least two distinct points in one visible fragment.')
         if (meta) meta.textContent = ''
@@ -78,7 +80,7 @@ const de = lang === 'de'
       })
       artwork.appendChild(routeGroup)
       const textGroup = create('g', { fill: theme.textColor }) as SVGGElement
-      if (settings.title.trim()) addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, dimensions.heightPx - 430, dimensions.widthPx / 20, theme.textColor, '600')
+      if (settings.title.trim()) addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, dimensions.heightPx * template.titleY, dimensions.widthPx / 20, theme.textColor, '600')
       const stats = calculateGpxStatistics(selection.gpx, selection.option)
       const unit = settings.distanceUnit as GpxDistanceUnit
       const values: Partial<Record<GpxVisibleStatistic, string>> = {
@@ -96,7 +98,7 @@ const de = lang === 'de'
         const column = index % 2
         const row = Math.floor(index / 2)
         const x = dimensions.widthPx * (column ? 0.62 : 0.12)
-        const y = dimensions.heightPx - 300 - row * 100
+        const y = dimensions.heightPx * template.statisticsY + row * dimensions.heightPx / 28
         addText(textGroup, labels[key], x, y, dimensions.widthPx / 105, theme.statisticColor, '400')
         addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 42, dimensions.widthPx / 62, theme.statisticColor, '600')
       })
@@ -107,15 +109,16 @@ const de = lang === 'de'
       scaleGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.12 + scaleWidth), y1: String(scaleY), y2: String(scaleY), stroke: theme.textColor, 'stroke-width': String(Math.max(dimensions.widthPx / 240, 6)) }))
       addText(scaleGroup, `${labels.scale}: ${formatGpxDistance(projection.scaleKilometres * 1000, unit)}`, dimensions.widthPx * 0.12, scaleY - 25, dimensions.widthPx / 105, theme.textColor)
       artwork.appendChild(scaleGroup)
-      const summary = locale === 'de' ? `Routen-Artwork mit ${projection.paths.length} sichtbaren Fragmenten, Thema ${theme.label}.` : `Route artwork with ${projection.paths.length} visible fragments, ${theme.label} theme.`
+      const summary = locale === 'de' ? `Routen-Artwork mit ${projection.paths.length} sichtbaren Fragmenten, Vorlage ${template.label}, Thema ${theme.label}.` : `Route artwork with ${projection.paths.length} visible fragments, ${template.label} template, ${theme.label} theme.`
       description.textContent = summary
       svg.setAttribute('aria-label', summary)
       setStatus('', true)
-      if (meta) meta.textContent = `${theme.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
+      if (meta) meta.textContent = `${template.label} · ${theme.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
     }
     document.addEventListener('gpxselectionchange', event => { selection = (event as CustomEvent<SelectionDetail>).detail; render() })
     document.addEventListener('gpxvisiblemetricschange', event => { visibleStatistics = new Set((event as CustomEvent<string[]>).detail as GpxVisibleStatistic[]); render() })
     document.addEventListener('artworkthemechange', event => { theme = (event as CustomEvent<ArtworkTheme>).detail; render() })
+    document.addEventListener('artworktemplatechange', event => { template = (event as CustomEvent<ArtworkTemplate>).detail; render() })
     document.addEventListener('artworksettingschange', event => { settings = (event as CustomEvent<ArtworkSettings>).detail; render() })
   })
 </script>

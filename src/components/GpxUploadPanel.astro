@@ -180,6 +180,7 @@ const labels = de
       hideError()
       if (input) input.value = ''
       if (status) status.textContent = locale === 'de' ? 'Noch keine Datei ausgewählt.' : 'No file selected yet.'
+      panel.dispatchEvent(new CustomEvent('gpxreset', { bubbles: true }))
     }
     const process = (file: File) => {
       cancelCurrent()

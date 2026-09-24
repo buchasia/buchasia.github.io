@@ -1,0 +1,49 @@
+---
+import { ARTWORK_TEMPLATES, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplateId } from '../utils/artworkTemplates'
+import type { Lang } from '../utils/i18n'
+
+type Props = { lang: Lang }
+const { lang } = Astro.props
+const de = lang === 'de'
+const labels = de
+  ? { legend: 'Vorlage', classic: 'Klassisch', minimal: 'Minimal', stats: 'Statistiken', classicDescription: 'Zentrierte Route mit Titel und Statistiken im Fußbereich.', minimalDescription: 'Route im Mittelpunkt mit großzügigem Weißraum.', statsDescription: 'Route oben und strukturierter Statistikbereich darunter.' }
+  : { legend: 'Template', classic: 'Classic', minimal: 'Minimal', stats: 'Stats', classicDescription: 'Centered route with title and footer statistics.', minimalDescription: 'Route-dominant composition with generous whitespace.', statsDescription: 'Route above a structured statistics section.' }
+const templateLabels: Record<ArtworkTemplateId, { label: string; description: string }> = {
+  classic: { label: labels.classic, description: labels.classicDescription },
+  minimal: { label: labels.minimal, description: labels.minimalDescription },
+  stats: { label: labels.stats, description: labels.statsDescription },
+}
+---
+<fieldset class="template-picker" data-artwork-template-picker>
+  <legend>{labels.legend}</legend>
+  <div class="template-options">
+    {Object.values(ARTWORK_TEMPLATES).map(template => (
+      <label class="template-option">
+        <input type="radio" name={`artwork-template-${lang}`} value={template.id} checked={template.id === DEFAULT_ARTWORK_TEMPLATE} />
+        <span><strong>{templateLabels[template.id].label}</strong><small>{templateLabels[template.id].description}</small></span>
+      </label>
+    ))}
+  </div>
+</fieldset>
+<script>
+  import { getArtworkTemplate, type ArtworkTemplateId } from '../utils/artworkTemplates'
+
+  document.querySelectorAll<HTMLElement>('[data-artwork-template-picker]').forEach((picker) => {
+    const announce = (id: string) => picker.dispatchEvent(new CustomEvent('artworktemplatechange', { bubbles: true, detail: getArtworkTemplate(id) }))
+    picker.addEventListener('change', event => {
+      const input = (event.target as HTMLInputElement).closest('input[type="radio"]') as HTMLInputElement | null
+      if (input) announce(input.value as ArtworkTemplateId)
+    })
+  })
+</script>
+<style>
+  .template-picker { margin:0; padding:0; border:0; }
+  .template-picker legend { margin-bottom:12px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
+  .template-options { display:grid; gap:10px; }
+  .template-option { display:flex; gap:10px; padding:12px; border:1px solid var(--line); color:var(--muted); cursor:pointer; }
+  .template-option:has(input:checked) { border-color:var(--accent); color:var(--ink); }
+  .template-option input { margin-top:3px; }
+  .template-option input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .template-option span { display:grid; gap:4px; }
+  .template-option small { font-size:var(--font-size-label); line-height:1.4; }
+</style>
