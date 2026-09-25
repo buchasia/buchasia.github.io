@@ -6,6 +6,7 @@ describe('artwork templates', () => {
     expect(Object.keys(ARTWORK_TEMPLATES)).toEqual(['classic', 'minimal', 'stats'])
     expect(DEFAULT_ARTWORK_TEMPLATE).toBe('classic')
     expect(ARTWORK_TEMPLATES.classic.statisticsColumns).toBe(2)
+    expect(new Set(Object.values(ARTWORK_TEMPLATES).map(template => template.composition))).toEqual(new Set(['classic', 'minimal', 'stats']))
   })
 
   it('falls back safely for unknown values', () => {

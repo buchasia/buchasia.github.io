@@ -55,7 +55,7 @@ const de = lang === 'de'
       if (text !== undefined) element.textContent = text
       return element
     }
-    const addText = (group: SVGGElement, text: string, x: number, y: number, size: number, color: string, weight = '400') => group.appendChild(create('text', { x: String(x), y: String(y), fill: color, 'font-family': 'DM Sans, sans-serif', 'font-size': String(size), 'font-weight': weight }, text))
+    const addText = (group: SVGGElement, text: string, x: number, y: number, size: number, color: string, weight = '400', anchor: 'start' | 'middle' = 'start') => group.appendChild(create('text', { x: String(x), y: String(y), fill: color, 'font-family': 'DM Sans, sans-serif', 'font-size': String(size), 'font-weight': weight, 'text-anchor': anchor }, text))
     const setStatus = (message: string, hasPreview = false) => {
       if (status) status.textContent = message
       if (frame) frame.hidden = !hasPreview
@@ -68,7 +68,7 @@ const de = lang === 'de'
       svg.style.backgroundColor = theme.background
       const statisticKeys: GpxVisibleStatistic[] = ['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime']
       const selectedStatisticKeys = statisticKeys.filter(key => visibleStatistics.has(key))
-      const layout = getPosterLayout({ width: dimensions.widthPx, height: dimensions.heightPx, routePadding: template.routePadding, hasTitle: Boolean(settings.title.trim()), statisticCount: selectedStatisticKeys.length, statisticColumns: template.statisticsColumns })
+      const layout = getPosterLayout({ width: dimensions.widthPx, height: dimensions.heightPx, routePadding: template.routePadding, hasTitle: Boolean(settings.title.trim()), statisticCount: selectedStatisticKeys.length, statisticColumns: template.statisticsColumns, composition: template.composition })
       const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx, layout.routePadding)
       if (!projection.hasDrawableRoute) {
         setStatus(locale === 'de' ? 'Für die Vorschau werden mindestens zwei verschiedene Punkte in einem sichtbaren Fragment benötigt.' : 'The preview needs at least two distinct points in one visible fragment.')
@@ -77,7 +77,7 @@ const de = lang === 'de'
       }
       const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: theme.background })
       artwork.appendChild(background)
-      const routeGroup = create('g', { fill: 'none', stroke: theme.routeColor, 'stroke-width': String(Math.max(dimensions.widthPx / 180, 8)), 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
+      const routeGroup = create('g', { fill: 'none', stroke: theme.routeColor, 'stroke-width': String(Math.max(dimensions.widthPx / 150, 10)), 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
       projection.paths.forEach(path => {
         const d = path.map((point, index) => `${index ? 'L' : 'M'} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(' ')
         routeGroup.appendChild(create('path', { d }))
@@ -85,8 +85,10 @@ const de = lang === 'de'
       artwork.appendChild(routeGroup)
       const textGroup = create('g', { fill: theme.textColor }) as SVGGElement
       if (settings.title.trim()) {
-        addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, layout.headerY, dimensions.widthPx / 24, theme.textColor, '600')
-        textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.88), y1: String(layout.headerRuleY), y2: String(layout.headerRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: '0.45' }))
+        const titleCentered = template.composition === 'classic'
+        const titleSize = dimensions.widthPx / (template.composition === 'classic' ? 20 : template.composition === 'minimal' ? 30 : 25)
+        addText(textGroup, settings.title.trim(), dimensions.widthPx * (titleCentered ? 0.5 : 0.12), layout.headerY, titleSize, theme.textColor, '700', titleCentered ? 'middle' : 'start')
+        textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * (template.composition === 'minimal' ? 0.35 : 0.88)), y1: String(layout.headerRuleY), y2: String(layout.headerRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: template.composition === 'minimal' ? '0.7' : '0.45' }))
       }
       const stats = calculateGpxStatistics(selection.gpx, selection.option)
       const unit = settings.distanceUnit as GpxDistanceUnit
@@ -100,25 +102,37 @@ const de = lang === 'de'
         startTime: stats.startTimeMs === undefined ? unavailable : formatGpxDateTime(stats.startTimeMs, locale),
         endTime: stats.endTimeMs === undefined ? unavailable : formatGpxDateTime(stats.endTimeMs, locale),
       }
-      if (selectedStatisticKeys.length) {
-        textGroup.appendChild(create('rect', { x: String(dimensions.widthPx * 0.09), y: String(layout.statisticsRuleY + 28), width: String(dimensions.widthPx * 0.82), height: String(dimensions.heightPx - layout.statisticsRuleY - 110), fill: theme.background, opacity: '0.88' }))
+      const primaryStatisticKey = template.composition === 'stats' ? selectedStatisticKeys.find(key => key === 'distance') ?? selectedStatisticKeys[0] : undefined
+      const supportingStatisticKeys = primaryStatisticKey ? selectedStatisticKeys.filter(key => key !== primaryStatisticKey) : selectedStatisticKeys
+      if (selectedStatisticKeys.length && template.composition !== 'minimal') {
+        textGroup.appendChild(create('rect', { x: String(dimensions.widthPx * 0.09), y: String(layout.statisticsRuleY + 28), width: String(dimensions.widthPx * 0.82), height: String(dimensions.heightPx - layout.statisticsRuleY - 110), fill: theme.background, opacity: template.composition === 'stats' ? '0.94' : '0.88' }))
         textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.88), y1: String(layout.statisticsRuleY), y2: String(layout.statisticsRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: '0.45' }))
       }
-      selectedStatisticKeys.forEach((key, index) => {
+      if (primaryStatisticKey) {
+        const x = dimensions.widthPx * 0.12
+        addText(textGroup, labels[primaryStatisticKey], x, layout.primaryStatisticY, dimensions.widthPx / 100, theme.statisticColor, '500')
+        addText(textGroup, values[primaryStatisticKey] ?? unavailable, x, layout.primaryStatisticY + dimensions.heightPx * 0.065, dimensions.widthPx / 13, theme.statisticColor, '700')
+      }
+      const supportingStatisticsY = primaryStatisticKey ? layout.primaryStatisticY + dimensions.heightPx * 0.11 : layout.statisticsY
+      supportingStatisticKeys.forEach((key, index) => {
         const column = index % template.statisticsColumns
         const row = Math.floor(index / template.statisticsColumns)
         const x = template.statisticsColumns === 1 ? dimensions.widthPx * 0.12 : dimensions.widthPx * (column ? 0.57 : 0.12)
-        const y = layout.statisticsY + row * layout.statisticsRowHeight
-        addText(textGroup, labels[key], x, y, dimensions.widthPx / 115, theme.statisticColor, '400')
-        addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 48, dimensions.widthPx / 68, theme.statisticColor, '600')
+        const y = supportingStatisticsY + row * layout.statisticsRowHeight
+        const labelSize = dimensions.widthPx / (template.composition === 'minimal' ? 135 : 105)
+        const valueSize = dimensions.widthPx / (template.composition === 'minimal' ? 55 : 40)
+        addText(textGroup, labels[key], x, y, labelSize, theme.statisticColor, '500')
+        addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 42, valueSize, theme.statisticColor, '700')
       })
       artwork.appendChild(textGroup)
-      const scaleGroup = create('g', { stroke: theme.textColor, fill: theme.textColor }) as SVGGElement
-      const scaleWidth = dimensions.widthPx * 0.16
-      const scaleY = dimensions.heightPx - 150
-      scaleGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.12 + scaleWidth), y1: String(scaleY), y2: String(scaleY), stroke: theme.textColor, 'stroke-width': String(Math.max(dimensions.widthPx / 240, 6)) }))
-      addText(scaleGroup, `${labels.scale}: ${formatGpxDistance(projection.scaleKilometres * 1000, unit)}`, dimensions.widthPx * 0.12, scaleY - 25, dimensions.widthPx / 105, theme.textColor)
-      artwork.appendChild(scaleGroup)
+      if (template.composition === 'classic') {
+        const scaleGroup = create('g', { stroke: theme.textColor, fill: theme.textColor }) as SVGGElement
+        const scaleWidth = dimensions.widthPx * 0.16
+        const scaleY = dimensions.heightPx - 150
+        scaleGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.12 + scaleWidth), y1: String(scaleY), y2: String(scaleY), stroke: theme.textColor, 'stroke-width': String(Math.max(dimensions.widthPx / 240, 6)) }))
+        addText(scaleGroup, `${labels.scale}: ${formatGpxDistance(projection.scaleKilometres * 1000, unit)}`, dimensions.widthPx * 0.12, scaleY - 25, dimensions.widthPx / 105, theme.textColor, '500')
+        artwork.appendChild(scaleGroup)
+      }
       const summary = locale === 'de' ? `Routen-Artwork mit ${projection.paths.length} sichtbaren Fragmenten, Vorlage ${template.label}, Thema ${theme.label}.` : `Route artwork with ${projection.paths.length} visible fragments, ${template.label} template, ${theme.label} theme.`
       description.textContent = summary
       svg.setAttribute('aria-label', summary)
