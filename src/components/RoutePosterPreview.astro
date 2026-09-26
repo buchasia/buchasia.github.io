@@ -20,7 +20,6 @@ const de = lang === 'de'
 <script>
   import { getArtworkDimensions, DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
   import { getPosterLayout } from '../utils/artworkLayout'
-  import { getArtworkTheme, DEFAULT_ARTWORK_THEME, type ArtworkTheme } from '../utils/artworkThemes'
   import { getArtworkTemplate, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplate } from '../utils/artworkTemplates'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
   import { DEFAULT_VISIBLE_STATISTICS, type GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
@@ -30,6 +29,7 @@ const de = lang === 'de'
 
   type SelectionDetail = { gpx: ValidatedGpx; option: GpxRouteSelectionOption }
   type SvgElement = SVGElement & { textContent: string | null }
+  type ShadowTarget = 'route' | 'title' | 'statistics' | 'scale' | 'footer'
 
   document.querySelectorAll<HTMLElement>('[data-route-preview]').forEach((preview) => {
     const locale = preview.dataset.locale === 'de' ? 'de' : 'en'
@@ -40,7 +40,6 @@ const de = lang === 'de'
     const description = preview.querySelector<SVGDescElement>('[data-preview-svg-description]')
     const meta = preview.querySelector<HTMLElement>('[data-preview-meta]')
     let selection: SelectionDetail | undefined
-    let theme: ArtworkTheme = getArtworkTheme(DEFAULT_ARTWORK_THEME)
     let template: ArtworkTemplate = getArtworkTemplate(DEFAULT_ARTWORK_TEMPLATE)
     let settings: ArtworkSettings = { ...DEFAULT_ARTWORK_SETTINGS }
     let visibleStatistics = new Set<GpxVisibleStatistic>(DEFAULT_VISIBLE_STATISTICS)
@@ -55,7 +54,7 @@ const de = lang === 'de'
       if (text !== undefined) element.textContent = text
       return element
     }
-    const addText = (group: SVGGElement, text: string, x: number, y: number, size: number, color: string, weight = '400') => group.appendChild(create('text', { x: String(x), y: String(y), fill: color, 'font-family': 'DM Sans, sans-serif', 'font-size': String(size), 'font-weight': weight }, text))
+    const addText = (group: SVGGElement, text: string, x: number, y: number, size: number, color: string, weight: string, anchor: 'start' | 'middle', fontFamily: string) => group.appendChild(create('text', { x: String(x), y: String(y), fill: color, 'font-family': `${fontFamily}, sans-serif`, 'font-size': String(size), 'font-weight': weight, 'text-anchor': anchor }, text))
     const setStatus = (message: string, hasPreview = false) => {
       if (status) status.textContent = message
       if (frame) frame.hidden = !hasPreview
@@ -63,30 +62,65 @@ const de = lang === 'de'
     const render = () => {
       if (!selection || !svg || !artwork || !description) return
       const dimensions = getArtworkDimensions(settings)
+      const appearance = template.definition.appearance
+      const templateLayout = template.definition.layout
+      const statisticsLayout = templateLayout.statistics
       artwork.replaceChildren()
       svg.setAttribute('viewBox', `0 0 ${dimensions.widthPx} ${dimensions.heightPx}`)
-      svg.style.backgroundColor = theme.background
+      svg.style.backgroundColor = typeof appearance.background === 'string' ? appearance.background : 'transparent'
       const statisticKeys: GpxVisibleStatistic[] = ['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime']
       const selectedStatisticKeys = statisticKeys.filter(key => visibleStatistics.has(key))
-      const layout = getPosterLayout({ width: dimensions.widthPx, height: dimensions.heightPx, routePadding: template.routePadding, hasTitle: Boolean(settings.title.trim()), statisticCount: selectedStatisticKeys.length, statisticColumns: template.statisticsColumns })
+      const layout = getPosterLayout({ height: dimensions.heightPx, hasTitle: Boolean(settings.title.trim()), statisticCount: selectedStatisticKeys.length, layout: templateLayout })
       const projection = projectRoute(selection.gpx, selection.option, dimensions.widthPx, dimensions.heightPx, layout.routePadding)
       if (!projection.hasDrawableRoute) {
         setStatus(locale === 'de' ? 'Für die Vorschau werden mindestens zwei verschiedene Punkte in einem sichtbaren Fragment benötigt.' : 'The preview needs at least two distinct points in one visible fragment.')
         if (meta) meta.textContent = ''
         return
       }
-      const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: theme.background })
+      const shadowIds = new Map<ShadowTarget, string>()
+      const declaredShadows = template.definition.settings.shadows
+      const declaredShadowEntries = Object.entries(declaredShadows) as [ShadowTarget, NonNullable<typeof declaredShadows[ShadowTarget]>][]
+      const defs = create('defs', {})
+      let backgroundFill = typeof appearance.background === 'string' ? appearance.background : 'transparent'
+      if (typeof appearance.background !== 'string') {
+        const gradientId = 'artwork-background-gradient'
+        const gradient = create('linearGradient', { id: gradientId, x1: '0%', y1: '0%', x2: '100%', y2: '100%', gradientTransform: `rotate(${appearance.background.angle} 0.5 0.5)` })
+        appearance.background.stops.forEach(stop => gradient.appendChild(create('stop', { offset: `${stop.position}%`, 'stop-color': stop.color })))
+        defs.appendChild(gradient)
+        backgroundFill = `url(#${gradientId})`
+      }
+      if (declaredShadowEntries.length) {
+        declaredShadowEntries.forEach(([target, shadow]) => {
+          if (!shadow.enabled || shadow.opacity <= 0 || (shadow.blur === 0 && shadow.offsetX === 0 && shadow.offsetY === 0)) return
+          const id = `artwork-shadow-${target}`
+          const filter = create('filter', { id, x: '-50%', y: '-50%', width: '200%', height: '200%' })
+          filter.appendChild(create('feDropShadow', { dx: String(shadow.offsetX), dy: String(shadow.offsetY), stdDeviation: String(shadow.blur / 2), 'flood-color': shadow.color, 'flood-opacity': String(shadow.opacity) }))
+          defs.appendChild(filter)
+          shadowIds.set(target, id)
+        })
+      }
+      if (defs.childElementCount) artwork.appendChild(defs)
+      const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: backgroundFill })
       artwork.appendChild(background)
-      const routeGroup = create('g', { fill: 'none', stroke: theme.routeColor, 'stroke-width': String(Math.max(dimensions.widthPx / 180, 8)), 'stroke-linecap': 'round', 'stroke-linejoin': 'round' })
+      const shadowAttributes = (target: ShadowTarget): Record<string, string> => {
+        const id = shadowIds.get(target)
+        return id ? { filter: `url(#${id})` } : {}
+      }
+      const routeGroup = create('g', { fill: 'none', stroke: appearance.routeColor, 'stroke-width': String(Math.max(dimensions.widthPx * templateLayout.route.strokeWidthRatio, templateLayout.route.minStrokeWidth)), 'stroke-linecap': templateLayout.route.linecap, 'stroke-linejoin': templateLayout.route.linejoin, ...shadowAttributes('route') })
       projection.paths.forEach(path => {
         const d = path.map((point, index) => `${index ? 'L' : 'M'} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(' ')
         routeGroup.appendChild(create('path', { d }))
       })
       artwork.appendChild(routeGroup)
-      const textGroup = create('g', { fill: theme.textColor }) as SVGGElement
+      const textGroup = create('g', { fill: appearance.textColor }) as SVGGElement
       if (settings.title.trim()) {
-        addText(textGroup, settings.title.trim(), dimensions.widthPx / 2, layout.headerY, dimensions.widthPx / 24, theme.textColor, '600')
-        textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.88), y1: String(layout.headerRuleY), y2: String(layout.headerRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: '0.45' }))
+        const titleGroup = create('g', { fill: appearance.textColor, ...shadowAttributes('title') }) as SVGGElement
+        const title = templateLayout.header.title
+        const headerRule = templateLayout.header.rule
+        const titleSize = dimensions.widthPx * title.sizeRatio
+        addText(titleGroup, settings.title.trim(), dimensions.widthPx * title.xRatio, layout.headerY, titleSize, appearance.textColor, String(title.weight), title.anchor, appearance.titleFontFamily)
+        titleGroup.appendChild(create('line', { x1: String(dimensions.widthPx * headerRule.x1Ratio), x2: String(dimensions.widthPx * headerRule.x2Ratio), y1: String(layout.headerRuleY), y2: String(layout.headerRuleY), stroke: appearance.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx * headerRule.strokeWidthRatio, 1)), opacity: String(headerRule.opacity) }))
+        textGroup.appendChild(titleGroup)
       }
       const stats = calculateGpxStatistics(selection.gpx, selection.option)
       const unit = settings.distanceUnit as GpxDistanceUnit
@@ -100,34 +134,55 @@ const de = lang === 'de'
         startTime: stats.startTimeMs === undefined ? unavailable : formatGpxDateTime(stats.startTimeMs, locale),
         endTime: stats.endTimeMs === undefined ? unavailable : formatGpxDateTime(stats.endTimeMs, locale),
       }
-      if (selectedStatisticKeys.length) {
-        textGroup.appendChild(create('rect', { x: String(dimensions.widthPx * 0.09), y: String(layout.statisticsRuleY + 28), width: String(dimensions.widthPx * 0.82), height: String(dimensions.heightPx - layout.statisticsRuleY - 110), fill: theme.background, opacity: '0.88' }))
-        textGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.88), y1: String(layout.statisticsRuleY), y2: String(layout.statisticsRuleY), stroke: theme.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx / 500, 4)), opacity: '0.45' }))
+      const primaryStatisticKey = statisticsLayout.primaryMetric && selectedStatisticKeys.includes(statisticsLayout.primaryMetric as GpxVisibleStatistic) ? statisticsLayout.primaryMetric as GpxVisibleStatistic : undefined
+      const supportingStatisticKeys = primaryStatisticKey ? selectedStatisticKeys.filter(key => key !== primaryStatisticKey) : selectedStatisticKeys
+      if (selectedStatisticKeys.length && statisticsLayout.panel.enabled) {
+        const statisticsGroup = create('g', { ...shadowAttributes('statistics') }) as SVGGElement
+        const panel = statisticsLayout.panel
+        const rule = statisticsLayout.rule
+        statisticsGroup.appendChild(create('rect', { x: String(dimensions.widthPx * panel.xRatio), y: String(layout.statisticsRuleY + panel.yOffset), width: String(dimensions.widthPx * panel.widthRatio), height: String(dimensions.heightPx - layout.statisticsRuleY - panel.bottomOffset), fill: backgroundFill, opacity: String(panel.opacity) }))
+        statisticsGroup.appendChild(create('line', { x1: String(dimensions.widthPx * rule.x1Ratio), x2: String(dimensions.widthPx * rule.x2Ratio), y1: String(layout.statisticsRuleY), y2: String(layout.statisticsRuleY), stroke: appearance.statisticColor, 'stroke-width': String(Math.max(dimensions.widthPx * rule.strokeWidthRatio, 1)), opacity: String(rule.opacity) }))
+        textGroup.appendChild(statisticsGroup)
       }
-      selectedStatisticKeys.forEach((key, index) => {
-        const column = index % template.statisticsColumns
-        const row = Math.floor(index / template.statisticsColumns)
-        const x = template.statisticsColumns === 1 ? dimensions.widthPx * 0.12 : dimensions.widthPx * (column ? 0.57 : 0.12)
-        const y = layout.statisticsY + row * layout.statisticsRowHeight
-        addText(textGroup, labels[key], x, y, dimensions.widthPx / 115, theme.statisticColor, '400')
-        addText(textGroup, values[key] ?? unavailable, x, y + dimensions.heightPx / 48, dimensions.widthPx / 68, theme.statisticColor, '600')
+      if (primaryStatisticKey) {
+        const x = dimensions.widthPx * 0.12
+        const primaryGroup = create('g', { ...shadowAttributes('statistics') }) as SVGGElement
+        addText(primaryGroup, labels[primaryStatisticKey], x, layout.primaryStatisticY, dimensions.widthPx * statisticsLayout.primary.labelSizeRatio, appearance.statisticColor, String(appearance.statisticLabelWeight), 'start', appearance.bodyFontFamily)
+        addText(primaryGroup, values[primaryStatisticKey] ?? unavailable, x, layout.primaryStatisticY + dimensions.heightPx * statisticsLayout.primary.valueYOffsetRatio, dimensions.widthPx * statisticsLayout.primary.valueSizeRatio, appearance.statisticColor, String(appearance.statisticValueWeight), 'start', appearance.bodyFontFamily)
+        textGroup.appendChild(primaryGroup)
+      }
+      const supportingStatisticsY = primaryStatisticKey ? layout.primaryStatisticY + dimensions.heightPx * statisticsLayout.primary.supportingOffsetRatio : layout.statisticsY
+      supportingStatisticKeys.forEach((key, index) => {
+        const column = index % statisticsLayout.columns
+        const row = Math.floor(index / statisticsLayout.columns)
+        const x = dimensions.widthPx * (statisticsLayout.supporting.columnXRatios[column] ?? statisticsLayout.supporting.columnXRatios.at(-1)!)
+        const y = supportingStatisticsY + row * layout.statisticsRowHeight
+        const labelSize = dimensions.widthPx * statisticsLayout.supporting.labelSizeRatio
+        const valueSize = dimensions.widthPx * statisticsLayout.supporting.valueSizeRatio
+        const statisticGroup = create('g', { ...shadowAttributes('statistics') }) as SVGGElement
+        addText(statisticGroup, labels[key], x, y, labelSize, appearance.statisticColor, String(appearance.statisticLabelWeight), 'start', appearance.bodyFontFamily)
+        addText(statisticGroup, values[key] ?? unavailable, x, y + dimensions.heightPx * statisticsLayout.primary.valueYOffsetRatio, valueSize, appearance.statisticColor, String(appearance.statisticValueWeight), 'start', appearance.bodyFontFamily)
+        textGroup.appendChild(statisticGroup)
       })
       artwork.appendChild(textGroup)
-      const scaleGroup = create('g', { stroke: theme.textColor, fill: theme.textColor }) as SVGGElement
-      const scaleWidth = dimensions.widthPx * 0.16
-      const scaleY = dimensions.heightPx - 150
-      scaleGroup.appendChild(create('line', { x1: String(dimensions.widthPx * 0.12), x2: String(dimensions.widthPx * 0.12 + scaleWidth), y1: String(scaleY), y2: String(scaleY), stroke: theme.textColor, 'stroke-width': String(Math.max(dimensions.widthPx / 240, 6)) }))
-      addText(scaleGroup, `${labels.scale}: ${formatGpxDistance(projection.scaleKilometres * 1000, unit)}`, dimensions.widthPx * 0.12, scaleY - 25, dimensions.widthPx / 105, theme.textColor)
-      artwork.appendChild(scaleGroup)
-      const summary = locale === 'de' ? `Routen-Artwork mit ${projection.paths.length} sichtbaren Fragmenten, Vorlage ${template.label}, Thema ${theme.label}.` : `Route artwork with ${projection.paths.length} visible fragments, ${template.label} template, ${theme.label} theme.`
+      if (templateLayout.scale.enabled) {
+        const scaleGroup = create('g', { stroke: appearance.textColor, fill: appearance.textColor, ...shadowAttributes('scale') }) as SVGGElement
+        const scale = templateLayout.scale
+        const scaleWidth = dimensions.widthPx * scale.widthRatio
+        const scaleY = dimensions.heightPx - scale.yOffset
+        const scaleX = dimensions.widthPx * scale.xRatio
+        scaleGroup.appendChild(create('line', { x1: String(scaleX), x2: String(scaleX + scaleWidth), y1: String(scaleY), y2: String(scaleY), stroke: appearance.textColor, 'stroke-width': String(Math.max(dimensions.widthPx * scale.strokeWidthRatio, scale.minStrokeWidth)) }))
+        addText(scaleGroup, `${labels.scale}: ${formatGpxDistance(projection.scaleKilometres * 1000, unit)}`, scaleX, scaleY - scale.labelOffset, dimensions.widthPx * scale.labelSizeRatio, appearance.textColor, String(appearance.scaleWeight), 'start', appearance.bodyFontFamily)
+        artwork.appendChild(scaleGroup)
+      }
+      const summary = locale === 'de' ? `Routen-Artwork mit ${projection.paths.length} sichtbaren Fragmenten, Vorlage ${template.label}.` : `Route artwork with ${projection.paths.length} visible fragments, ${template.label} template.`
       description.textContent = summary
       svg.setAttribute('aria-label', summary)
       setStatus('', true)
-      if (meta) meta.textContent = `${template.label} · ${theme.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
+      if (meta) meta.textContent = `${template.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
     }
     document.addEventListener('gpxselectionchange', event => { selection = (event as CustomEvent<SelectionDetail>).detail; render() })
     document.addEventListener('gpxvisiblemetricschange', event => { visibleStatistics = new Set((event as CustomEvent<string[]>).detail as GpxVisibleStatistic[]); render() })
-    document.addEventListener('artworkthemechange', event => { theme = (event as CustomEvent<ArtworkTheme>).detail; render() })
     document.addEventListener('artworktemplatechange', event => { template = (event as CustomEvent<ArtworkTemplate>).detail; render() })
     document.addEventListener('artworksettingschange', event => { settings = (event as CustomEvent<ArtworkSettings>).detail; render() })
   })

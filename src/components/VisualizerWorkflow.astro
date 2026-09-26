@@ -1,7 +1,6 @@
 ---
 import ArtworkSettingsPanel from './ArtworkSettingsPanel.astro'
 import ArtworkTemplatePicker from './ArtworkTemplatePicker.astro'
-import ArtworkThemePicker from './ArtworkThemePicker.astro'
 import GpxUploadPanel from './GpxUploadPanel.astro'
 import RoutePosterPreview from './RoutePosterPreview.astro'
 import type { Lang } from '../utils/i18n'
@@ -26,7 +25,6 @@ const de = lang === 'de'
     <div class="workflow-design-grid">
       <aside class="workflow-controls" aria-label={de ? 'Artwork-Einstellungen' : 'Artwork controls'}>
         <ArtworkTemplatePicker lang={lang} />
-        <ArtworkThemePicker lang={lang} />
         <ArtworkSettingsPanel lang={lang} />
       </aside>
       <main class="workflow-preview"><RoutePosterPreview lang={lang} /></main>
