@@ -9,18 +9,18 @@ import {
 } from './artworkSettings'
 
 describe('artwork settings', () => {
-  it('uses the A4 portrait defaults', () => {
-    expect(DEFAULT_ARTWORK_SETTINGS).toEqual({ orientation: 'portrait', size: 'a4', title: '', distanceUnit: 'metric' })
-    expect(getArtworkDimensions(DEFAULT_ARTWORK_SETTINGS)).toEqual({ widthMm: 210, heightMm: 297, widthPx: 2480, heightPx: 3508 })
+  it('uses the default pixel dimensions', () => {
+    expect(DEFAULT_ARTWORK_SETTINGS).toEqual({ widthPx: 2480, heightPx: 3508, title: '', distanceUnit: 'metric' })
+    expect(getArtworkDimensions(DEFAULT_ARTWORK_SETTINGS)).toEqual({ widthPx: 2480, heightPx: 3508 })
   })
 
-  it('swaps physical and pixel dimensions for landscape layouts', () => {
-    expect(getArtworkDimensions({ orientation: 'landscape', size: 'a3' })).toEqual({ widthMm: 420, heightMm: 297, widthPx: 4961, heightPx: 3508 })
-    expect(getArtworkDimensions({ orientation: 'landscape', size: 'square' })).toEqual({ widthMm: 254, heightMm: 254, widthPx: 3000, heightPx: 3000 })
+  it('uses custom pixel dimensions directly', () => {
+    expect(getArtworkDimensions({ widthPx: 4000, heightPx: 2500 })).toEqual({ widthPx: 4000, heightPx: 2500 })
   })
 
-  it('normalizes unsupported values and disables landscape for square output', () => {
-    expect(normalizeArtworkSettings({ size: 'square', orientation: 'landscape', distanceUnit: 'imperial', title: 'Run' })).toEqual({ size: 'square', orientation: 'portrait', distanceUnit: 'imperial', title: 'Run' })
+  it('normalizes unsupported dimensions and settings', () => {
+    expect(normalizeArtworkSettings({ widthPx: 100, heightPx: 20000, distanceUnit: 'imperial', title: 'Run' })).toEqual({ widthPx: 2480, heightPx: 3508, distanceUnit: 'imperial', title: 'Run' })
+    expect(normalizeArtworkSettings({ widthPx: 4000.5, heightPx: 2500 })).toEqual({ widthPx: 2480, heightPx: 2500, distanceUnit: 'metric', title: '' })
   })
 
   it('counts Unicode code points and validates title limits', () => {

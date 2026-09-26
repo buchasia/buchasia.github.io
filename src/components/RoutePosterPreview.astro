@@ -179,7 +179,7 @@ const de = lang === 'de'
       description.textContent = summary
       svg.setAttribute('aria-label', summary)
       setStatus('', true)
-      if (meta) meta.textContent = `${template.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
+      if (meta) meta.textContent = `${template.label} · ${dimensions.widthPx} × ${dimensions.heightPx} px · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
     }
     document.addEventListener('gpxselectionchange', event => { selection = (event as CustomEvent<SelectionDetail>).detail; render() })
     document.addEventListener('artworktemplatechange', event => {
