@@ -1,3 +1,5 @@
+import type { GpxVisibleStatistic } from './gpxVisibleStatistics'
+
 export const TEMPLATE_SCHEMA = 'run-template-definition/v1' as const
 export const TEMPLATE_VERSION = 1 as const
 
@@ -46,6 +48,7 @@ export type TemplateLayout = {
     routeTopPaddingRatio: number
   }
   statistics: {
+    visibleStatistics: GpxVisibleStatistic[]
     columns: number
     rowHeightRatio: number
     minRowHeight: number
@@ -97,11 +100,12 @@ const validateShadow = (value: unknown): value is ArtworkShadow => isRecord(valu
   && isFiniteNumber(value.opacity) && value.opacity >= 0 && value.opacity <= 1
 
 const isRatio = (value: unknown) => isFiniteNumber(value) && value >= 0 && value <= 1
+const statisticKeys = new Set<GpxVisibleStatistic>(['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime'])
 const isPositiveNumber = (value: unknown) => isFiniteNumber(value) && value > 0
 const isLayout = (value: unknown): value is TemplateLayout => {
   if (!isRecord(value) || !isPositiveNumber(value.routePadding) || !isRecord(value.route) || !isRatio(value.route.strokeWidthRatio) || !isPositiveNumber(value.route.minStrokeWidth) || !['round', 'butt', 'square'].includes(String(value.route.linecap)) || !['round', 'bevel', 'miter'].includes(String(value.route.linejoin))) return false
   if (!isRecord(value.header) || !isRecord(value.header.title) || !isRatio(value.header.title.xRatio) || !isRatio(value.header.title.yRatio) || !isRatio(value.header.title.sizeRatio) || ![400, 500, 600, 700].includes(Number(value.header.title.weight)) || !['start', 'middle'].includes(String(value.header.title.anchor)) || !isRecord(value.header.rule) || !isRatio(value.header.rule.x1Ratio) || !isRatio(value.header.rule.x2Ratio) || !isRatio(value.header.rule.yWithTitleRatio) || !isRatio(value.header.rule.yWithoutTitleRatio) || !isRatio(value.header.rule.strokeWidthRatio) || !isRatio(value.header.rule.opacity) || !isRatio(value.header.routeTopPaddingRatio)) return false
-  if (!isRecord(value.statistics) || !isPositiveNumber(value.statistics.columns) || !isRatio(value.statistics.rowHeightRatio) || !isPositiveNumber(value.statistics.minRowHeight) || !isFiniteNumber(value.statistics.blockTopPadding) || value.statistics.blockTopPadding < 0 || !isRatio(value.statistics.bottomPaddingRatio)) return false
+  if (!isRecord(value.statistics) || !Array.isArray(value.statistics.visibleStatistics) || value.statistics.visibleStatistics.length < 1 || new Set(value.statistics.visibleStatistics).size !== value.statistics.visibleStatistics.length || !value.statistics.visibleStatistics.every(statistic => typeof statistic === 'string' && statisticKeys.has(statistic as GpxVisibleStatistic)) || !isPositiveNumber(value.statistics.columns) || !isRatio(value.statistics.rowHeightRatio) || !isPositiveNumber(value.statistics.minRowHeight) || !isFiniteNumber(value.statistics.blockTopPadding) || value.statistics.blockTopPadding < 0 || !isRatio(value.statistics.bottomPaddingRatio)) return false
   if (!isRecord(value.statistics.rule) || !isRatio(value.statistics.rule.x1Ratio) || !isRatio(value.statistics.rule.x2Ratio) || !isRatio(value.statistics.rule.strokeWidthRatio) || !isRatio(value.statistics.rule.opacity)) return false
   if (!isRecord(value.statistics.panel) || typeof value.statistics.panel.enabled !== 'boolean' || !isRatio(value.statistics.panel.xRatio) || !isRatio(value.statistics.panel.widthRatio) || !isFiniteNumber(value.statistics.panel.yOffset) || value.statistics.panel.yOffset < 0 || !isFiniteNumber(value.statistics.panel.bottomOffset) || value.statistics.panel.bottomOffset < 0 || !isRatio(value.statistics.panel.opacity)) return false
   if (!(value.statistics.primaryMetric === null || typeof value.statistics.primaryMetric === 'string') || !isRecord(value.statistics.primary) || !isRatio(value.statistics.primary.labelSizeRatio) || !isRatio(value.statistics.primary.valueSizeRatio) || !isRatio(value.statistics.primary.valueYOffsetRatio) || !isRatio(value.statistics.primary.supportingOffsetRatio)) return false

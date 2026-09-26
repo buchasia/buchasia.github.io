@@ -45,6 +45,8 @@ npm run build
 Bundled artwork templates live in `src/data/artwork-templates/*.template.json`.
 Each file is a complete template: layout, palette, background, typography,
 shadows, defaults, and editor controls are all part of the same definition.
+The `layout.statistics.visibleStatistics` array controls which calculated
+statistics the poster renders by default.
 The registry in `src/utils/artworkTemplates.ts` validates each definition at
 module load time. Use the existing `run-template-definition/v1` schema and
 increment the schema/version together when the contract changes; add a

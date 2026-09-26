@@ -19,4 +19,12 @@ describe('artwork template definitions', () => {
     editor.push({ id: 'unsafe', type: 'text', path: '__proto__.polluted', label: 'Unsafe', maxLength: 10 })
     expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
   })
+
+  it('rejects invalid visible statistic keys', () => {
+    const invalid = structuredClone(stats) as Record<string, unknown>
+    const layout = invalid.layout as Record<string, unknown>
+    const statistics = layout.statistics as Record<string, unknown>
+    statistics.visibleStatistics = ['distance', 'not-a-statistic']
+    expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
+  })
 })

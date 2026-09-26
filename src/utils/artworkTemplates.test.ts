@@ -9,7 +9,10 @@ describe('artwork templates', () => {
     expect(ARTWORK_TEMPLATES.classic.definition.settings.shadows).toEqual({})
     expect(ARTWORK_TEMPLATES.stats.definition.settings.shadows).toMatchObject({ title: { enabled: true }, statistics: { enabled: true } })
     expect(ARTWORK_TEMPLATES['night-run'].definition.appearance.background).toMatchObject({ kind: 'linear-gradient' })
-    Object.values(ARTWORK_TEMPLATES).forEach(template => expect(template.definition.layout.statistics.columns).toBeGreaterThan(0))
+    Object.values(ARTWORK_TEMPLATES).forEach(template => {
+      expect(template.definition.layout.statistics.columns).toBeGreaterThan(0)
+      expect(template.definition.layout.statistics.visibleStatistics).toContain('distance')
+    })
   })
 
   it('falls back safely for unknown values', () => {

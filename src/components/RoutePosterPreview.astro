@@ -22,7 +22,7 @@ const de = lang === 'de'
   import { getPosterLayout } from '../utils/artworkLayout'
   import { getArtworkTemplate, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplate } from '../utils/artworkTemplates'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
-  import { DEFAULT_VISIBLE_STATISTICS, type GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
+  import type { GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
   import { projectRoute } from '../utils/routeProjection'
   import type { ValidatedGpx } from '../utils/gpxValidationTypes'
   import type { GpxRouteSelectionOption } from '../utils/gpxRouteSelection'
@@ -42,7 +42,7 @@ const de = lang === 'de'
     let selection: SelectionDetail | undefined
     let template: ArtworkTemplate = getArtworkTemplate(DEFAULT_ARTWORK_TEMPLATE)
     let settings: ArtworkSettings = { ...DEFAULT_ARTWORK_SETTINGS }
-    let visibleStatistics = new Set<GpxVisibleStatistic>(DEFAULT_VISIBLE_STATISTICS)
+    let visibleStatistics = new Set<GpxVisibleStatistic>(template.definition.layout.statistics.visibleStatistics)
     const svgNamespace = 'http://www.w3.org/2000/svg'
     const unavailable = locale === 'de' ? '—' : '—'
     const labels = locale === 'de'
@@ -182,8 +182,11 @@ const de = lang === 'de'
       if (meta) meta.textContent = `${template.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
     }
     document.addEventListener('gpxselectionchange', event => { selection = (event as CustomEvent<SelectionDetail>).detail; render() })
-    document.addEventListener('gpxvisiblemetricschange', event => { visibleStatistics = new Set((event as CustomEvent<string[]>).detail as GpxVisibleStatistic[]); render() })
-    document.addEventListener('artworktemplatechange', event => { template = (event as CustomEvent<ArtworkTemplate>).detail; render() })
+    document.addEventListener('artworktemplatechange', event => {
+      template = (event as CustomEvent<ArtworkTemplate>).detail
+      visibleStatistics = new Set<GpxVisibleStatistic>(template.definition.layout.statistics.visibleStatistics)
+      render()
+    })
     document.addEventListener('artworksettingschange', event => { settings = (event as CustomEvent<ArtworkSettings>).detail; render() })
   })
 </script>

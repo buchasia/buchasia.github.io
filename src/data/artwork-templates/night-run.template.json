@@ -13,6 +13,7 @@
       "routeTopPaddingRatio": 0.025
     },
     "statistics": {
+      "visibleStatistics": ["distance", "recordedTime", "pace", "elevationGain"],
       "columns": 2,
       "rowHeightRatio": 0.045,
       "minRowHeight": 104,
