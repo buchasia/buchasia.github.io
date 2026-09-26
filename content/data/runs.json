@@ -1,5 +1,9 @@
 [
-{"id":"garmin-2026-09-25","date":"2026-09-25","activityType":"Running","distance":5100,"duration":1961,"totalAscent":9},
+  {"id":"garmin-2026-09-26","date":"2026-09-26","activityType":"Running","distance":2670,"duration":958,"totalAscent":3},
+ {"id":"garmin-2026-09-26-2","date":"2026-09-26","activityType":"Running","distance":5030,"duration":1791,"totalAscent":0},
+  {"id":"garmin-2026-09-26-3","date":"2026-09-26","activityType":"Running","distance":2840,"duration":1128,"totalAscent":0},
+  {"id":"garmin-2026-09-26-4","date":"2026-09-26","activityType":"Running","distance":5530,"duration":2069,"totalAscent":9},
+ {"id":"garmin-2026-09-25","date":"2026-09-25","activityType":"Running","distance":5100,"duration":1961,"totalAscent":9},
  {"id":"garmin-2026-09-24","date":"2026-09-24","activityType":"Treadmill Running","distance":2090,"duration":774,"totalAscent":0},
   {"id":"garmin-2026-09-20","date":"2026-09-20","activityType":"Running","distance":5030,"duration":2858,"totalAscent":14},
   {"id":"garmin-2026-09-19","date":"2026-09-19","activityType":"Running","distance":5020,"duration":1965,"totalAscent":26},
