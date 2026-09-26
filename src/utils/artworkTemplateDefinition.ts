@@ -15,6 +15,10 @@ export type ArtworkAppearance = {
   titleFontFamily: 'Source Serif 4'
   bodyFontFamily: 'DM Sans'
   titleFontWeight: 600 | 700
+  bodyFontWeight: 400 | 500 | 600 | 700
+  statisticLabelWeight: 400 | 500 | 600 | 700
+  statisticValueWeight: 400 | 500 | 600 | 700
+  scaleWeight: 400 | 500 | 600 | 700
 }
 
 export type ArtworkShadow = {
@@ -33,14 +37,36 @@ export type TemplateEditorControl =
   | { id: string; type: 'color'; path: string; label: LocalizedText }
   | { id: string; type: 'linear-gradient'; path: string; label: LocalizedText; minStops: number; maxStops: number; allowAngle: boolean }
 
+export type TemplateLayout = {
+  routePadding: number
+  route: { strokeWidthRatio: number; minStrokeWidth: number; linecap: 'round' | 'butt' | 'square'; linejoin: 'round' | 'bevel' | 'miter' }
+  header: {
+    title: { xRatio: number; yRatio: number; sizeRatio: number; weight: 400 | 500 | 600 | 700; anchor: 'start' | 'middle' }
+    rule: { x1Ratio: number; x2Ratio: number; yWithTitleRatio: number; yWithoutTitleRatio: number; strokeWidthRatio: number; opacity: number }
+    routeTopPaddingRatio: number
+  }
+  statistics: {
+    columns: number
+    rowHeightRatio: number
+    minRowHeight: number
+    blockTopPadding: number
+    bottomPaddingRatio: number
+    rule: { x1Ratio: number; x2Ratio: number; strokeWidthRatio: number; opacity: number }
+    panel: { enabled: boolean; xRatio: number; widthRatio: number; yOffset: number; bottomOffset: number; opacity: number }
+    primaryMetric: string | null
+    primary: { labelSizeRatio: number; valueSizeRatio: number; valueYOffsetRatio: number; supportingOffsetRatio: number }
+    supporting: { startOffset: number; columnXRatios: number[]; labelSizeRatio: number; valueSizeRatio: number }
+  }
+  scale: { enabled: boolean; xRatio: number; yOffset: number; widthRatio: number; strokeWidthRatio: number; minStrokeWidth: number; labelOffset: number; labelSizeRatio: number }
+}
+
 export type ArtworkTemplateDefinition = {
   $schema: typeof TEMPLATE_SCHEMA
   version: typeof TEMPLATE_VERSION
   id: string
   name: LocalizedText
   description: LocalizedText
-  composition: 'classic' | 'minimal' | 'stats'
-  layout: { routePadding: number; statisticsColumns: 1 | 2 }
+  layout: TemplateLayout
   appearance: ArtworkAppearance
   settings: { shadows: Partial<Record<ArtworkShadowTarget, ArtworkShadow>> }
   editor: TemplateEditorControl[]
@@ -70,12 +96,25 @@ const validateShadow = (value: unknown): value is ArtworkShadow => isRecord(valu
   && isFiniteNumber(value.offsetY) && value.offsetY >= -200 && value.offsetY <= 200
   && isFiniteNumber(value.opacity) && value.opacity >= 0 && value.opacity <= 1
 
+const isRatio = (value: unknown) => isFiniteNumber(value) && value >= 0 && value <= 1
+const isPositiveNumber = (value: unknown) => isFiniteNumber(value) && value > 0
+const isLayout = (value: unknown): value is TemplateLayout => {
+  if (!isRecord(value) || !isPositiveNumber(value.routePadding) || !isRecord(value.route) || !isRatio(value.route.strokeWidthRatio) || !isPositiveNumber(value.route.minStrokeWidth) || !['round', 'butt', 'square'].includes(String(value.route.linecap)) || !['round', 'bevel', 'miter'].includes(String(value.route.linejoin))) return false
+  if (!isRecord(value.header) || !isRecord(value.header.title) || !isRatio(value.header.title.xRatio) || !isRatio(value.header.title.yRatio) || !isRatio(value.header.title.sizeRatio) || ![400, 500, 600, 700].includes(Number(value.header.title.weight)) || !['start', 'middle'].includes(String(value.header.title.anchor)) || !isRecord(value.header.rule) || !isRatio(value.header.rule.x1Ratio) || !isRatio(value.header.rule.x2Ratio) || !isRatio(value.header.rule.yWithTitleRatio) || !isRatio(value.header.rule.yWithoutTitleRatio) || !isRatio(value.header.rule.strokeWidthRatio) || !isRatio(value.header.rule.opacity) || !isRatio(value.header.routeTopPaddingRatio)) return false
+  if (!isRecord(value.statistics) || !isPositiveNumber(value.statistics.columns) || !isRatio(value.statistics.rowHeightRatio) || !isPositiveNumber(value.statistics.minRowHeight) || !isFiniteNumber(value.statistics.blockTopPadding) || value.statistics.blockTopPadding < 0 || !isRatio(value.statistics.bottomPaddingRatio)) return false
+  if (!isRecord(value.statistics.rule) || !isRatio(value.statistics.rule.x1Ratio) || !isRatio(value.statistics.rule.x2Ratio) || !isRatio(value.statistics.rule.strokeWidthRatio) || !isRatio(value.statistics.rule.opacity)) return false
+  if (!isRecord(value.statistics.panel) || typeof value.statistics.panel.enabled !== 'boolean' || !isRatio(value.statistics.panel.xRatio) || !isRatio(value.statistics.panel.widthRatio) || !isFiniteNumber(value.statistics.panel.yOffset) || value.statistics.panel.yOffset < 0 || !isFiniteNumber(value.statistics.panel.bottomOffset) || value.statistics.panel.bottomOffset < 0 || !isRatio(value.statistics.panel.opacity)) return false
+  if (!(value.statistics.primaryMetric === null || typeof value.statistics.primaryMetric === 'string') || !isRecord(value.statistics.primary) || !isRatio(value.statistics.primary.labelSizeRatio) || !isRatio(value.statistics.primary.valueSizeRatio) || !isRatio(value.statistics.primary.valueYOffsetRatio) || !isRatio(value.statistics.primary.supportingOffsetRatio)) return false
+  if (!isRecord(value.statistics.supporting) || !isFiniteNumber(value.statistics.supporting.startOffset) || value.statistics.supporting.startOffset < 0 || !Array.isArray(value.statistics.supporting.columnXRatios) || value.statistics.supporting.columnXRatios.length < 1 || !value.statistics.supporting.columnXRatios.every(isRatio) || !isRatio(value.statistics.supporting.labelSizeRatio) || !isRatio(value.statistics.supporting.valueSizeRatio)) return false
+  if (!isRecord(value.scale) || typeof value.scale.enabled !== 'boolean' || !isRatio(value.scale.xRatio) || !isFiniteNumber(value.scale.yOffset) || value.scale.yOffset < 0 || !isRatio(value.scale.widthRatio) || !isRatio(value.scale.strokeWidthRatio) || !isPositiveNumber(value.scale.minStrokeWidth) || !isFiniteNumber(value.scale.labelOffset) || value.scale.labelOffset < 0 || !isRatio(value.scale.labelSizeRatio)) return false
+  return true
+}
+
 export const validateArtworkTemplateDefinition = (value: unknown): value is ArtworkTemplateDefinition => {
   if (!isRecord(value) || value.$schema !== TEMPLATE_SCHEMA || value.version !== TEMPLATE_VERSION) return false
   if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description)) return false
-  if (!['classic', 'minimal', 'stats'].includes(String(value.composition))) return false
-  if (!isRecord(value.layout) || !isFiniteNumber(value.layout.routePadding) || value.layout.routePadding < 0 || value.layout.routePadding > 2000 || ![1, 2].includes(Number(value.layout.statisticsColumns))) return false
-  if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || (value.appearance.titleFontWeight !== 600 && value.appearance.titleFontWeight !== 700)) return false
+  if (!isLayout(value.layout)) return false
+  if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
   if (!isRecord(value.settings) || !isRecord(value.settings.shadows) || !Array.isArray(value.editor)) return false
   for (const [target, shadow] of Object.entries(value.settings.shadows)) if (!targets.has(target as ArtworkShadowTarget) || !validateShadow(shadow)) return false
   const ids = new Set<string>()

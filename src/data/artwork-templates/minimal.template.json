@@ -4,8 +4,28 @@
   "id": "minimal",
   "name": { "en": "Minimal", "de": "Minimal" },
   "description": { "en": "A route-first composition with quiet supporting metadata.", "de": "Eine routenorientierte Komposition mit zurückhaltenden Zusatzinformationen." },
-  "composition": "minimal",
-  "layout": { "routePadding": 300, "statisticsColumns": 2 },
+  "layout": {
+    "routePadding": 300,
+    "route": { "strokeWidthRatio": 0.006667, "minStrokeWidth": 10, "linecap": "round", "linejoin": "round" },
+    "header": {
+      "title": { "xRatio": 0.12, "yRatio": 0.11, "sizeRatio": 0.033333, "weight": 600, "anchor": "start" },
+      "rule": { "x1Ratio": 0.12, "x2Ratio": 0.35, "yWithTitleRatio": 0.135, "yWithoutTitleRatio": 0.11, "strokeWidthRatio": 0.002, "opacity": 0.7 },
+      "routeTopPaddingRatio": 0.025
+    },
+    "statistics": {
+      "columns": 2,
+      "rowHeightRatio": 0.032,
+      "minRowHeight": 76,
+      "blockTopPadding": 70,
+      "bottomPaddingRatio": 0.07,
+      "rule": { "x1Ratio": 0.12, "x2Ratio": 0.88, "strokeWidthRatio": 0.002, "opacity": 0.45 },
+      "panel": { "enabled": false, "xRatio": 0.09, "widthRatio": 0.82, "yOffset": 28, "bottomOffset": 110, "opacity": 0 },
+      "primaryMetric": null,
+      "primary": { "labelSizeRatio": 0.01, "valueSizeRatio": 0.076923, "valueYOffsetRatio": 0.065, "supportingOffsetRatio": 0 },
+      "supporting": { "startOffset": 58, "columnXRatios": [0.12, 0.57], "labelSizeRatio": 0.007407, "valueSizeRatio": 0.018182 }
+    },
+    "scale": { "enabled": false, "xRatio": 0.12, "yOffset": 150, "widthRatio": 0.16, "strokeWidthRatio": 0.004167, "minStrokeWidth": 6, "labelOffset": 25, "labelSizeRatio": 0.009524 }
+  },
   "appearance": {
     "background": "#F5FAF6",
     "routeColor": "#276749",
@@ -14,7 +34,11 @@
     "footerColor": "#163B2B",
     "titleFontFamily": "Source Serif 4",
     "bodyFontFamily": "DM Sans",
-    "titleFontWeight": 600
+    "titleFontWeight": 600,
+    "bodyFontWeight": 400,
+    "statisticLabelWeight": 500,
+    "statisticValueWeight": 700,
+    "scaleWeight": 500
   },
   "settings": { "shadows": {} },
   "editor": []
