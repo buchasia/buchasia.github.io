@@ -1,0 +1,21 @@
+{
+  "$schema": "run-template-definition/v1",
+  "version": 1,
+  "id": "minimal",
+  "name": { "en": "Minimal", "de": "Minimal" },
+  "description": { "en": "A route-first composition with quiet supporting metadata.", "de": "Eine routenorientierte Komposition mit zurückhaltenden Zusatzinformationen." },
+  "composition": "minimal",
+  "layout": { "routePadding": 300, "statisticsColumns": 2 },
+  "appearance": {
+    "background": "#F5FAF6",
+    "routeColor": "#276749",
+    "textColor": "#163B2B",
+    "statisticColor": "#163B2B",
+    "footerColor": "#163B2B",
+    "titleFontFamily": "Source Serif 4",
+    "bodyFontFamily": "DM Sans",
+    "titleFontWeight": 600
+  },
+  "settings": { "shadows": {} },
+  "editor": []
+}

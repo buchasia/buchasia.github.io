@@ -40,6 +40,28 @@ Run the production validation before publishing:
 npm run build
 ```
 
+## Artwork template definitions
+
+Bundled artwork templates live in `src/data/artwork-templates/*.template.json`.
+Each file is a complete template: layout, palette, background, typography,
+shadows, defaults, and editor controls are all part of the same definition.
+The registry in `src/utils/artworkTemplates.ts` validates each definition at
+module load time. Use the existing `run-template-definition/v1` schema and
+increment the schema/version together when the contract changes; add a
+migration in `src/utils/artworkTemplateDefinition.ts` before introducing a
+new version.
+
+Each template can declare shadows independently for `route`, `title`,
+`statistics`, `scale`, and `footer` under `settings.shadows`. A template that
+does not declare a target does not render a shadow for that element. Shadow
+values use artwork pixels for blur and offsets, a six-digit hex color, and an
+opacity from 0 to 1.
+
+Template JSON is bundled into the static site. Select a template through the
+single template selector; there is no separate theme selector. GPX data and
+any later editor settings remain browser-memory-only and are not written to
+public content data.
+
 ## Writing posts
 
 Add posts under `content/blog`. Each post uses an `index.md` file with this

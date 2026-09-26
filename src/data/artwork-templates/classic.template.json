@@ -1,0 +1,21 @@
+{
+  "$schema": "run-template-definition/v1",
+  "version": 1,
+  "id": "classic",
+  "name": { "en": "Classic", "de": "Klassisch" },
+  "description": { "en": "A balanced editorial route poster with a calm metric grid.", "de": "Ein ausgewogenes, redaktionelles Routenposter mit ruhigem Metrikraster." },
+  "composition": "classic",
+  "layout": { "routePadding": 180, "statisticsColumns": 2 },
+  "appearance": {
+    "background": "#FFFFFF",
+    "routeColor": "#B91C1C",
+    "textColor": "#171717",
+    "statisticColor": "#171717",
+    "footerColor": "#171717",
+    "titleFontFamily": "Source Serif 4",
+    "bodyFontFamily": "DM Sans",
+    "titleFontWeight": 600
+  },
+  "settings": { "shadows": {} },
+  "editor": []
+}

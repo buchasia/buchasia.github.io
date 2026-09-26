@@ -1,4 +1,10 @@
-export type ArtworkTemplateId = 'classic' | 'minimal' | 'stats'
+import classicDefinition from '../data/artwork-templates/classic.template.json'
+import minimalDefinition from '../data/artwork-templates/minimal.template.json'
+import statsDefinition from '../data/artwork-templates/stats.template.json'
+import nightRunDefinition from '../data/artwork-templates/night-run.template.json'
+import { localizeTemplateText, validateArtworkTemplateDefinition, type ArtworkTemplateDefinition } from './artworkTemplateDefinition'
+
+export type ArtworkTemplateId = 'classic' | 'minimal' | 'stats' | 'night-run'
 export type ArtworkTemplateComposition = 'classic' | 'minimal' | 'stats'
 
 export type ArtworkTemplate = {
@@ -10,13 +16,26 @@ export type ArtworkTemplate = {
   titleY: number
   statisticsY: number
   statisticsColumns: 1 | 2
+  appearance: ArtworkTemplateDefinition['appearance']
+  definition: ArtworkTemplateDefinition
 }
 
-export const ARTWORK_TEMPLATES: Record<ArtworkTemplateId, ArtworkTemplate> = {
-  classic: { id: 'classic', label: 'Classic', description: 'A balanced editorial route poster with a calm metric grid.', composition: 'classic', routePadding: 180, titleY: 0.16, statisticsY: 0.86, statisticsColumns: 2 },
-  minimal: { id: 'minimal', label: 'Minimal', description: 'A route-first composition with quiet supporting metadata.', composition: 'minimal', routePadding: 300, titleY: 0.12, statisticsY: 0.91, statisticsColumns: 2 },
-  stats: { id: 'stats', label: 'Stats', description: 'A metric-led poster with a prominent distance and supporting route.', composition: 'stats', routePadding: 140, titleY: 0.12, statisticsY: 0.72, statisticsColumns: 2 },
-}
+const definitions = [classicDefinition, minimalDefinition, statsDefinition, nightRunDefinition]
+if (definitions.some(definition => !validateArtworkTemplateDefinition(definition))) throw new Error('Invalid bundled artwork template definition.')
+
+export const ARTWORK_TEMPLATE_DEFINITIONS = definitions as ArtworkTemplateDefinition[]
+export const ARTWORK_TEMPLATES: Record<ArtworkTemplateId, ArtworkTemplate> = Object.fromEntries(ARTWORK_TEMPLATE_DEFINITIONS.map(definition => [definition.id, {
+  id: definition.id as ArtworkTemplateId,
+  label: localizeTemplateText(definition.name, 'en'),
+  description: localizeTemplateText(definition.description, 'en'),
+  composition: definition.composition,
+  routePadding: definition.layout.routePadding,
+  titleY: definition.composition === 'classic' ? 0.16 : definition.composition === 'minimal' ? 0.12 : 0.12,
+  statisticsY: definition.composition === 'classic' ? 0.86 : definition.composition === 'minimal' ? 0.91 : 0.72,
+  statisticsColumns: definition.layout.statisticsColumns,
+  appearance: definition.appearance,
+  definition,
+}])) as Record<ArtworkTemplateId, ArtworkTemplate>
 
 export const DEFAULT_ARTWORK_TEMPLATE: ArtworkTemplateId = 'classic'
 

@@ -1,0 +1,34 @@
+{
+  "$schema": "run-template-definition/v1",
+  "version": 1,
+  "id": "night-run",
+  "name": { "en": "Night Run", "de": "Nachtlauf" },
+  "description": { "en": "A dark gradient route artwork for runs after sunset.", "de": "Ein dunkles Routen-Artwork für Läufe nach Sonnenuntergang." },
+  "composition": "stats",
+  "layout": { "routePadding": 160, "statisticsColumns": 2 },
+  "appearance": {
+    "background": {
+      "kind": "linear-gradient",
+      "angle": 145,
+      "stops": [
+        { "color": "#071727", "position": 0 },
+        { "color": "#102B42", "position": 100 }
+      ]
+    },
+    "routeColor": "#6EF4D4",
+    "textColor": "#E7FBFF",
+    "statisticColor": "#E7FBFF",
+    "footerColor": "#D5A6FF",
+    "titleFontFamily": "Source Serif 4",
+    "bodyFontFamily": "DM Sans",
+    "titleFontWeight": 700
+  },
+  "settings": {
+    "shadows": {
+      "route": { "enabled": true, "color": "#32C5BB", "blur": 18, "offsetX": 0, "offsetY": 0, "opacity": 0.65 },
+      "title": { "enabled": true, "color": "#000000", "blur": 18, "offsetX": 0, "offsetY": 8, "opacity": 0.35 },
+      "statistics": { "enabled": true, "color": "#000000", "blur": 12, "offsetX": 0, "offsetY": 5, "opacity": 0.25 }
+    }
+  },
+  "editor": []
+}
