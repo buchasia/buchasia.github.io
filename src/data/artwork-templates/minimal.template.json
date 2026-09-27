@@ -4,6 +4,7 @@
   "id": "minimal",
   "name": { "en": "Minimal", "de": "Minimal" },
   "description": { "en": "A route-first composition with quiet supporting metadata.", "de": "Eine routenorientierte Komposition mit zurückhaltenden Zusatzinformationen." },
+  "output": { "widthPx": 2480, "heightPx": 3508 },
   "layout": {
     "routePadding": 300,
     "route": { "strokeWidthRatio": 0.006667, "minStrokeWidth": 10, "linecap": "round", "linejoin": "round" },

@@ -5,15 +5,10 @@ type Props = { lang: Lang }
 const { lang } = Astro.props
 const de = lang === 'de'
 const labels = de
-  ? { dimensions: 'Bildabmessungen (Pixel)', width: 'Breite', height: 'Höhe', title: 'Titel (optional)', titleHint: 'Maximal 80 Zeichen und zwei Zeilen.', units: 'Entfernungseinheit', metric: 'Kilometer / Meter', imperial: 'Meilen / Fuß', output: 'Ausgabe', invalidTitle: 'Der Titel darf höchstens 80 Zeichen und zwei Zeilen enthalten.' }
-  : { dimensions: 'Image dimensions (pixels)', width: 'Width', height: 'Height', title: 'Title (optional)', titleHint: 'Up to 80 characters and two lines.', units: 'Distance units', metric: 'Kilometres / metres', imperial: 'Miles / feet', output: 'Output', invalidTitle: 'The title must be no more than 80 characters and two lines.' }
+  ? { title: 'Titel (optional)', titleHint: 'Maximal 80 Zeichen und zwei Zeilen.', units: 'Entfernungseinheit', metric: 'Kilometer / Meter', imperial: 'Meilen / Fuß', invalidTitle: 'Der Titel darf höchstens 80 Zeichen und zwei Zeilen enthalten.' }
+  : { title: 'Title (optional)', titleHint: 'Up to 80 characters and two lines.', units: 'Distance units', metric: 'Kilometres / metres', imperial: 'Miles / feet', invalidTitle: 'The title must be no more than 80 characters and two lines.' }
 ---
 <form class="artwork-settings" data-artwork-settings novalidate>
-  <fieldset>
-    <legend>{labels.dimensions}</legend>
-    <label class="dimension-field" for={`artwork-width-${lang}`}>{labels.width}<input id={`artwork-width-${lang}`} name="artwork-width" type="number" min="320" max="10000" step="1" value="2480" /></label>
-    <label class="dimension-field" for={`artwork-height-${lang}`}>{labels.height}<input id={`artwork-height-${lang}`} name="artwork-height" type="number" min="320" max="10000" step="1" value="3508" /></label>
-  </fieldset>
   <label class="settings-label" for={`artwork-title-${lang}`}>{labels.title}</label>
   <textarea id={`artwork-title-${lang}`} name="artwork-title" rows="2" maxlength="80" aria-describedby={`artwork-title-hint-${lang} artwork-title-error-${lang}`}></textarea>
   <small id={`artwork-title-hint-${lang}`} class="hint">{labels.titleHint}</small>
@@ -23,20 +18,14 @@ const labels = de
     <option value="metric">{labels.metric}</option>
     <option value="imperial">{labels.imperial}</option>
   </select>
-  <output class="settings-output" data-artwork-output aria-live="polite">{labels.output}: 2480 × 3508 pixels</output>
 </form>
 <script>
-  import { getArtworkDimensions, normalizeArtworkSettings, validateArtworkTitle, type ArtworkSettings } from '../utils/artworkSettings'
+  import { normalizeArtworkSettings, validateArtworkTitle, type ArtworkSettings } from '../utils/artworkSettings'
 
   document.querySelectorAll<HTMLFormElement>('[data-artwork-settings]').forEach((form) => {
-    const output = form.querySelector<HTMLOutputElement>('[data-artwork-output]')
     const title = form.elements.namedItem('artwork-title') as HTMLTextAreaElement | null
-    const width = form.elements.namedItem('artwork-width') as HTMLInputElement | null
-    const height = form.elements.namedItem('artwork-height') as HTMLInputElement | null
     const error = form.querySelector<HTMLElement>('.error')
     const readSettings = (): ArtworkSettings => ({
-      widthPx: Number(width?.value),
-      heightPx: Number(height?.value),
       title: title?.value ?? '',
       distanceUnit: (form.elements.namedItem('artwork-units') as HTMLSelectElement).value as ArtworkSettings['distanceUnit'],
     })
@@ -45,8 +34,6 @@ const labels = de
       const titleError = validateArtworkTitle(settings.title)
       if (error) error.hidden = !titleError
       if (title) title.setAttribute('aria-invalid', String(Boolean(titleError)))
-      const dimensions = getArtworkDimensions(settings)
-      if (output) output.textContent = `${output.textContent?.split(':')[0] ?? 'Output'}: ${dimensions.widthPx} × ${dimensions.heightPx} pixels`
       form.dispatchEvent(new CustomEvent('artworksettingschange', { bubbles: true, detail: settings }))
     }
     form.addEventListener('input', update)
@@ -58,10 +45,8 @@ const labels = de
   .artwork-settings { display:grid; gap:18px; max-width:620px; padding:24px; border:1px solid var(--line); background:var(--wash); }
   fieldset { display:grid; gap:10px; margin:0; padding:0; border:0; }
   legend, .settings-label { margin-bottom:2px; color:var(--ink); font-size:var(--font-size-small); font-weight:700; }
-  .dimension-field { display:grid; gap:6px; color:var(--muted); font-size:var(--font-size-small); }
-  textarea, select, input { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:0; background:var(--paper); color:var(--ink); font:inherit; }
+  textarea, select { width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:0; background:var(--paper); color:var(--ink); font:inherit; }
   textarea:focus, select:focus, input:focus { outline:2px solid var(--accent); outline-offset:2px; }
-  .hint, .settings-output { color:var(--muted); font-size:var(--font-size-small); }
-  .settings-output { padding-top:14px; border-top:1px solid var(--line); }
+  .hint { color:var(--muted); font-size:var(--font-size-small); }
   .error { margin:0; color:#ff9f9f; font-size:var(--font-size-small); }
 </style>

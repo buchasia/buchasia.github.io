@@ -27,4 +27,11 @@ describe('artwork template definitions', () => {
     statistics.visibleStatistics = ['distance', 'not-a-statistic']
     expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
   })
+
+  it('rejects unsupported output dimensions', () => {
+    const invalid = structuredClone(stats) as Record<string, unknown>
+    const output = invalid.output as Record<string, unknown>
+    output.widthPx = 100
+    expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
+  })
 })

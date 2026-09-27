@@ -18,7 +18,7 @@ const de = lang === 'de'
   <p class="route-preview-meta" data-preview-meta aria-live="polite"></p>
 </section>
 <script>
-  import { getArtworkDimensions, DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
+  import { DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
   import { getPosterLayout } from '../utils/artworkLayout'
   import { getArtworkTemplate, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplate } from '../utils/artworkTemplates'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
@@ -61,7 +61,7 @@ const de = lang === 'de'
     }
     const render = () => {
       if (!selection || !svg || !artwork || !description) return
-      const dimensions = getArtworkDimensions(settings)
+      const dimensions = template.definition.output
       const appearance = template.definition.appearance
       const templateLayout = template.definition.layout
       const statisticsLayout = templateLayout.statistics

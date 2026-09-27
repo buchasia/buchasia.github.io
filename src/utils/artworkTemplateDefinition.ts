@@ -69,6 +69,7 @@ export type ArtworkTemplateDefinition = {
   id: string
   name: LocalizedText
   description: LocalizedText
+  output: { widthPx: number; heightPx: number }
   layout: TemplateLayout
   appearance: ArtworkAppearance
   settings: { shadows: Partial<Record<ArtworkShadowTarget, ArtworkShadow>> }
@@ -102,6 +103,7 @@ const validateShadow = (value: unknown): value is ArtworkShadow => isRecord(valu
 const isRatio = (value: unknown) => isFiniteNumber(value) && value >= 0 && value <= 1
 const statisticKeys = new Set<GpxVisibleStatistic>(['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime'])
 const isPositiveNumber = (value: unknown) => isFiniteNumber(value) && value > 0
+const isOutputDimension = (value: unknown) => Number.isInteger(value) && typeof value === 'number' && value >= 320 && value <= 10000
 const isLayout = (value: unknown): value is TemplateLayout => {
   if (!isRecord(value) || !isPositiveNumber(value.routePadding) || !isRecord(value.route) || !isRatio(value.route.strokeWidthRatio) || !isPositiveNumber(value.route.minStrokeWidth) || !['round', 'butt', 'square'].includes(String(value.route.linecap)) || !['round', 'bevel', 'miter'].includes(String(value.route.linejoin))) return false
   if (!isRecord(value.header) || !isRecord(value.header.title) || !isRatio(value.header.title.xRatio) || !isRatio(value.header.title.yRatio) || !isRatio(value.header.title.sizeRatio) || ![400, 500, 600, 700].includes(Number(value.header.title.weight)) || !['start', 'middle'].includes(String(value.header.title.anchor)) || !isRecord(value.header.rule) || !isRatio(value.header.rule.x1Ratio) || !isRatio(value.header.rule.x2Ratio) || !isRatio(value.header.rule.yWithTitleRatio) || !isRatio(value.header.rule.yWithoutTitleRatio) || !isRatio(value.header.rule.strokeWidthRatio) || !isRatio(value.header.rule.opacity) || !isRatio(value.header.routeTopPaddingRatio)) return false
@@ -116,7 +118,7 @@ const isLayout = (value: unknown): value is TemplateLayout => {
 
 export const validateArtworkTemplateDefinition = (value: unknown): value is ArtworkTemplateDefinition => {
   if (!isRecord(value) || value.$schema !== TEMPLATE_SCHEMA || value.version !== TEMPLATE_VERSION) return false
-  if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description)) return false
+  if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description) || !isRecord(value.output) || !isOutputDimension(value.output.widthPx) || !isOutputDimension(value.output.heightPx)) return false
   if (!isLayout(value.layout)) return false
   if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
   if (!isRecord(value.settings) || !isRecord(value.settings.shadows) || !Array.isArray(value.editor)) return false
