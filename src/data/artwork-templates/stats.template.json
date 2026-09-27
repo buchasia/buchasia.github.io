@@ -4,7 +4,7 @@
   "id": "stats",
   "name": { "en": "Stats", "de": "Statistiken" },
   "description": { "en": "A metric-led poster with a prominent distance and supporting route.", "de": "Ein metrisches Poster mit prominenter Distanz und unterstützender Route." },
-  "output": { "widthPx": 2480, "heightPx": 3508 },
+  "output": { "widthPx": 2480, "heightPx": 3508, "sizeDescription": { "en": "A4 portrait · 210 × 297 mm", "de": "A4 Hochformat · 210 × 297 mm" } },
   "layout": {
     "routePadding": 140,
     "route": { "strokeWidthRatio": 0.006667, "minStrokeWidth": 10, "linecap": "round", "linejoin": "round" },

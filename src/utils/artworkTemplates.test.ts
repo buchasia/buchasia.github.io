@@ -12,7 +12,7 @@ describe('artwork templates', () => {
     Object.values(ARTWORK_TEMPLATES).forEach(template => {
       expect(template.definition.layout.statistics.columns).toBeGreaterThan(0)
       expect(template.definition.layout.statistics.visibleStatistics).toContain('distance')
-      expect(template.definition.output).toEqual({ widthPx: 2480, heightPx: 3508 })
+      expect(template.definition.output).toMatchObject({ widthPx: 2480, heightPx: 3508, sizeDescription: { en: expect.any(String), de: expect.any(String) } })
     })
   })
 

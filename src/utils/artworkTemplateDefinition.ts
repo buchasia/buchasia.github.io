@@ -69,7 +69,7 @@ export type ArtworkTemplateDefinition = {
   id: string
   name: LocalizedText
   description: LocalizedText
-  output: { widthPx: number; heightPx: number }
+  output: { widthPx: number; heightPx: number; sizeDescription: LocalizedText }
   layout: TemplateLayout
   appearance: ArtworkAppearance
   settings: { shadows: Partial<Record<ArtworkShadowTarget, ArtworkShadow>> }
@@ -118,7 +118,7 @@ const isLayout = (value: unknown): value is TemplateLayout => {
 
 export const validateArtworkTemplateDefinition = (value: unknown): value is ArtworkTemplateDefinition => {
   if (!isRecord(value) || value.$schema !== TEMPLATE_SCHEMA || value.version !== TEMPLATE_VERSION) return false
-  if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description) || !isRecord(value.output) || !isOutputDimension(value.output.widthPx) || !isOutputDimension(value.output.heightPx)) return false
+  if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description) || !isRecord(value.output) || !isOutputDimension(value.output.widthPx) || !isOutputDimension(value.output.heightPx) || !isLocalizedText(value.output.sizeDescription)) return false
   if (!isLayout(value.layout)) return false
   if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
   if (!isRecord(value.settings) || !isRecord(value.settings.shadows) || !Array.isArray(value.editor)) return false

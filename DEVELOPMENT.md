@@ -45,8 +45,9 @@ npm run build
 Bundled artwork templates live in `src/data/artwork-templates/*.template.json`.
 Each file is a complete template: layout, palette, background, typography,
 shadows, defaults, and editor controls are all part of the same definition.
-The `output` dimensions are template-owned and constrained to the supported
-print range; users do not choose them in the artwork settings page.
+The `output` dimensions and localized `sizeDescription` are template-owned and
+constrained to the supported print range; users do not choose them in the
+artwork settings page.
 The `layout.statistics.visibleStatistics` array controls which calculated
 statistics the poster renders by default.
 The registry in `src/utils/artworkTemplates.ts` validates each definition at

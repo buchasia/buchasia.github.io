@@ -34,4 +34,11 @@ describe('artwork template definitions', () => {
     output.widthPx = 100
     expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
   })
+
+  it('requires a localized output size description', () => {
+    const invalid = structuredClone(stats) as Record<string, unknown>
+    const output = invalid.output as Record<string, unknown>
+    delete output.sizeDescription
+    expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
+  })
 })

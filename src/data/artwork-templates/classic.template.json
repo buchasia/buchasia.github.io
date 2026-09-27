@@ -4,7 +4,7 @@
   "id": "classic",
   "name": { "en": "Classic", "de": "Klassisch" },
   "description": { "en": "A balanced editorial route poster with a calm metric grid.", "de": "Ein ausgewogenes, redaktionelles Routenposter mit ruhigem Metrikraster." },
-  "output": { "widthPx": 2480, "heightPx": 3508 },
+  "output": { "widthPx": 2480, "heightPx": 3508, "sizeDescription": { "en": "A4 portrait · 210 × 297 mm", "de": "A4 Hochformat · 210 × 297 mm" } },
   "layout": {
     "routePadding": 180,
     "route": { "strokeWidthRatio": 0.006667, "minStrokeWidth": 10, "linecap": "round", "linejoin": "round" },
