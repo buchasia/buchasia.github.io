@@ -18,6 +18,8 @@ Like every quarter, the whole company met again, this time in the beautiful city
 
 ## Meeting the team
 
+I travelled from my city to Eindhoven by train on Thursday. The train was delayed, so the journey took longer than expected, but I still made it to Eindhoven for the start of the event.
+
 We started with a team dinner on Thursday evening. The food was great, but what was even better was meeting all my colleagues again after almost three months. We had a really good time together.
 
 As I usually do, I started Friday with a short run through the city. Afterwards, I had breakfast with my colleagues before heading to the High Tech Campus. In the conference room, we joined colleagues from Belgium and the Netherlands to start the Innovation Day.
@@ -51,5 +53,7 @@ That was not the end of my running for the day. I wanted to visit the Eindhoven 
 So I had to run not only the parkrun itself, but also the route to and from it. Tobias joined me for all the runs on Saturday, and we had a lot of fun. Hopefully, we will be able to do it again.
 
 All five runs from Friday and Saturday are linked to this article in the [2026 run archive](/runs/2026/).
+
+The return journey to my city was also by train, and that train was delayed as well. After the early start and the rush to the station, the delay added one more unexpected part to the journey home.
 
 It was a busy two days, but also a very enjoyable Innovation Day. Meeting colleagues, experimenting with new technology, and fitting in a few runs made it a memorable trip.
