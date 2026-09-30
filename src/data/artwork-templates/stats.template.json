@@ -1,6 +1,6 @@
 {
-  "$schema": "run-template-definition/v1",
-  "version": 1,
+  "$schema": "run-template-definition/v2",
+  "version": 2,
   "id": "stats",
   "name": { "en": "Stats", "de": "Statistiken" },
   "description": { "en": "A metric-led poster with a prominent distance and supporting route.", "de": "Ein metrisches Poster mit prominenter Distanz und unterstützender Route." },

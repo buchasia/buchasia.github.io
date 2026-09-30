@@ -1,6 +1,6 @@
 {
-  "$schema": "run-template-definition/v1",
-  "version": 1,
+  "$schema": "run-template-definition/v2",
+  "version": 2,
   "id": "classic",
   "name": { "en": "Classic", "de": "Klassisch" },
   "description": { "en": "A balanced editorial route poster with a calm metric grid.", "de": "Ein ausgewogenes, redaktionelles Routenposter mit ruhigem Metrikraster." },

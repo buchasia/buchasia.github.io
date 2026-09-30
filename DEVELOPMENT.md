@@ -51,10 +51,25 @@ artwork settings page.
 The `layout.statistics.visibleStatistics` array controls which calculated
 statistics the poster renders by default.
 The registry in `src/utils/artworkTemplates.ts` validates each definition at
-module load time. Use the existing `run-template-definition/v1` schema and
+module load time. Use the existing `run-template-definition/v2` schema and
 increment the schema/version together when the contract changes; add a
 migration in `src/utils/artworkTemplateDefinition.ts` before introducing a
 new version.
+
+Backgrounds may be solid hex colors, linear gradients, or local image paths:
+
+```json
+"background": {
+  "kind": "image",
+  "src": "/images/route-paper.png",
+  "opacity": 0.8,
+  "fit": "cover"
+}
+```
+
+Image files should live under `public/` so the path is available in the built
+site. `cover` fills the canvas and may crop the image; `contain` keeps the full
+image visible and may leave transparent space.
 
 Each template can declare shadows independently for `route`, `title`,
 `statistics`, `scale`, and `footer` under `settings.shadows`. A template that

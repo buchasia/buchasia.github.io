@@ -5,7 +5,7 @@ describe('artwork templates', () => {
   it('loads the bundled templates and keeps Classic as the default', () => {
     expect(Object.keys(ARTWORK_TEMPLATES).length).toBeGreaterThanOrEqual(4)
     expect(DEFAULT_ARTWORK_TEMPLATE).toBe('classic')
-    expect(ARTWORK_TEMPLATES.classic.definition.$schema).toBe('run-template-definition/v1')
+    expect(ARTWORK_TEMPLATES.classic.definition.$schema).toBe('run-template-definition/v2')
     expect(ARTWORK_TEMPLATES.classic.definition.settings.shadows).toEqual({})
     expect(ARTWORK_TEMPLATES.stats.definition.settings.shadows).toMatchObject({ title: { enabled: true }, statistics: { enabled: true } })
     expect(ARTWORK_TEMPLATES['night-run'].definition.appearance.background).toMatchObject({ kind: 'linear-gradient' })

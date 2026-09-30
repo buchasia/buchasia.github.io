@@ -82,7 +82,7 @@ const de = lang === 'de'
       const declaredShadowEntries = Object.entries(declaredShadows) as [ShadowTarget, NonNullable<typeof declaredShadows[ShadowTarget]>][]
       const defs = create('defs', {})
       let backgroundFill = typeof appearance.background === 'string' ? appearance.background : 'transparent'
-      if (typeof appearance.background !== 'string') {
+      if (typeof appearance.background !== 'string' && appearance.background.kind === 'linear-gradient') {
         const gradientId = 'artwork-background-gradient'
         const gradient = create('linearGradient', { id: gradientId, x1: '0%', y1: '0%', x2: '100%', y2: '100%', gradientTransform: `rotate(${appearance.background.angle} 0.5 0.5)` })
         appearance.background.stops.forEach(stop => gradient.appendChild(create('stop', { offset: `${stop.position}%`, 'stop-color': stop.color })))
@@ -102,6 +102,17 @@ const de = lang === 'de'
       if (defs.childElementCount) artwork.appendChild(defs)
       const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: backgroundFill })
       artwork.appendChild(background)
+      if (typeof appearance.background !== 'string' && appearance.background.kind === 'image') {
+        artwork.appendChild(create('image', {
+          x: '0',
+          y: '0',
+          width: String(dimensions.widthPx),
+          height: String(dimensions.heightPx),
+          href: appearance.background.src,
+          opacity: String(appearance.background.opacity),
+          preserveAspectRatio: appearance.background.fit === 'cover' ? 'xMidYMid slice' : 'xMidYMid meet',
+        }))
+      }
       const shadowAttributes = (target: ShadowTarget): Record<string, string> => {
         const id = shadowIds.get(target)
         return id ? { filter: `url(#${id})` } : {}

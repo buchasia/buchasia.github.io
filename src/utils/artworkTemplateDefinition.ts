@@ -1,13 +1,15 @@
 import type { GpxVisibleStatistic } from './gpxVisibleStatistics'
 
-export const TEMPLATE_SCHEMA = 'run-template-definition/v1' as const
-export const TEMPLATE_VERSION = 1 as const
+export const TEMPLATE_SCHEMA = 'run-template-definition/v2' as const
+export const TEMPLATE_VERSION = 2 as const
 
 export type LocalizedText = string | { en: string; de: string }
 export type ArtworkShadowTarget = 'route' | 'title' | 'statistics' | 'scale' | 'footer'
 
 export type ArtworkGradientStop = { color: string; position: number }
-export type ArtworkBackground = string | { kind: 'linear-gradient'; angle: number; stops: ArtworkGradientStop[] }
+export type ArtworkBackground = string
+  | { kind: 'linear-gradient'; angle: number; stops: ArtworkGradientStop[] }
+  | { kind: 'image'; src: string; opacity: number; fit: 'cover' | 'contain' }
 export type ArtworkAppearance = {
   background: ArtworkBackground
   routeColor: string
@@ -91,6 +93,11 @@ const isGradient = (value: unknown): value is ArtworkBackground => isRecord(valu
   && isFiniteNumber(value.angle) && value.angle >= 0 && value.angle < 360
   && Array.isArray(value.stops) && value.stops.length >= 2 && value.stops.length <= 8
   && value.stops.every(stop => isRecord(stop) && isColor(stop.color) && isFiniteNumber(stop.position) && stop.position >= 0 && stop.position <= 100)
+const isImage = (value: unknown): value is ArtworkBackground => isRecord(value)
+  && value.kind === 'image'
+  && typeof value.src === 'string' && value.src.trim().length > 0
+  && isFiniteNumber(value.opacity) && value.opacity >= 0 && value.opacity <= 1
+  && (value.fit === 'cover' || value.fit === 'contain')
 
 const validateShadow = (value: unknown): value is ArtworkShadow => isRecord(value)
   && typeof value.enabled === 'boolean'
@@ -120,7 +127,7 @@ export const validateArtworkTemplateDefinition = (value: unknown): value is Artw
   if (!isRecord(value) || value.$schema !== TEMPLATE_SCHEMA || value.version !== TEMPLATE_VERSION) return false
   if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description) || !isRecord(value.output) || !isOutputDimension(value.output.widthPx) || !isOutputDimension(value.output.heightPx) || !isLocalizedText(value.output.sizeDescription)) return false
   if (!isLayout(value.layout)) return false
-  if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
+  if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background) || isImage(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
   if (!isRecord(value.settings) || !isRecord(value.settings.shadows) || !Array.isArray(value.editor)) return false
   for (const [target, shadow] of Object.entries(value.settings.shadows)) if (!targets.has(target as ArtworkShadowTarget) || !validateShadow(shadow)) return false
   const ids = new Set<string>()

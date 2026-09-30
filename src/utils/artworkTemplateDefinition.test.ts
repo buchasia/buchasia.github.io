@@ -7,6 +7,20 @@ describe('artwork template definitions', () => {
     expect(validateArtworkTemplateDefinition(stats)).toBe(true)
   })
 
+  it('accepts an image background', () => {
+    const imageBackground = structuredClone(stats) as Record<string, unknown>
+    const appearance = imageBackground.appearance as Record<string, unknown>
+    appearance.background = { kind: 'image', src: '/images/route-paper.png', opacity: 0.75, fit: 'cover' }
+    expect(validateArtworkTemplateDefinition(imageBackground)).toBe(true)
+  })
+
+  it('rejects an invalid image background', () => {
+    const imageBackground = structuredClone(stats) as Record<string, unknown>
+    const appearance = imageBackground.appearance as Record<string, unknown>
+    appearance.background = { kind: 'image', src: '', opacity: 1.2, fit: 'stretch' }
+    expect(validateArtworkTemplateDefinition(imageBackground)).toBe(false)
+  })
+
   it('rejects unsupported paths and invalid shadow values', () => {
     const invalid = structuredClone(stats) as Record<string, unknown>
     const settings = invalid.settings as Record<string, unknown>

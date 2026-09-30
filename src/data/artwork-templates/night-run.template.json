@@ -1,6 +1,6 @@
 {
-  "$schema": "run-template-definition/v1",
-  "version": 1,
+  "$schema": "run-template-definition/v2",
+  "version": 2,
   "id": "night-run",
   "name": { "en": "Night Run", "de": "Nachtlauf" },
   "description": { "en": "A dark gradient route artwork for runs after sunset.", "de": "Ein dunkles Routen-Artwork für Läufe nach Sonnenuntergang." },
