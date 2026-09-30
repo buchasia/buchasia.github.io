@@ -37,7 +37,7 @@ const maxFor = (metric: string) => Math.max(...years.map(year => valueFor(year, 
     <div class="chart-grid">
       {years.map(year => <div class="year-column">
         {metrics.map((metric, index) => <div class:list={['year-bar', { 'is-hidden': index !== 0 }]} data-yearly-bars={metric.key} aria-hidden={index === 0 ? 'false' : 'true'}>
-          <span style={`height:${(valueFor(year, metric.key) / maxFor(metric.key)) * 100}%`} title={`${year}: ${metric.format(valueFor(year, metric.key))}`}></span>
+          <span class:list={{ 'is-animating': index === 0 }} style={`--bar-index:${years.indexOf(year)};height:${(valueFor(year, metric.key) / maxFor(metric.key)) * 100}%`} title={`${year}: ${metric.format(valueFor(year, metric.key))}`}></span>
         </div>)}
         <span class="year-label">{year}</span>
       </div>)}
@@ -57,7 +57,10 @@ const maxFor = (metric: string) => Math.max(...years.map(year => valueFor(year, 
           const active = item.dataset.yearlyBars === metric
           item.classList.toggle('is-hidden', !active)
           item.setAttribute('aria-hidden', String(!active))
+          item.querySelector<HTMLElement>('span')?.classList.remove('is-animating')
         })
+        const activeBars = chart.querySelectorAll<HTMLElement>(`[data-yearly-bars="${metric}"] span`)
+        activeBars.forEach((bar) => { void bar.offsetWidth; bar.classList.add('is-animating') })
         axes.forEach((item) => {
           const active = item.dataset.yearlyAxis === metric
           item.classList.toggle('is-hidden', !active)
@@ -94,8 +97,11 @@ const maxFor = (metric: string) => Math.max(...years.map(year => valueFor(year, 
   .chart-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(2.5rem,1fr)); gap:.65rem; align-items:end; height:13rem; padding:.5rem 0 0; border-bottom:1px solid var(--line); background:repeating-linear-gradient(to bottom, transparent 0, transparent calc(25% - 1px), var(--line) 25%); }
   .year-column { display:flex; height:12.5rem; min-width:0; flex-direction:column; align-items:center; justify-content:flex-end; }
   .year-bar { display:flex; width:100%; height:10rem; align-items:flex-end; justify-content:center; }
-  .year-bar span { display:block; width:min(2rem,70%); min-height:1px; background:var(--accent); }
+  .year-bar span { display:block; width:min(2rem,70%); min-height:1px; background:var(--accent); transform-origin:bottom; }
+  .year-bar span.is-animating { animation:yearly-bar-rise 520ms cubic-bezier(.22,.7,.35,1) both; animation-delay:calc(min(var(--bar-index), 7) * 35ms); }
+  @keyframes yearly-bar-rise { from { transform:scaleY(0); } to { transform:scaleY(1); } }
   .year-label { margin-top:.5rem; color:var(--muted); font-size:var(--font-size-label); }
   .chart-note { margin:.75rem 0 0; color:var(--muted); font-size:var(--font-size-small); }
+  @media (prefers-reduced-motion:reduce) { .year-bar span.is-animating { animation:none; } }
   @media (max-width:640px) { .chart-heading { align-items:flex-start; flex-direction:column; } .metric-toggle { max-width:100%; overflow-x:auto; } .toggle-button { white-space:nowrap; } }
 </style>
