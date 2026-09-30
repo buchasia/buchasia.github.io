@@ -1,0 +1,47 @@
+---
+import { formatDistance, formatDuration, formatElevation, getYearlyHistoricalProgress, type YearlyProgressMetric } from '../utils/runs'
+import { t, type Lang } from '../utils/i18n'
+
+interface Props {
+  yearlyData: Record<string, { distance: number; duration: number; totalAscent: number; count: number }>
+  year: string
+  lang: Lang
+}
+
+const { yearlyData, year, lang } = Astro.props
+const dict = t(lang)
+const progress = getYearlyHistoricalProgress(yearlyData, year)
+const labels: Record<YearlyProgressMetric, string> = {
+  distance: dict.runs.totalDistance,
+  duration: dict.runs.totalTime,
+  totalAscent: dict.runs.totalAscent,
+}
+const formatValue = (metric: YearlyProgressMetric, value: number) => metric === 'distance'
+  ? formatDistance(value, lang)
+  : metric === 'duration'
+    ? formatDuration(value, lang)
+    : formatElevation(value, lang)
+---
+
+<section class="historical-progress" aria-labelledby="historical-progress-title">
+  <h2 id="historical-progress-title" class="section-label">{dict.runs.historicalProgress}</h2>
+  <p class="historical-progress-intro">{dict.runs.historicalProgressIntro} ({year})</p>
+  <div class="progress-grid">
+    {progress.map(item => <article class="progress-card">
+      <div class="progress-card-heading"><h3>{labels[item.metric]}</h3><strong>{formatValue(item.metric, item.currentValue)}</strong></div>
+      {item.targetYear && item.targetValue !== null && item.remaining !== null && item.progress !== null
+        ? <>
+          <div class="progress-track" role="progressbar" aria-label={`${labels[item.metric]} ${year}`} aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress}>
+            <span style={`width:${item.progress}%`}></span>
+          </div>
+          <p>{formatValue(item.metric, item.remaining)} {dict.runs.historicalRemaining} · {dict.runs.historicalTarget} {item.targetYear}: {formatValue(item.metric, item.targetValue)}</p>
+        </>
+        : <p class="empty-state">{dict.runs.noHistoricalTarget}</p>}
+    </article>)}
+  </div>
+</section>
+
+<style>
+  .historical-progress{margin-top:4rem}.historical-progress-intro{color:var(--muted);margin:.75rem 0 1rem}.progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.progress-card{border-top:1px solid var(--line);padding-top:.75rem}.progress-card-heading{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}.progress-card h3{font-size:var(--font-size-small);font-weight:500;margin:0}.progress-card strong{font-weight:500;white-space:nowrap}.progress-track{height:.45rem;background:var(--wash);margin:1rem 0 .65rem;overflow:hidden}.progress-track span{display:block;height:100%;background:var(--accent)}.progress-card p{color:var(--muted);font-size:var(--font-size-small);margin:0}.empty-state{color:var(--muted)}
+  @media (max-width:700px){.progress-grid{grid-template-columns:1fr}}
+</style>

@@ -145,6 +145,45 @@ export const getRunHighlights = (runs: Run[]) => {
 
 export const getRunYear = (run: Run) => run.date.getUTCFullYear().toString()
 
+export type YearlyProgressMetric = 'distance' | 'duration' | 'totalAscent'
+
+export type YearlyHistoricalProgress = {
+  metric: YearlyProgressMetric
+  currentYear: string
+  currentValue: number
+  targetYear: string | null
+  targetValue: number | null
+  remaining: number | null
+  progress: number | null
+}
+
+export const getYearlyHistoricalProgress = (
+  yearlyData: Record<string, { distance: number; duration: number; totalAscent: number; count: number }>,
+  currentYear: string,
+): YearlyHistoricalProgress[] => {
+  const current = yearlyData[currentYear]
+  if (!current) return []
+
+  const years = Object.keys(yearlyData)
+  return (['distance', 'duration', 'totalAscent'] as const).map(metric => {
+    const currentValue = current[metric]
+    const target = years
+      .filter(year => Number(year) < Number(currentYear) && yearlyData[year][metric] > currentValue)
+      .map(year => ({ year, value: yearlyData[year][metric] }))
+      .sort((a, b) => a.value - b.value || Number(b.year) - Number(a.year))[0]
+
+    return {
+      metric,
+      currentYear,
+      currentValue,
+      targetYear: target?.year ?? null,
+      targetValue: target?.value ?? null,
+      remaining: target ? target.value - currentValue : null,
+      progress: target ? Math.min(100, (currentValue / target.value) * 100) : null,
+    }
+  })
+}
+
 export const getYearDays = (runs: Run[], year: number) => {
   const days = Array.from({ length: 366 }, () => 0)
   for (const run of runs) {
