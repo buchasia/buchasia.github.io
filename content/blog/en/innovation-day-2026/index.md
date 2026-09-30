@@ -16,6 +16,8 @@ runIds:
 
 Like every quarter, the whole company met again, this time in the beautiful city of Eindhoven in the Netherlands. It was two days full of fun, innovation, and the opportunity to spend time together in person.
 
+> During Innovation Day, we step away from our customer projects and spend the time exploring new ideas, technologies, and ways of working. It is an opportunity to try out things we would not normally have time for and learn together.
+
 ## Meeting the team
 
 I travelled from my city to Eindhoven by DB on Thursday. As was expected the trains were all delayed, so the journey took longer than expected, but I still made it to Eindhoven for the start of the event.
