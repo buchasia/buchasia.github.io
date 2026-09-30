@@ -1,0 +1,114 @@
+---
+import type { ImageMetadata } from 'astro'
+
+interface Photo {
+  src: string | ImageMetadata
+  alt: string
+  caption?: string
+}
+
+interface Props {
+  photos: Photo[]
+  label?: string
+  id?: string
+}
+
+const { photos, label = 'Photo carousel', id = 'photo-carousel' } = Astro.props
+const getSource = (source: string | ImageMetadata) => typeof source === 'string' ? source : source.src
+---
+
+{photos.length > 0 && (
+  <section
+    id={id}
+    class="photo-carousel"
+    data-photo-carousel
+    aria-roledescription="carousel"
+    aria-label={label}
+    tabindex="0"
+  >
+    <div class="carousel-viewport">
+      {photos.map((photo, index) => (
+        <figure
+          class:list={['carousel-slide', { 'is-active': index === 0 }]}
+          data-carousel-slide={index}
+          aria-hidden={index !== 0}
+          aria-roledescription="slide"
+          aria-label={`${index + 1} of ${photos.length}`}
+        >
+          <div class="carousel-image-frame">
+            <img src={getSource(photo.src)} alt={photo.alt} loading={index === 0 ? 'eager' : 'lazy'} />
+          </div>
+          {photo.caption && <figcaption>{photo.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+
+    {photos.length > 1 && (
+      <div class="carousel-controls">
+        <button type="button" class="carousel-button" data-carousel-previous aria-label="Previous photo">‹</button>
+        <div class="carousel-dots" role="tablist" aria-label="Choose a photo">
+          {photos.map((_, index) => (
+            <button
+              type="button"
+              class:list={['carousel-dot', { 'is-active': index === 0 }]}
+              data-carousel-dot={index}
+              role="tab"
+              aria-label={`Show photo ${index + 1}`}
+              aria-selected={index === 0}
+              tabindex={index === 0 ? 0 : -1}
+            ></button>
+          ))}
+        </div>
+        <button type="button" class="carousel-button" data-carousel-next aria-label="Next photo">›</button>
+      </div>
+    )}
+  </section>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-photo-carousel]').forEach((carousel) => {
+    const slides = Array.from(carousel.querySelectorAll<HTMLElement>('[data-carousel-slide]'))
+    const dots = Array.from(carousel.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'))
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]')
+    const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]')
+    let current = 0
+
+    if (slides.length < 2) return
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length
+      slides.forEach((slide, slideIndex) => {
+        const active = slideIndex === current
+        slide.classList.toggle('is-active', active)
+        slide.setAttribute('aria-hidden', String(!active))
+      })
+      dots.forEach((dot, dotIndex) => {
+        const active = dotIndex === current
+        dot.classList.toggle('is-active', active)
+        dot.setAttribute('aria-selected', String(active))
+        dot.tabIndex = active ? 0 : -1
+      })
+    }
+
+    previous?.addEventListener('click', () => show(current - 1))
+    next?.addEventListener('click', () => show(current + 1))
+    dots.forEach((dot, index) => dot.addEventListener('click', () => show(index)))
+    carousel.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); show(current - 1) }
+      if (event.key === 'ArrowRight') { event.preventDefault(); show(current + 1) }
+      if (event.key === 'Home') { event.preventDefault(); show(0) }
+      if (event.key === 'End') { event.preventDefault(); show(slides.length - 1) }
+    })
+
+    let startX = 0
+    carousel.addEventListener('pointerdown', (event) => { startX = event.clientX })
+    carousel.addEventListener('pointerup', (event) => {
+      const distance = event.clientX - startX
+      if (Math.abs(distance) > 40) show(current + (distance < 0 ? 1 : -1))
+    })
+  })
+</script>
+
+<style>
+  .photo-carousel{margin:2rem auto;max-width:52rem}.carousel-viewport{position:relative;display:grid;aspect-ratio:16 / 9;place-items:center;overflow:hidden;background:var(--wash)}.carousel-slide{display:none;width:100%;height:100%;margin:0;flex-direction:column;text-align:center}.carousel-slide.is-active{display:flex}.carousel-image-frame{display:flex;width:100%;min-height:0;flex:1 1 auto;align-items:center;justify-content:center;overflow:hidden;padding:.75rem;box-sizing:border-box}.carousel-slide img{display:block!important;width:auto!important;max-width:100%!important;height:auto!important;max-height:100%!important;flex:0 1 auto!important;object-fit:contain;margin:0 auto!important}.carousel-slide figcaption{display:flex;min-height:2rem;flex:0 0 2rem;align-items:center;justify-content:center;margin:0;padding:.25rem .5rem;color:var(--muted);font-size:var(--font-size-small);font-style:italic}.carousel-controls{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1rem}.carousel-button{display:grid;width:2rem;height:2rem;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--paper);color:var(--text);font:inherit;font-size:1.25rem;line-height:1;cursor:pointer}.carousel-button:hover{border-color:var(--accent);color:var(--accent)}.carousel-button:focus-visible,.carousel-dot:focus-visible,.photo-carousel:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.carousel-dots{display:flex;align-items:center;gap:.45rem}.carousel-dot{width:.65rem;height:.65rem;padding:0;border:1px solid var(--muted);border-radius:50%;background:transparent;cursor:pointer}.carousel-dot.is-active{border-color:var(--accent);background:var(--accent)}@media (max-width:640px){.carousel-viewport{aspect-ratio:4 / 3}}@media (prefers-reduced-motion:reduce){.carousel-button,.carousel-dot{transition:none}}
+</style>
