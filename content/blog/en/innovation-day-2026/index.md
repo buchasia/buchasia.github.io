@@ -52,6 +52,8 @@ That was not the end of my running for the day. I wanted to visit the Eindhoven 
 
 ![Eindhoven parkrun](eindhoven-parkrun.png)
 
+<div align="center"><em>Eindhoven Parkrun course</em></div>
+
 So I had to run not only the parkrun itself, but also the route to and from it. Tobias joined me for all the runs on Saturday, and we had a lot of fun. Hopefully, we will be able to do it again.
 
 All five runs from Friday and Saturday are linked to this article in the [2026 run archive](/runs/2026/).
