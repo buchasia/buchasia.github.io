@@ -36,7 +36,7 @@ const colorFor = (type: string) => colors[types.indexOf(type) % colors.length]
       {chartData.map((item: MonthStats) => (
         <div class="month-column" style="display:flex;flex-direction:column;align-items:center;height:11rem;min-width:0">
           <div class="bars" style="position:relative;display:flex;align-items:flex-end;justify-content:center;gap:2px;width:100%;height:9rem" title={`${monthNames[item.month]} ${year}: ${formatDistance(item.distance, lang)}, ${formatDuration(item.duration, lang)}`}>
-            <span class="bar-stack distance-stack" data-chart-metric="distance" style={`position:relative;display:flex;flex:0 0 38%;flex-direction:column;width:38%;height:${(item.distance / maxDistance) * 100}%;background:transparent`}>
+            <span class="bar-stack distance-stack is-animating" data-chart-metric="distance" style={`position:relative;display:flex;flex:0 0 38%;flex-direction:column;width:38%;height:${(item.distance / maxDistance) * 100}%;background:transparent`}>
               {types.map(type => item.byType?.[type] && <span class="bar-segment" title={`${displayType(type)} — ${monthNames[item.month]} ${year}: ${formatDistance(item.byType[type].distance, lang)}, ${formatDuration(item.byType[type].duration, lang)}`} style={`display:block;width:100%;height:${(item.byType[type].distance / item.distance) * 100}%;min-height:1px;background-color:${colorFor(type)}`}></span>)}
             </span>
             <span class="bar-stack time-stack" data-chart-metric="duration" hidden style={`position:relative;display:flex;flex:0 0 38%;flex-direction:column;width:38%;height:${(item.duration / maxDuration) * 100}%;background:transparent`}>
@@ -73,7 +73,9 @@ const colorFor = (type: string) => colors[types.indexOf(type) % colors.length]
     const setMetric = (metric: string) => {
       stacks.forEach((stack) => {
         stack.hidden = stack.dataset.chartMetric !== metric
+        stack.classList.remove('is-animating')
       })
+      chart.querySelectorAll<HTMLElement>(`[data-chart-metric="${metric}"]`).forEach((stack) => { void stack.offsetWidth; stack.classList.add('is-animating') })
       axes.forEach((axis) => {
         const active = axis.dataset.chartAxis === metric
         axis.classList.toggle('is-hidden', !active)
@@ -117,11 +119,14 @@ const colorFor = (type: string) => colors[types.indexOf(type) % colors.length]
   .time-axis, .ascent-axis { text-align:left; }
   .month-column { display:flex !important; flex-direction:column; align-items:center; min-width:0; height:11rem; }
   .bars { position:relative; display:flex !important; align-items:end; justify-content:center; gap:2px; width:100%; height:9rem; border-bottom:1px solid var(--line); background:repeating-linear-gradient(to bottom, transparent 0, transparent calc(25% - 1px), var(--line) 25%); }
-  .bar-stack { position:relative; z-index:1; display:flex !important; flex:0 0 38%; flex-direction:column; justify-content:flex-start; width:38%; min-height:2px; opacity:1; }
+  .bar-stack { position:relative; z-index:1; display:flex !important; flex:0 0 38%; flex-direction:column; justify-content:flex-start; width:38%; min-height:2px; opacity:1; transform-origin:bottom; }
+  .bar-stack.is-animating { animation:monthly-bar-rise 520ms cubic-bezier(.22,.7,.35,1) both; }
+  @keyframes monthly-bar-rise { from { transform:scaleY(0); } to { transform:scaleY(1); } }
   .bar-stack[hidden] { display:none !important; }
   .bar-segment { display:block !important; flex:0 0 auto; width:100%; min-height:1px; }
   .month-label { margin-top:.5rem; color:var(--muted); font-size:var(--font-size-label); }
   .run-count { color:var(--muted); font-size:.65rem; }
   .chart-note { margin:.75rem 0 0; color:var(--muted); font-size:var(--font-size-small); }
+  @media (prefers-reduced-motion:reduce) { .bar-stack.is-animating { animation:none; } }
   @media (max-width:640px) { .chart-heading { align-items:flex-start; flex-direction:column; } .chart-wrap { grid-template-columns:3rem minmax(0, 1fr); gap:.25rem; } .chart-grid { gap:2px; } .month-label { font-size:.65rem; } }
 </style>

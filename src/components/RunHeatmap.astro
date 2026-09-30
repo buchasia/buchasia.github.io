@@ -26,7 +26,7 @@ const monthPositions = monthNames.map((name, month) => ({ name, week: Math.floor
         <div 
           class:list={['heatmap-cell', i >= startOffset && new Date(Date.UTC(Number(year), 0, i - startOffset + 1)).getUTCDate() === 1 ? 'month-start' : undefined]}
           aria-hidden="true"
-          style={`background-color: ${distance === null ? 'transparent' : distance && distance > 0 ? 'var(--accent)' : 'var(--wash)'}; opacity: ${distance === null ? 0 : distance && distance > 0 ? Math.max(0.18, Math.min(distance / 10000, 1)) : 1};`}
+          style={`--cell-index:${Math.min(i, 60)};background-color: ${distance === null ? 'transparent' : distance && distance > 0 ? 'var(--accent)' : 'var(--wash)'}; opacity: ${distance === null ? 0 : distance && distance > 0 ? Math.max(0.18, Math.min(distance / 10000, 1)) : 1};`}
           title={distance !== null ? `${dateFormatter.format(new Date(Date.UTC(Number(year), 0, i - startOffset + 1)))}: ${distance} ${labels.meters}` : undefined}
         ></div>
       ))}
@@ -70,7 +70,11 @@ const monthPositions = monthNames.map((name, month) => ({ name, week: Math.floor
     width: 12px;
     height: 12px;
     border-radius: 2px;
+    animation: heatmap-cell-reveal 420ms ease-out both;
+    animation-delay: calc(var(--cell-index, 0) * 8ms);
   }
+  @keyframes heatmap-cell-reveal { from { transform:scale(.7); } to { transform:scale(1); } }
   .heatmap-cell.month-start { outline:1px solid var(--accent); outline-offset:1px; }
   @media (max-width:640px) { .heatmap-header { align-items:flex-start; flex-direction:column; } .heatmap-legend { justify-content:flex-start; } }
+  @media (prefers-reduced-motion:reduce) { .heatmap-cell { animation:none; } }
 </style>

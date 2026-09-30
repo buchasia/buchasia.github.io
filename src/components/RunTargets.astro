@@ -38,8 +38,8 @@ const renderTarget = (target: RunningTargetSnapshot) => ({
 <section class="targets" aria-labelledby="targets-title">
   <div class="targets-heading"><h2 id="targets-title" class="section-label">{dict.runs.targets}</h2><a href={achievementsPath}>{dict.runs.runningAchievements} →</a></div>
   <div class="target-groups">
-    <div class="target-group"><h3>{dict.runs.thisMonth} · {periodLabel(monthlyTargets[0])}</h3><div class="target-grid">{monthlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><progress value={item.progress} max="100" aria-label={`${item.label}: ${item.current} / ${item.next}`}></progress><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
-    <div class="target-group"><h3>{dict.runs.thisYear} · {periodLabel(yearlyTargets[0])}</h3><div class="target-grid">{yearlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><progress value={item.progress} max="100" aria-label={`${item.label}: ${item.current} / ${item.next}`}></progress><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
+    <div class="target-group"><h3>{dict.runs.thisMonth} · {periodLabel(monthlyTargets[0])}</h3><div class="target-grid">{monthlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><div class="target-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress} aria-label={`${item.label}: ${item.current} / ${item.next}`}><span style={`width:${item.progress}%`}></span></div><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
+    <div class="target-group"><h3>{dict.runs.thisYear} · {periodLabel(yearlyTargets[0])}</h3><div class="target-grid">{yearlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><div class="target-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress} aria-label={`${item.label}: ${item.current} / ${item.next}`}><span style={`width:${item.progress}%`}></span></div><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
   </div>
 </section>
 
@@ -54,6 +54,9 @@ const renderTarget = (target: RunningTargetSnapshot) => ({
   .target-card { display:flex; flex-direction:column; gap:.45rem; padding:.75rem; border:1px solid var(--line); }
   .target-card span,.target-card small { color:var(--muted); font-size:var(--font-size-small); }
   .target-card strong { font-size:1.05rem; font-weight:500; }
-  .target-card progress { width:100%; height:.45rem; accent-color:var(--accent); }
+  .target-progress { width:100%; height:.45rem; overflow:hidden; background:var(--wash); }
+  .target-progress span { display:block; height:100%; background:var(--accent); transform-origin:left; animation:target-progress-fill 560ms cubic-bezier(.22,.7,.35,1) both; }
+  @keyframes target-progress-fill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
   @media (max-width:640px) { .target-grid { grid-template-columns:1fr; } }
+  @media (prefers-reduced-motion:reduce) { .target-progress span { animation:none; } }
 </style>
