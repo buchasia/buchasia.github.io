@@ -1,0 +1,69 @@
+---
+import { getRunDistanceDistribution, getRunDistributionDefaultYear, type Run } from '../utils/runs'
+import { t, type Lang } from '../utils/i18n'
+
+interface Props {
+  runs: Run[]
+  years: string[]
+  lang: Lang
+}
+
+const { runs, years, lang } = Astro.props
+const dict = t(lang)
+const defaultYear = getRunDistributionDefaultYear(years)
+const bucketLabels = lang === 'de'
+  ? ['unter 2 km', '2–5 km', '5–10 km', '10–21 km', '21–30 km', '30–42 km', '42+ km']
+  : ['< 2 km', '2–5 km', '5–10 km', '10–21 km', '21–30 km', '30–42 km', '42+ km']
+const distributions = years.map(year => ({ year, buckets: getRunDistanceDistribution(runs, year) }))
+const formatPercentage = (value: number) => new Intl.NumberFormat(lang === 'de' ? 'de-DE' : 'en-US', { maximumFractionDigits: 1 }).format(value)
+---
+
+<section class="distance-distribution" aria-labelledby="distance-distribution-title">
+  <div class="chart-heading">
+    <h2 id="distance-distribution-title" class="section-label">{dict.runs.distanceDistribution}</h2>
+    <label class="year-picker">
+      <span>{dict.runs.distanceDistributionYear}</span>
+      <select data-distribution-year>
+        {years.map(year => <option value={year} selected={year === defaultYear}>{year}</option>)}
+      </select>
+    </label>
+  </div>
+  {distributions.length ? distributions.map(({ year, buckets }) => {
+    const maxCount = Math.max(...buckets.map(bucket => bucket.count), 1)
+    return <div class:list={['distribution-panel', { 'is-hidden': year !== defaultYear }]} data-distribution-panel={year} aria-hidden={year !== defaultYear}>
+      <div class="chart-wrap" role="img" aria-label={`${dict.runs.distanceDistribution} ${year}`}>
+        <div class="chart-grid">
+          {buckets.map((bucket, index) => <div class="bucket-column">
+            <span class="bucket-count">{bucket.count}</span>
+            <div class="bucket-bar" title={`${bucketLabels[index]}: ${bucket.count} (${formatPercentage(bucket.percentage)}%)`}>
+              <span style={`height:${(bucket.count / maxCount) * 100}%`}></span>
+            </div>
+            <span class="bucket-label">{bucketLabels[index]}</span>
+            <span class="bucket-percentage">{formatPercentage(bucket.percentage)}%</span>
+          </div>)}
+        </div>
+      </div>
+    </div>
+  }) : <p class="empty-state">{dict.runs.noData}</p>}
+  <p class="chart-note">{dict.runs.distanceDistributionNote}</p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.distance-distribution').forEach(chart => {
+    const select = chart.querySelector<HTMLSelectElement>('[data-distribution-year]')
+    const panels = chart.querySelectorAll<HTMLElement>('[data-distribution-panel]')
+    if (!select) return
+    select.addEventListener('change', () => {
+      panels.forEach(panel => {
+        const active = panel.dataset.distributionPanel === select.value
+        panel.classList.toggle('is-hidden', !active)
+        panel.setAttribute('aria-hidden', String(!active))
+      })
+    })
+  })
+</script>
+
+<style>
+  .distance-distribution{margin:4rem 0 0}.chart-heading{display:flex;align-items:center;justify-content:space-between;gap:1rem}.chart-heading .section-label{margin:0}.year-picker{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:var(--font-size-small)}.year-picker select{padding:.35rem .5rem;border:1px solid var(--line);border-radius:.35rem;background:var(--paper);color:var(--text);font:inherit}.year-picker select:focus-visible{outline:2px solid currentColor;outline-offset:2px}.distribution-panel.is-hidden{display:none}.chart-wrap{overflow-x:auto;margin-top:1rem}.chart-grid{display:grid;grid-template-columns:repeat(7,minmax(4rem,1fr));gap:.65rem;align-items:end;min-width:32rem;height:15rem;padding:.5rem 0 0;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to bottom,transparent 0,transparent calc(25% - 1px),var(--line) 25%)}.bucket-column{display:flex;height:14.5rem;min-width:0;flex-direction:column;align-items:center;justify-content:flex-end}.bucket-count{color:var(--text);font-size:var(--font-size-small);font-variant-numeric:tabular-nums}.bucket-bar{display:flex;width:100%;height:11rem;align-items:flex-end;justify-content:center}.bucket-bar>span{display:block;width:min(2.25rem,70%);min-height:1px;background:var(--accent)}.bucket-label{margin-top:.5rem;color:var(--muted);font-size:var(--font-size-label);text-align:center;white-space:nowrap}.bucket-percentage{color:var(--muted);font-size:.65rem}.chart-note{margin:.75rem 0 0;color:var(--muted);font-size:var(--font-size-small)}.empty-state{color:var(--muted)}
+  @media (max-width:640px){.chart-heading{align-items:flex-start;flex-direction:column}.chart-grid{gap:.35rem}.bucket-label{font-size:.6rem}}
+</style>
