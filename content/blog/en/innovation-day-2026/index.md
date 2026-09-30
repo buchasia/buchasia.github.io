@@ -4,6 +4,12 @@ date: 2026-09-30
 description: Notes from the 3rd Innovation Day 2026.
 tags: [innovation]
 draft: true
+runIds:
+  - garmin-2026-09-25
+  - garmin-2026-09-26
+  - garmin-2026-09-26-2
+  - garmin-2026-09-26-3
+  - garmin-2026-09-26-4
 ---
 
 Like every quarter, the whole company met again, this time in the beautiful city of Eindhoven in the Netherlands. It was two days full of fun, innovation, and the opportunity to spend time together in person.
@@ -41,5 +47,7 @@ On Saturday, some colleagues joined a social run. We had a short run full of con
 That was not the end of my running for the day. I wanted to visit the Eindhoven parkrun, but my return train was at 10:19. This left me roughly one hour to complete the 5 km parkrun, run the 2.5 km back to the hotel, take a shower, and get to the train station in time.
 
 So I had to run not only the parkrun itself, but also the route to and from it. Tobias joined me for all the runs on Saturday, and we had a lot of fun. Hopefully, we will be able to do it again.
+
+All five runs from Friday and Saturday are linked to this article in the [2026 run archive](/runs/2026/).
 
 It was a busy two days, but also a very enjoyable Innovation Day. Meeting colleagues, experimenting with new technology, and fitting in a few runs made it a memorable trip.
