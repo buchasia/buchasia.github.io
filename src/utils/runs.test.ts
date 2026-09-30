@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getYearlyHistoricalProgress } from './runs'
+import { getRunDistanceDistribution, getRunDistributionDefaultYear, getYearlyHistoricalProgress } from './runs'
 
 const yearlyData = {
   '2026': { distance: 100, duration: 1000, totalAscent: 50, count: 1 },
@@ -50,5 +50,42 @@ describe('yearly historical progress', () => {
   it('returns zero counts when there are no earlier years', () => {
     const result = getYearlyHistoricalProgress(yearlyData, '2023')
     expect(result.every(item => item.surpassedYears === 0 && item.earlierYears === 0)).toBe(true)
+  })
+})
+
+describe('run distance distribution', () => {
+  const run = (distance: number, date = '2026-01-01') => ({
+    id: `${date}-${distance}`,
+    date: new Date(`${date}T12:00:00Z`),
+    distance,
+    duration: 60,
+  })
+
+  it('assigns boundary values to the lower-inclusive bucket', () => {
+    const result = getRunDistanceDistribution([
+      run(1_999), run(2_000), run(4_999), run(5_000), run(9_999), run(10_000),
+      run(20_999), run(21_000), run(29_999), run(30_000), run(41_999), run(42_000),
+    ], '2026')
+    expect(result.map(bucket => bucket.count)).toEqual([1, 2, 2, 2, 2, 2, 1])
+    expect(result.reduce((sum, bucket) => sum + bucket.count, 0)).toBe(12)
+  })
+
+  it('filters by UTC year, retains empty buckets, and calculates percentages', () => {
+    const result = getRunDistanceDistribution([run(3_000), run(50_000), run(7_000, '2025-12-31')], '2026')
+    expect(result).toHaveLength(7)
+    expect(result.map(bucket => bucket.count)).toEqual([0, 1, 0, 0, 0, 0, 1])
+    expect(result[1].percentage).toBe(50)
+    expect(result[6].percentage).toBe(50)
+  })
+
+  it('returns zero counts and percentages for a year without runs', () => {
+    const result = getRunDistanceDistribution([run(3_000)], '2025')
+    expect(result.every(bucket => bucket.count === 0 && bucket.percentage === 0)).toBe(true)
+  })
+
+  it('defaults to the current year and falls back to the newest available year', () => {
+    expect(getRunDistributionDefaultYear(['2026', '2025'], '2026')).toBe('2026')
+    expect(getRunDistributionDefaultYear(['2025', '2024'], '2026')).toBe('2025')
+    expect(getRunDistributionDefaultYear([], '2026')).toBe('2026')
   })
 })

@@ -145,6 +145,39 @@ export const getRunHighlights = (runs: Run[]) => {
 
 export const getRunYear = (run: Run) => run.date.getUTCFullYear().toString()
 
+export type RunDistanceBucket = {
+  id: string
+  minMeters: number
+  maxMeters: number | null
+}
+
+export type RunDistanceDistribution = RunDistanceBucket & {
+  count: number
+  percentage: number
+}
+
+export const RUN_DISTANCE_BUCKETS: RunDistanceBucket[] = [
+  { id: 'under-2', minMeters: 0, maxMeters: 2_000 },
+  { id: '2-5', minMeters: 2_000, maxMeters: 5_000 },
+  { id: '5-10', minMeters: 5_000, maxMeters: 10_000 },
+  { id: '10-21', minMeters: 10_000, maxMeters: 21_000 },
+  { id: '21-30', minMeters: 21_000, maxMeters: 30_000 },
+  { id: '30-42', minMeters: 30_000, maxMeters: 42_000 },
+  { id: '42-plus', minMeters: 42_000, maxMeters: null },
+]
+
+export const getRunDistanceDistribution = (runs: Run[], year: string | number): RunDistanceDistribution[] => {
+  const yearNumber = Number(year)
+  const yearRuns = runs.filter(run => run.date.getUTCFullYear() === yearNumber)
+  return RUN_DISTANCE_BUCKETS.map(bucket => {
+    const count = yearRuns.filter(run => run.distance >= bucket.minMeters && (bucket.maxMeters === null || run.distance < bucket.maxMeters)).length
+    return { ...bucket, count, percentage: yearRuns.length ? (count / yearRuns.length) * 100 : 0 }
+  })
+}
+
+export const getRunDistributionDefaultYear = (years: string[], currentYear = new Date().getUTCFullYear().toString()) =>
+  years.includes(currentYear) ? currentYear : years[0] ?? currentYear
+
 export type YearlyProgressMetric = 'distance' | 'duration' | 'totalAscent'
 
 export type YearlyHistoricalProgress = {
