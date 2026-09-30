@@ -13,7 +13,7 @@ const dict = t(lang)
 const defaultYear = getRunDistributionDefaultYear(years)
 const bucketLabels = lang === 'de'
   ? ['unter 2 km', '2–5 km', '5–10 km', '10–21 km', '21–30 km', '30–42 km', '42+ km']
-  : ['< 2 km', '2–5 km', '5–10 km', '10–21 km', '21–30 km', '30–42 km', '42+ km']
+  : ['under 2 km', '2–5 km', '5–10 km', '10–21 km', '21–30 km', '30–42 km', '42+ km']
 const distributions = years.map(year => ({ year, buckets: getRunDistanceDistribution(runs, year) }))
 const formatPercentage = (value: number) => new Intl.NumberFormat(lang === 'de' ? 'de-DE' : 'en-US', { maximumFractionDigits: 1 }).format(value)
 ---
