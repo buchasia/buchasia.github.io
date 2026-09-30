@@ -14,6 +14,8 @@ runIds:
 
 Like every quarter, the whole company met again, this time in the beautiful city of Eindhoven in the Netherlands. It was two days full of fun, innovation, and the opportunity to spend time together in person.
 
+**Event dates:** 24–26 September 2026 · Eindhoven, Netherlands
+
 ## Meeting the team
 
 We started with a team dinner on Thursday evening. The food was great, but what was even better was meeting all my colleagues again after almost three months. We had a really good time together.
