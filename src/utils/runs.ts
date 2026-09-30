@@ -155,6 +155,8 @@ export type YearlyHistoricalProgress = {
   targetValue: number | null
   remaining: number | null
   progress: number | null
+  surpassedYears: number
+  earlierYears: number
 }
 
 export const getYearlyHistoricalProgress = (
@@ -167,8 +169,10 @@ export const getYearlyHistoricalProgress = (
   const years = Object.keys(yearlyData)
   return (['distance', 'duration', 'totalAscent'] as const).map(metric => {
     const currentValue = current[metric]
-    const target = years
-      .filter(year => Number(year) < Number(currentYear) && yearlyData[year][metric] > currentValue)
+    const earlier = years.filter(year => Number(year) < Number(currentYear))
+    const surpassedYears = earlier.filter(year => yearlyData[year][metric] < currentValue).length
+    const target = earlier
+      .filter(year => yearlyData[year][metric] > currentValue)
       .map(year => ({ year, value: yearlyData[year][metric] }))
       .sort((a, b) => a.value - b.value || Number(b.year) - Number(a.year))[0]
 
@@ -180,6 +184,8 @@ export const getYearlyHistoricalProgress = (
       targetValue: target?.value ?? null,
       remaining: target ? target.value - currentValue : null,
       progress: target ? Math.min(100, (currentValue / target.value) * 100) : null,
+      surpassedYears,
+      earlierYears: earlier.length,
     }
   })
 }
