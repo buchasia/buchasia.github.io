@@ -1,4 +1,5 @@
 [
+  {"id":"garmin-2026-10-01","date":"2026-10-01","activityType":"Running","distance":5030,"duration":1893,"totalAscent":10},
   {"id":"garmin-2026-09-27","date":"2026-09-27","activityType":"Trail Running","distance":11220,"duration":4727,"totalAscent":303},
   {"id":"garmin-2026-09-26","date":"2026-09-26","activityType":"Running","distance":2670,"duration":958,"totalAscent":3},
   {"id":"garmin-2026-09-26-2","date":"2026-09-26","activityType":"Running","distance":5030,"duration":1791,"totalAscent":0},
