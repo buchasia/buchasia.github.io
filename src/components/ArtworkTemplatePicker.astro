@@ -13,7 +13,7 @@ const labels = de ? { legend: 'Vorlage' } : { legend: 'Template' }
   <label class="picker-label" for={`artwork-template-${lang}`}>{labels.legend}</label>
   <select id={`artwork-template-${lang}`} name={`artwork-template-${lang}`} data-artwork-template-select>
     {Object.values(ARTWORK_TEMPLATES).map(template => (
-      <option value={template.id} selected={template.id === DEFAULT_ARTWORK_TEMPLATE} data-description={localizeTemplateText(template.definition.description, de ? 'de' : 'en')}>{localizeTemplateText(template.definition.name, de ? 'de' : 'en')}</option>
+      <option value={template.id} selected={template.id === DEFAULT_ARTWORK_TEMPLATE} data-description={`${localizeTemplateText(template.definition.description, de ? 'de' : 'en')} · ${localizeTemplateText(template.definition.output.sizeDescription, de ? 'de' : 'en')}`}>{localizeTemplateText(template.definition.name, de ? 'de' : 'en')} — {localizeTemplateText(template.definition.output.sizeDescription, de ? 'de' : 'en')}</option>
     ))}
   </select>
   <p class="picker-description" data-artwork-template-description></p>
