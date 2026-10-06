@@ -44,7 +44,23 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
         <div class="book-year-heading">
           <h2 id={`books-year-${summary.year}`}>{summary.year}</h2>
         </div>
-        {summary.year === currentYear && <div class="book-year-targets">
+        <div class="book-year-targets">
+          <div class="book-year-target">
+            <span>{dict.readingTime}: {formatReadingTime(summary.readingMinutes)}</span>
+            {summary.year === currentYear && (() => {
+              const readingTargetMinutes = getReadingTargetMinutes(summary.readingMinutes)
+              const readingTargetProgress = Math.min(100, Math.round((summary.readingMinutes / readingTargetMinutes) * 100))
+              return (
+                <>
+                  <div class="year-progress" role="progressbar" aria-label={`${dict.readingTarget}: ${formatReadingTime(readingTargetMinutes)}`} aria-valuemin="0" aria-valuemax={readingTargetMinutes} aria-valuenow={summary.readingMinutes}>
+                    <span style={`width:${readingTargetProgress}%`}></span>
+                  </div>
+                  <small>{dict.readingTarget}: {formatReadingTime(readingTargetMinutes)}</small>
+                </>
+              )
+            })()}
+          </div>
+          {summary.year === currentYear && <div class="book-year-target">
           {(() => {
             const achievedTargets = Math.floor(summary.finishedCount / 12)
             const nextTarget = (achievedTargets + 1) * 12
@@ -59,7 +75,8 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
               </div>
             )
           })()}
-        </div>}
+          </div>}
+        </div>
         {summary.books.map((book) => {
           const progress = getBookProgress(book)
           const status = getBookStatus(book)
@@ -86,19 +103,6 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
                 <div class="progress-track"><span style={`width:${progress}%`}></span></div>
                 <span>{book.currentPage} {dict.of} {book.totalPages} — {progress}%</span>
               </div>
-              {typeof book.readingMinutes === 'number' && (() => {
-                const targetMinutes = getReadingTargetMinutes(book.readingMinutes)
-                const timeProgress = Math.min(100, Math.round((book.readingMinutes / targetMinutes) * 100))
-                return (
-                  <div class="book-reading-time">
-                    <span>{dict.readingTime}: {formatReadingTime(book.readingMinutes)}</span>
-                    <div class="progress-track" role="progressbar" aria-label={`${dict.readingTarget}: ${formatReadingTime(targetMinutes)}`} aria-valuemin="0" aria-valuemax={targetMinutes} aria-valuenow={book.readingMinutes}>
-                      <span style={`width:${timeProgress}%`}></span>
-                    </div>
-                    <small>{dict.readingTarget}: {formatReadingTime(targetMinutes)}</small>
-                  </div>
-                )
-              })()}
               {note && <div class="book-note" set:html={renderNote(note)}></div>}
             </article>
           )
