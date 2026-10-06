@@ -37,7 +37,7 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
           <nav aria-label="Primary navigation">
             <a href={localizedPath(lang, '/posts/')}>{dict.nav.posts}</a>
             <a href={localizedPath(lang, '/runs/')}>{dict.nav.runs}</a>
-            <a href={localizedPath(lang, '/visualizer/')}>{dict.nav.visualizer}</a>
+            <a href={localizedPath(lang, '/books/')}>{dict.nav.books}</a>
             <a href={localizedPath(lang, '/about/')}>{dict.nav.about}</a>
             <a href={localizedPath(lang, '/tags/')}>{dict.nav.tags}</a>
             <a href={localizedPath(lang, '/search/')}>{dict.nav.search}</a>
@@ -224,5 +224,37 @@ const otherLang: Lang = lang === 'en' ? 'de' : 'en'
   .search-input { width:100%; padding:14px 16px; border:1px solid var(--line); border-radius:0; background:var(--wash); color:var(--ink); font:inherit; }
   .search-input:focus { outline:2px solid var(--accent); outline-offset:2px; }
   .search-status { color:var(--muted); font-family:'DM Sans', sans-serif; font-size:var(--font-size-small); }
-  @media (max-width: 640px) { .site-shell { width:calc(100% - 36px); } .site-header, .site-footer, .header-actions { align-items:flex-start; flex-direction:column; } .footer-links { align-items:flex-start !important; flex-direction:column; gap:12px !important; } .consent-banner { right:18px; bottom:18px; width:calc(100% - 36px); align-items:stretch; flex-direction:column; gap:14px; } .consent-actions { justify-content:flex-end; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } }
+  .books-page { width:100%; margin:80px auto 0; }
+  .books-page h1 { margin-bottom:14px; }
+  .books-intro { margin:0; color:var(--muted); font-family:'Source Serif 4', serif; font-size:var(--font-size-reading); line-height:1.7; }
+  .book-filters { display:flex; flex-wrap:wrap; gap:16px; margin:38px 0 18px; padding:18px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .book-filters label { display:flex; align-items:center; gap:10px; color:var(--muted); font-size:var(--font-size-small); }
+  .book-filters select { padding:8px 10px; border:1px solid var(--line); background:var(--wash); color:var(--ink); font:inherit; font-size:var(--font-size-small); }
+  .book-list { display:grid; gap:18px; }
+  .book-year-section { padding-top:28px; }
+  .book-year-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-bottom:14px; border-bottom:1px solid var(--line); }
+  .book-year-heading h2 { margin:0; font-size:var(--font-size-h2); }
+  .book-year-targets { width:min(100%, 300px); margin:14px 0 4px auto; }
+  .book-year-target { color:var(--muted); font-size:var(--font-size-small); }
+  .book-year-target > span { display:block; margin-bottom:6px; }
+  .year-progress { height:7px; overflow:hidden; background:var(--wash); }
+  .year-progress span { display:block; height:100%; background:var(--accent); }
+  .book-year-target small { display:block; margin-top:5px; }
+  .book-card { padding:22px 0; border-bottom:1px solid var(--line); }
+  .book-card[hidden] { display:none; }
+  .book-cover { float:right; width:120px; max-height:170px; object-fit:cover; margin:0 0 16px 24px; border:1px solid var(--line); }
+  .book-heading { display:flex; justify-content:space-between; gap:20px; }
+  .book-heading h3 { margin:5px 0 4px; font-size:var(--font-size-h2); }
+  .book-status, .book-year, .book-author, .book-meta, .book-progress { color:var(--muted); font-size:var(--font-size-small); }
+  .book-status { margin:0; color:var(--accent); font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .book-author, .book-year { margin:0; }
+  .book-year { flex-shrink:0; }
+  .book-meta { display:flex; flex-wrap:wrap; gap:8px 14px; margin-top:14px; }
+  .book-meta span { padding:4px 8px; border:1px solid var(--line); }
+  .book-progress { display:flex; align-items:center; gap:12px; margin-top:16px; }
+  .progress-track { flex:1; height:7px; background:var(--wash); }
+  .progress-track span { display:block; height:100%; background:var(--accent); }
+  .book-note { max-width:760px; margin:16px 0 0; color:var(--muted); font-family:'Source Serif 4', serif; font-size:var(--font-size-reading); line-height:1.65; white-space:pre-line; overflow-wrap:anywhere; }
+  .books-empty { margin-top:28px; color:var(--muted); }
+  @media (max-width: 640px) { .site-shell { width:calc(100% - 36px); } .site-header, .site-footer, .header-actions { align-items:flex-start; flex-direction:column; } .footer-links { align-items:flex-start !important; flex-direction:column; gap:12px !important; } .consent-banner { right:18px; bottom:18px; width:calc(100% - 36px); align-items:stretch; flex-direction:column; gap:14px; } .consent-actions { justify-content:flex-end; } .hero { grid-template-columns:1fr; gap:24px; padding:58px 0 40px; } .intro { display:block; } .intro p + p { margin-top:10px; } .post-row { grid-template-columns:1fr; gap:8px; } .article, .about { margin-top:48px; } .book-year-heading { align-items:flex-start; flex-direction:column; gap:14px; } .book-year-targets { width:100%; margin-left:0; } }
 </style>

@@ -1,0 +1,12 @@
+---
+import BooksPage from '../components/BooksPage.astro'
+import books from '../../content/data/books.json'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { t } from '../utils/i18n'
+import type { Book } from '../utils/books'
+
+const dict = t('en')
+---
+<BaseLayout title={dict.books.title} lang="en" altPath="/books/">
+  <BooksPage lang="en" books={books as Book[]} />
+</BaseLayout>

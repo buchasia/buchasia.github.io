@@ -1,0 +1,110 @@
+---
+import { getBookProgress, getBookStatus, getBookYearSummaries, type Book } from '../utils/books'
+import { t, type Lang } from '../utils/i18n'
+
+type Props = { lang: Lang; books: Book[] }
+const { lang, books } = Astro.props
+const dict = t(lang).books
+const yearSummaries = getBookYearSummaries(books)
+const formatLabel = (value: string) => value.replaceAll('-', ' ')
+const dateFormatter = new Intl.DateTimeFormat(lang === 'de' ? 'de-DE' : 'en-US', { dateStyle: 'long' })
+const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${value}T00:00:00`)) : ''
+---
+<section class="books-page">
+  <p class="eyebrow">{dict.eyebrow}</p>
+  <h1>{dict.title}</h1>
+  <p class="books-intro">{dict.intro}</p>
+
+  <div class="book-filters" data-book-filters>
+    <label>
+      {dict.genre}
+      <select data-book-genre>
+        <option value="">{dict.allGenres}</option>
+        {[...new Set(books.map((book) => book.genre))].sort().map((genre) => <option value={genre}>{formatLabel(genre)}</option>)}
+      </select>
+    </label>
+    <label>
+      {dict.format}
+      <select data-book-format>
+        <option value="">{dict.allFormats}</option>
+        {[...new Set(books.map((book) => book.format))].sort().map((format) => <option value={format}>{formatLabel(format)}</option>)}
+      </select>
+    </label>
+  </div>
+
+  <p class="books-empty" data-books-empty hidden>{dict.empty}</p>
+  <div class="book-list" data-book-list>
+    {yearSummaries.map((summary) => (
+      <section class="book-year-section" aria-labelledby={`books-year-${summary.year}`}>
+        <div class="book-year-heading">
+          <h2 id={`books-year-${summary.year}`}>{summary.year}</h2>
+        </div>
+        <div class="book-year-targets">
+          {(() => {
+            const achievedTargets = Math.floor(summary.finishedCount / 12)
+            const nextTarget = (achievedTargets + 1) * 12
+            const targetProgress = Math.min(100, (summary.finishedCount / nextTarget) * 100)
+            return (
+              <div class="book-year-target">
+                <span>{dict.finishedBooks}: {summary.finishedCount} {dict.of} {nextTarget}</span>
+                <div class="year-progress" role="progressbar" aria-label={`${summary.year}: ${summary.finishedCount} ${dict.of} ${nextTarget}`} aria-valuemin="0" aria-valuemax={nextTarget} aria-valuenow={summary.finishedCount}>
+                  <span style={`width:${targetProgress}%`}></span>
+                </div>
+                <small>{dict.annualTarget}: {nextTarget} · {dict.achievedTargets}: {achievedTargets}</small>
+              </div>
+            )
+          })()}
+        </div>
+        {summary.books.map((book) => {
+          const progress = getBookProgress(book)
+          const status = getBookStatus(book)
+          const note = lang === 'de' ? book.noteDe : book.noteEn
+          return (
+            <article class="book-card" data-book data-genre={book.genre} data-format={book.format}>
+              {book.coverUrl && <img class="book-cover" src={book.coverUrl} alt={`${book.title} cover`} width="120" height="170" loading="lazy" />}
+              <div class="book-heading">
+                <div>
+                  <p class="book-status">{dict.status[status]}</p>
+                  <h3>{book.title}</h3>
+                  <p class="book-author">{book.author}</p>
+                </div>
+              </div>
+              <div class="book-meta">
+                <span>{formatLabel(book.genre)}</span>
+                <span>{formatLabel(book.format)}</span>
+                <span>{dict.language}: {book.language}</span>
+                {book.isbn && <span>{dict.isbn}: {book.isbn}</span>}
+                {book.dateStarted && <span>{dict.started}: {formatDate(book.dateStarted)}</span>}
+                {book.dateEnded && <span>{dict.ended}: {formatDate(book.dateEnded)}</span>}
+              </div>
+              <div class="book-progress" role="progressbar" aria-label={`${dict.progress}: ${book.currentPage} ${dict.of} ${book.totalPages} — ${progress}%`} aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress}>
+                <div class="progress-track"><span style={`width:${progress}%`}></span></div>
+                <span>{book.currentPage} {dict.of} {book.totalPages} — {progress}%</span>
+              </div>
+              {note && <p class="book-note">{note}</p>}
+            </article>
+          )
+        })}
+      </section>
+    ))}
+  </div>
+</section>
+
+<script>
+  const filters = document.querySelector<HTMLElement>('[data-book-filters]')
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-book]')]
+  const empty = document.querySelector<HTMLElement>('[data-books-empty]')
+  const updateBooks = () => {
+    const genre = document.querySelector<HTMLSelectElement>('[data-book-genre]')?.value ?? ''
+    const format = document.querySelector<HTMLSelectElement>('[data-book-format]')?.value ?? ''
+    let visible = 0
+    cards.forEach((card) => {
+      const matches = (!genre || card.dataset.genre === genre) && (!format || card.dataset.format === format)
+      card.hidden = !matches
+      if (matches) visible += 1
+    })
+    if (empty) empty.hidden = visible !== 0
+  }
+  filters?.querySelectorAll('select').forEach((select) => select.addEventListener('change', updateBooks))
+  updateBooks()
+</script>
