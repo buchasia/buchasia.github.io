@@ -12,6 +12,8 @@ const formatLabel = (value: string) => value.replaceAll('-', ' ')
 const dateFormatter = new Intl.DateTimeFormat(lang === 'de' ? 'de-DE' : 'en-US', { dateStyle: 'long' })
 const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${value}T00:00:00`)) : ''
 const renderNote = (value: string) => marked.parse(value, { async: false })
+const formatReadingTime = (minutes: number) => `${Math.floor(minutes / 60)}h ${minutes % 60}m`
+const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) + 1) * 600
 ---
 <section class="books-page">
   <p class="eyebrow">{dict.eyebrow}</p>
@@ -84,6 +86,19 @@ const renderNote = (value: string) => marked.parse(value, { async: false })
                 <div class="progress-track"><span style={`width:${progress}%`}></span></div>
                 <span>{book.currentPage} {dict.of} {book.totalPages} — {progress}%</span>
               </div>
+              {typeof book.readingMinutes === 'number' && (() => {
+                const targetMinutes = getReadingTargetMinutes(book.readingMinutes)
+                const timeProgress = Math.min(100, Math.round((book.readingMinutes / targetMinutes) * 100))
+                return (
+                  <div class="book-reading-time">
+                    <span>{dict.readingTime}: {formatReadingTime(book.readingMinutes)}</span>
+                    <div class="progress-track" role="progressbar" aria-label={`${dict.readingTarget}: ${formatReadingTime(targetMinutes)}`} aria-valuemin="0" aria-valuemax={targetMinutes} aria-valuenow={book.readingMinutes}>
+                      <span style={`width:${timeProgress}%`}></span>
+                    </div>
+                    <small>{dict.readingTarget}: {formatReadingTime(targetMinutes)}</small>
+                  </div>
+                )
+              })()}
               {note && <div class="book-note" set:html={renderNote(note)}></div>}
             </article>
           )
