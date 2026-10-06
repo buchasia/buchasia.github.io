@@ -1,6 +1,7 @@
 ---
 import { getBookProgress, getBookStatus, getBookYearSummaries, type Book } from '../utils/books'
 import { t, type Lang } from '../utils/i18n'
+import { marked } from 'marked'
 
 type Props = { lang: Lang; books: Book[] }
 const { lang, books } = Astro.props
@@ -10,6 +11,7 @@ const currentYear = new Date().getFullYear()
 const formatLabel = (value: string) => value.replaceAll('-', ' ')
 const dateFormatter = new Intl.DateTimeFormat(lang === 'de' ? 'de-DE' : 'en-US', { dateStyle: 'long' })
 const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${value}T00:00:00`)) : ''
+const renderNote = (value: string) => marked.parse(value, { async: false })
 ---
 <section class="books-page">
   <p class="eyebrow">{dict.eyebrow}</p>
@@ -82,7 +84,7 @@ const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${
                 <div class="progress-track"><span style={`width:${progress}%`}></span></div>
                 <span>{book.currentPage} {dict.of} {book.totalPages} — {progress}%</span>
               </div>
-              {note && <p class="book-note">{note}</p>}
+              {note && <div class="book-note" set:html={renderNote(note)}></div>}
             </article>
           )
         })}
