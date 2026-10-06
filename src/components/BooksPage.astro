@@ -6,6 +6,7 @@ type Props = { lang: Lang; books: Book[] }
 const { lang, books } = Astro.props
 const dict = t(lang).books
 const yearSummaries = getBookYearSummaries(books)
+const currentYear = new Date().getFullYear()
 const formatLabel = (value: string) => value.replaceAll('-', ' ')
 const dateFormatter = new Intl.DateTimeFormat(lang === 'de' ? 'de-DE' : 'en-US', { dateStyle: 'long' })
 const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${value}T00:00:00`)) : ''
@@ -39,7 +40,7 @@ const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${
         <div class="book-year-heading">
           <h2 id={`books-year-${summary.year}`}>{summary.year}</h2>
         </div>
-        <div class="book-year-targets">
+        {summary.year === currentYear && <div class="book-year-targets">
           {(() => {
             const achievedTargets = Math.floor(summary.finishedCount / 12)
             const nextTarget = (achievedTargets + 1) * 12
@@ -54,7 +55,7 @@ const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${
               </div>
             )
           })()}
-        </div>
+        </div>}
         {summary.books.map((book) => {
           const progress = getBookProgress(book)
           const status = getBookStatus(book)
