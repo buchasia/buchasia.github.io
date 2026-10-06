@@ -55,7 +55,7 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
                   <div class="year-progress" role="progressbar" aria-label={`${dict.readingTarget}: ${formatReadingTime(readingTargetMinutes)}`} aria-valuemin="0" aria-valuemax={readingTargetMinutes} aria-valuenow={summary.readingMinutes}>
                     <span style={`width:${readingTargetProgress}%`}></span>
                   </div>
-                  <small>{dict.readingTarget}: {formatReadingTime(readingTargetMinutes)}</small>
+                  <small>{dict.readingTarget}: {formatReadingTime(readingTargetMinutes)} · {dict.readingTargetsAchieved}: {Math.floor(summary.readingMinutes / 600)}</small>
                 </>
               )
             })()}
