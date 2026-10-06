@@ -8,7 +8,7 @@ export const localizedPath = (lang: Lang, path: string) => (lang === DEFAULT_LAN
 
 const dictionaries = {
   en: {
-    nav: { posts: 'Posts', about: 'About', tags: 'Tags', search: 'Search', runs: 'Runs', visualizer: 'Visualizer' },
+    nav: { posts: 'Posts', about: 'About', tags: 'Tags', search: 'Search', runs: 'Runs', books: 'Books' },
     footer: (year: number) => `Copyright © ${year} | All rights reserved.`,
     langSwitch: { label: 'DE', ariaLabel: 'Auf Deutsch lesen' },
     translationNotice: '',
@@ -28,6 +28,10 @@ const dictionaries = {
       list: 'Run list', date: 'Date', activityType: 'Activity', totalDistance: 'Total distance', totalTime: 'Total time', totalAscent: 'Total ascent', totalRuns: 'Total runs', distanceDistribution: 'Run-distance distribution', distanceDistributionYear: 'Distribution year', distanceDistributionNote: 'Bars show the number and percentage of runs in each distance range.', historicalProgress: 'Progress toward the next higher historical year', historicalProgressIntro: 'How much remains to match the closest higher result from an earlier year.', historicalTarget: 'Target', historicalRemaining: 'remaining', historicalBest: 'Best historical result', historicalYearsSurpassed: (surpassed: number, earlier: number) => `${surpassed} of ${earlier} earlier years surpassed`, noHistoricalTarget: 'No higher earlier result',
       selectYear: 'Select a year', noData: 'No running data is available right now.', noRuns: 'No runs recorded for this year.',
       newerYear: 'Newer year', olderYear: 'Older year', allYears: 'All years', highlights: 'Year highlights', elevationHighlights: 'Elevation highlights', targets: 'Targets', thisMonth: 'This month', thisYear: 'This year', nextTarget: 'Next target', runningAchievements: 'Running achievements', achievementsIntro: 'Milestones reached by year.', achievementList: 'Achievement badges', yearlyAchievements: 'Yearly milestones', monthlyAchievements: 'Monthly milestones', notYetAchieved: 'Not yet achieved', achievedOn: 'Achieved on', level: 'Level', longestRun: 'Longest run', highestAscent: 'Highest ascent', mostClimbingYear: 'Most climbing year', fastestRun: 'Fastest pace', busiestMonth: 'Busiest month', longestWeek: 'Longest week', monthlyAscent: 'Elevation gain', filters: 'Filter runs', allMonths: 'All months', allTypes: 'All activity types', searchRuns: 'Search runs', minDistance: 'Min km', maxDistance: 'Max km', runCount: (n: number) => `${n} runs`, annualComparison: 'Year-by-year comparison', year: 'Year', averageRun: 'Average run', noValue: '—', months: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    },
+    books: {
+      eyebrow: 'Reading', title: 'Books', intro: 'A small record of what I have read and what I am reading.', genre: 'Genre', format: 'Format', language: 'Language', isbn: 'ISBN', finishedBooks: 'Finished books', annualTarget: 'Next target', achievedTargets: 'Targets achieved', allGenres: 'All genres', allFormats: 'All formats', started: 'Started', ended: 'Ended', progress: 'Progress', of: 'of', empty: 'No books match these filters.',
+      status: { finished: 'Finished', reading: 'Currently reading', notStarted: 'Not started' },
     },
     about: {
       eyebrow: 'About',
@@ -53,7 +57,7 @@ const dictionaries = {
     dateLocale: 'en-US',
   },
   de: {
-    nav: { posts: 'Beiträge', about: 'Über mich', tags: 'Schlagwörter', search: 'Suche', runs: 'Läufe', visualizer: 'Visualizer' },
+    nav: { posts: 'Beiträge', about: 'Über mich', tags: 'Schlagwörter', search: 'Suche', runs: 'Läufe', books: 'Bücher' },
     footer: (year: number) => `Copyright © ${year} | Alle Rechte vorbehalten.`,
     langSwitch: { label: 'EN', ariaLabel: 'Read in English' },
     translationNotice:
@@ -74,6 +78,10 @@ const dictionaries = {
       list: 'Laufliste', date: 'Datum', activityType: 'Aktivität', totalDistance: 'Gesamtdistanz', totalTime: 'Gesamtzeit', totalAscent: 'Gesamtanstieg', totalRuns: 'Läufe insgesamt', distanceDistribution: 'Verteilung der Laufdistanzen', distanceDistributionYear: 'Verteilungsjahr', distanceDistributionNote: 'Die Balken zeigen Anzahl und Anteil der Läufe in jedem Distanzbereich.', historicalProgress: 'Fortschritt zum nächsten höheren historischen Jahr', historicalProgressIntro: 'Wie viel bis zum nächsthöheren Ergebnis aus einem früheren Jahr noch fehlt.', historicalTarget: 'Ziel', historicalRemaining: 'fehlen', historicalBest: 'Bestes historisches Ergebnis', historicalYearsSurpassed: (surpassed: number, earlier: number) => `${surpassed} von ${earlier} früheren Jahren übertroffen`, noHistoricalTarget: 'Kein höheres früheres Ergebnis',
       selectYear: 'Jahr auswählen', noData: 'Derzeit sind keine Laufdaten verfügbar.', noRuns: 'Für dieses Jahr sind keine Läufe erfasst.',
       newerYear: 'Neueres Jahr', olderYear: 'Älteres Jahr', allYears: 'Alle Jahre', highlights: 'Jahreshöhepunkte', elevationHighlights: 'Höhenmeter-Highlights', targets: 'Ziele', thisMonth: 'Dieser Monat', thisYear: 'Dieses Jahr', nextTarget: 'Nächstes Ziel', runningAchievements: 'Laufziele', achievementsIntro: 'Erreichte Meilensteine nach Jahren.', achievementList: 'Laufabzeichen', yearlyAchievements: 'Jährliche Meilensteine', monthlyAchievements: 'Monatliche Meilensteine', notYetAchieved: 'Noch nicht erreicht', achievedOn: 'Erreicht am', level: 'Stufe', longestRun: 'Längster Lauf', highestAscent: 'Höchster Anstieg', mostClimbingYear: 'Jahr mit dem meisten Anstieg', fastestRun: 'Schnellstes Tempo', busiestMonth: 'Aktivster Monat', longestWeek: 'Längste Woche', monthlyAscent: 'Höhenmeter', filters: 'Läufe filtern', allMonths: 'Alle Monate', allTypes: 'Alle Aktivitätsarten', searchRuns: 'Läufe durchsuchen', minDistance: 'Min. km', maxDistance: 'Max. km', runCount: (n: number) => `${n} Läufe`, annualComparison: 'Jahresvergleich', year: 'Jahr', averageRun: 'Durchschnittlicher Lauf', noValue: '—', months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    },
+    books: {
+      eyebrow: 'Lesen', title: 'Bücher', intro: 'Eine kleine Übersicht über gelesene und aktuell gelesene Bücher.', genre: 'Genre', format: 'Format', language: 'Sprache', isbn: 'ISBN', finishedBooks: 'Gelesene Bücher', annualTarget: 'Nächstes Ziel', achievedTargets: 'Erreichte Ziele', allGenres: 'Alle Genres', allFormats: 'Alle Formate', started: 'Begonnen', ended: 'Beendet', progress: 'Fortschritt', of: 'von', empty: 'Keine Bücher passen zu diesen Filtern.',
+      status: { finished: 'Gelesen', reading: 'Wird gerade gelesen', notStarted: 'Noch nicht begonnen' },
     },
     about: {
       eyebrow: 'Über mich',
