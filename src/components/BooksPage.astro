@@ -13,7 +13,8 @@ const dateFormatter = new Intl.DateTimeFormat(lang === 'de' ? 'de-DE' : 'en-US',
 const formatDate = (value?: string) => value ? dateFormatter.format(new Date(`${value}T00:00:00`)) : ''
 const renderNote = (value: string) => marked.parse(value, { async: false })
 const formatReadingTime = (minutes: number) => `${Math.floor(minutes / 60)}h ${minutes % 60}m`
-const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) + 1) * 600
+const readingTargetStepMinutes = 20 * 60
+const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / readingTargetStepMinutes) + 1) * readingTargetStepMinutes
 ---
 <section class="books-page">
   <p class="eyebrow">{dict.eyebrow}</p>
@@ -55,7 +56,7 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
                   <div class="year-progress" role="progressbar" aria-label={`${dict.readingTarget}: ${formatReadingTime(readingTargetMinutes)}`} aria-valuemin="0" aria-valuemax={readingTargetMinutes} aria-valuenow={summary.readingMinutes}>
                     <span style={`width:${readingTargetProgress}%`}></span>
                   </div>
-                  <small>{dict.readingTarget}: {formatReadingTime(readingTargetMinutes)} · {dict.readingTargetsAchieved}: {Math.floor(summary.readingMinutes / 600)}</small>
+                  <small>{dict.readingTarget}: {formatReadingTime(readingTargetMinutes)} · {dict.readingTargetsAchieved}: {Math.floor(summary.readingMinutes / readingTargetStepMinutes)}</small>
                 </>
               )
             })()}
