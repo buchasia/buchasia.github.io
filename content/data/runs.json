@@ -1,4 +1,8 @@
 [
+  {"id":"garmin-2026-10-08-2","date":"2026-10-08","activityType":"Virtual Running","distance":2260,"duration":925,"totalAscent":0},
+  {"id":"garmin-2026-10-08","date":"2026-10-08","activityType":"Virtual Running","distance":1130,"duration":448,"totalAscent":0},
+  {"id":"garmin-2026-10-07-2","date":"2026-10-07","activityType":"Running","distance":5010,"duration":2034,"totalAscent":18},
+  {"id":"garmin-2026-10-07","date":"2026-10-07","activityType":"Running","distance":2820,"duration":1547,"totalAscent":99},
   {"id":"garmin-2026-10-06","date":"2026-10-06","activityType":"Running","distance":7010,"duration":2847,"totalAscent":53},
   {"id":"garmin-2026-10-02","date":"2026-10-02","activityType":"Virtual Running","distance":4150,"duration":1675,"totalAscent":0},
   {"id":"garmin-2026-10-01","date":"2026-10-01","activityType":"Running","distance":5030,"duration":1893,"totalAscent":10},

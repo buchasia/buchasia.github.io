@@ -3,6 +3,7 @@
     "title": "Alice in Borderland, Vol. 1",
     "author": "Haro Aso",
     "isbn": "978-1-9747-2837-4",
+    "rating": 4.25,
     "yearRead": 2026,
     "genre": "mystery",
     "format": "manga",
@@ -20,6 +21,7 @@
     "title": "Book Lovers",
     "author": "Emily Henry",
     "isbn": "978-0-593-33483-6",
+    "rating": 4.0,
     "yearRead": 2026,
     "genre": "romance",
     "format": "paperback",
@@ -27,10 +29,10 @@
     "coverUrl": "https://covers.openlibrary.org/b/isbn/9780593334836-M.jpg",
     "dateStarted": "2026-10-06",
     "totalPages": 416,
-    "currentPage": 22,
+    "currentPage": 63,
     "dateEnded": "",
-    "noteEn": "#### 2026-10-06\n\nThe book starts with the two main characters meeting over lunch. The story is told from Nora's point of view, and the prologue describes how she meets Charlie. Nora immediately does not like Charlie. Let's see what happens next.",
-    "readingMinutes": 15,
-    "noteDe": "#### 2026-10-06\n\nDas Buch beginnt damit, dass sich die beiden Hauptfiguren beim Mittagessen treffen. Die Geschichte wird aus Noras Perspektive erzählt, und der Prolog beschreibt, wie sie Charlie kennenlernt. Nora mag Charlie sofort nicht. Mal sehen, wie es weitergeht."
+    "noteEn": "#### _2026-10-06 (Prologue)_\n\nThe book begins with the two main characters meeting over lunch. The story is told from Nora's point of view, and the prologue describes how she meets Charlie. Nora immediately dislikes him. Let's see what happens next.\n\n#### _2026-10-08 (Chapters 1–3)_\n\nWe meet Nora's sister, who is pregnant and asks Nora to take a trip with her to a place connected to one of their favorite books. While they are there, Nora thinks she sees Charlie standing in line for coffee. She starts chatting with him by email to find out whether it is really him, which is kind of cute. She thinks they both hate each other, but I feel that they are somehow attracted to each other in their own strange way.",
+    "readingMinutes": 60,
+    "noteDe": "#### _2026-10-06 (Prolog)_\n\nDas Buch beginnt damit, dass sich die beiden Hauptfiguren beim Mittagessen treffen. Die Geschichte wird aus Noras Perspektive erzählt, und der Prolog beschreibt, wie sie Charlie kennenlernt. Nora kann ihn sofort nicht leiden. Mal sehen, wie es weitergeht.\n\n#### _2026-10-08 (Kapitel 1–3)_\n\nWir lernen Noras Schwester kennen, die schwanger ist und Nora bittet, mit ihr an einen Ort zu reisen, der mit einem ihrer Lieblingsbücher verbunden ist. Dort glaubt Nora, Charlie in einer Schlange vor einem Café zu sehen. Sie beginnt, per E-Mail mit ihm zu schreiben, um herauszufinden, ob er es wirklich ist, was irgendwie süß ist. Sie denkt, dass sie beide einander nicht leiden können, aber ich habe das Gefühl, dass sie auf ihre eigene seltsame Art voneinander angezogen sind."
   }
 ]

@@ -12,6 +12,7 @@ export type Book = {
   totalPages: number
   currentPage: number
   readingMinutes?: number
+  rating?: number
   noteEn: string
   noteDe: string
 }
@@ -34,6 +35,12 @@ export const getBookStatus = (book: Book): BookStatus => {
   if (book.dateEnded || getBookProgress(book) >= 100) return 'finished'
   if (book.currentPage > 0 || book.dateStarted) return 'reading'
   return 'notStarted'
+}
+
+export const getBookRating = (book: Book): number | undefined => {
+  if (getBookStatus(book) !== 'finished' || typeof book.rating !== 'number') return undefined
+  if (!Number.isFinite(book.rating) || book.rating <= 0 || book.rating > 5) return undefined
+  return Number.isInteger(book.rating * 4) ? book.rating : undefined
 }
 
 export const sortBooks = (books: Book[]) => [...books].sort((a, b) => {
