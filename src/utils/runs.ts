@@ -315,8 +315,13 @@ export const getAchievementBadgeAssetPath = (achievement: Pick<RunningAchievemen
 export type RunningTargetSnapshot = RunTarget & {
   periodKey: string
   value: number
+  previousTarget: number
   nextTarget: number
+  progress: number
+  expectedProgress: number
 }
+
+export type RunningTargetPaceStatus = 'behind' | 'on' | 'ahead'
 
 export const RUN_TARGETS: RunTarget[] = [
   { id: 'monthly-distance', period: 'month', metric: 'distance', step: 100_000 },
@@ -343,11 +348,40 @@ const getLatestRunDate = (runs: Run[]) => runs.reduce<Date | null>((latest, run)
 const getPeriodValue = (runs: Run[], period: AchievementPeriod, periodKey: string, metric: AchievementMetric) =>
   runs.reduce((sum, run) => getAchievementPeriodKey(run.date, period) === periodKey ? sum + getAchievementValue(run, metric) : sum, 0)
 
+const getPeriodElapsedProgress = (date: Date, period: AchievementPeriod) => {
+  const year = date.getUTCFullYear()
+  const periodStart = period === 'year'
+    ? Date.UTC(year, 0, 1)
+    : Date.UTC(year, date.getUTCMonth(), 1)
+  const periodEnd = period === 'year'
+    ? Date.UTC(year + 1, 0, 1)
+    : Date.UTC(year, date.getUTCMonth() + 1, 1)
+  const dayStart = Date.UTC(year, date.getUTCMonth(), date.getUTCDate())
+  return ((dayStart - periodStart + 86400000) / (periodEnd - periodStart)) * 100
+}
+
+export const getRunningTargetPaceStatus = (progress: number, expectedProgress: number, tolerance = 5): RunningTargetPaceStatus =>
+  progress > expectedProgress + tolerance
+    ? 'ahead'
+    : progress < expectedProgress - tolerance
+      ? 'behind'
+      : 'on'
+
 export const getRunningTargetSnapshots = (runs: Run[], date = getLatestRunDate(runs) ?? new Date()): RunningTargetSnapshot[] =>
   RUN_TARGETS.map(target => {
     const periodKey = getAchievementPeriodKey(date, target.period)
     const value = getPeriodValue(runs, target.period, periodKey, target.metric)
-    return { ...target, periodKey, value, nextTarget: (Math.floor(value / target.step) + 1) * target.step }
+    const previousTarget = Math.floor(value / target.step) * target.step
+    const nextTarget = previousTarget + target.step
+    return {
+      ...target,
+      periodKey,
+      value,
+      previousTarget,
+      nextTarget,
+      progress: Math.min(100, Math.max(0, ((value - previousTarget) / target.step) * 100)),
+      expectedProgress: getPeriodElapsedProgress(date, target.period),
+    }
   })
 
 export const getNextYearlyMilestones = (runs: Run[], date = getLatestRunDate(runs) ?? new Date()): LockedRunningAchievement[] => {

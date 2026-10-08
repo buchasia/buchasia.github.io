@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getRunDistanceDistribution, getRunDistributionDefaultYear, getYearlyHistoricalProgress } from './runs'
+import { getRunDistanceDistribution, getRunDistributionDefaultYear, getRunningTargetPaceStatus, getRunningTargetSnapshots, getYearlyHistoricalProgress } from './runs'
 
 const yearlyData = {
   '2026': { distance: 100, duration: 1000, totalAscent: 50, count: 1 },
@@ -87,5 +87,37 @@ describe('run distance distribution', () => {
     expect(getRunDistributionDefaultYear(['2026', '2025'], '2026')).toBe('2026')
     expect(getRunDistributionDefaultYear(['2025', '2024'], '2026')).toBe('2025')
     expect(getRunDistributionDefaultYear([], '2026')).toBe('2026')
+  })
+})
+
+describe('running target pace', () => {
+  const run = (date: string, distance: number) => ({
+    id: `${date}-${distance}`,
+    date: new Date(`${date}T12:00:00Z`),
+    distance,
+    duration: 60,
+  })
+
+  it('calculates active monthly progress from the previous milestone', () => {
+    const target = getRunningTargetSnapshots([run('2026-01-15', 125_000)], new Date('2026-01-15T12:00:00Z'))
+      .find(snapshot => snapshot.id === 'monthly-distance')!
+
+    expect(target.previousTarget).toBe(100_000)
+    expect(target.nextTarget).toBe(200_000)
+    expect(target.progress).toBe(25)
+    expect(target.expectedProgress).toBeCloseTo((15 / 31) * 100)
+  })
+
+  it('uses the correct number of days for leap-year targets', () => {
+    const target = getRunningTargetSnapshots([], new Date('2024-02-29T12:00:00Z'))
+      .find(snapshot => snapshot.id === 'yearly-distance')!
+
+    expect(target.expectedProgress).toBeCloseTo((60 / 366) * 100)
+  })
+
+  it('classifies progress as behind, on, or ahead with a five-point tolerance', () => {
+    expect(getRunningTargetPaceStatus(40, 50)).toBe('behind')
+    expect(getRunningTargetPaceStatus(47, 50)).toBe('on')
+    expect(getRunningTargetPaceStatus(60, 50)).toBe('ahead')
   })
 })
