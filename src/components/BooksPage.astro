@@ -1,5 +1,5 @@
 ---
-import { getBookProgress, getBookStatus, getBookYearSummaries, type Book } from '../utils/books'
+import { getBookProgress, getBookRating, getBookStatus, getBookYearSummaries, type Book } from '../utils/books'
 import { t, type Lang } from '../utils/i18n'
 import { marked } from 'marked'
 
@@ -80,7 +80,7 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
         {summary.books.map((book) => {
           const progress = getBookProgress(book)
           const status = getBookStatus(book)
-          const rating = status === 'finished' && typeof book.rating === 'number' && book.rating > 0 && book.rating <= 5 && Number.isInteger(book.rating * 4) ? book.rating : undefined
+          const rating = getBookRating(book)
           const ratingLabel = rating === undefined ? '' : (lang === 'de' ? rating.toString().replace('.', ',') : rating.toString())
           const note = lang === 'de' ? book.noteDe : book.noteEn
           return (

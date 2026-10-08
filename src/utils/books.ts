@@ -37,6 +37,12 @@ export const getBookStatus = (book: Book): BookStatus => {
   return 'notStarted'
 }
 
+export const getBookRating = (book: Book): number | undefined => {
+  if (getBookStatus(book) !== 'finished' || typeof book.rating !== 'number') return undefined
+  if (!Number.isFinite(book.rating) || book.rating <= 0 || book.rating > 5) return undefined
+  return Number.isInteger(book.rating * 4) ? book.rating : undefined
+}
+
 export const sortBooks = (books: Book[]) => [...books].sort((a, b) => {
   const statusOrder = { reading: 0, notStarted: 1, finished: 2 } as const
   const statusDifference = statusOrder[getBookStatus(a)] - statusOrder[getBookStatus(b)]

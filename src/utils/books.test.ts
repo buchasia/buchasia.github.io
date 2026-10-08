@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getBookProgress, getBookStatus } from './books'
+import { getBookProgress, getBookRating, getBookStatus } from './books'
 
 const book = (overrides: Partial<Parameters<typeof getBookProgress>[0]> = {}) => ({
   title: 'Example', author: 'Author', yearRead: 2026, genre: 'fiction', format: 'novel', language: 'English',
@@ -16,5 +16,13 @@ describe('book progress', () => {
     expect(getBookStatus(book({ dateEnded: '2026-02-01', currentPage: 180 }))).toBe('finished')
     expect(getBookStatus(book({ dateStarted: '2026-02-01', currentPage: 20 }))).toBe('reading')
     expect(getBookStatus(book())).toBe('notStarted')
+  })
+})
+
+describe('book ratings', () => {
+  it('accepts quarter-star ratings only for finished books', () => {
+    expect(getBookRating(book({ dateEnded: '2026-02-01', rating: 4.25 }))).toBe(4.25)
+    expect(getBookRating(book({ dateEnded: '2026-02-01', rating: 4.2 }))).toBeUndefined()
+    expect(getBookRating(book({ currentPage: 20, rating: 4.25 }))).toBeUndefined()
   })
 })
