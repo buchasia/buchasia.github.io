@@ -12,7 +12,25 @@
     "dateEnded": "2026-10-04",
     "totalPages": 344,
     "currentPage": 344,
+    "readingMinutes": 90,
     "noteEn": "Have watched the Netflix adaption of the book and liked the first two seasons a lot. So wanted to read the manga as well. \n\nIt did not disappoint. I liked how the story was presented and the character development throughout the volume.",
     "noteDe": "Ich habe die Netflix-Adaption des Buches gesehen und die ersten beiden Staffeln sehr gemocht. Deshalb wollte ich auch den Manga lesen.\n\nIch wurde nicht enttäuscht. Mir hat gefallen, wie die Geschichte erzählt wird und wie sich die Figuren im Laufe des Bandes entwickeln."
+  },
+  {
+    "title": "Book Lovers",
+    "author": "Emily Henry",
+    "isbn": "978-0-593-33483-6",
+    "yearRead": 2026,
+    "genre": "romance",
+    "format": "paperback",
+    "language": "English",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9780593334836-M.jpg",
+    "dateStarted": "2026-10-06",
+    "totalPages": 416,
+    "currentPage": 22,
+    "dateEnded": "",
+    "noteEn": "#### 2026-10-06\n\nThe book starts with the two main characters meeting over lunch. The story is told from Nora's point of view, and the prologue describes how she meets Charlie. Nora immediately does not like Charlie. Let's see what happens next.",
+    "readingMinutes": 15,
+    "noteDe": "#### 2026-10-06\n\nDas Buch beginnt damit, dass sich die beiden Hauptfiguren beim Mittagessen treffen. Die Geschichte wird aus Noras Perspektive erzählt, und der Prolog beschreibt, wie sie Charlie kennenlernt. Nora mag Charlie sofort nicht. Mal sehen, wie es weitergeht."
   }
 ]
