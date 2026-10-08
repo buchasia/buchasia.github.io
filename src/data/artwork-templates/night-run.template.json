@@ -1,9 +1,10 @@
 {
-  "$schema": "run-template-definition/v1",
-  "version": 1,
+  "$schema": "run-template-definition/v2",
+  "version": 2,
   "id": "night-run",
   "name": { "en": "Night Run", "de": "Nachtlauf" },
   "description": { "en": "A dark gradient route artwork for runs after sunset.", "de": "Ein dunkles Routen-Artwork für Läufe nach Sonnenuntergang." },
+  "output": { "widthPx": 2480, "heightPx": 3508, "sizeDescription": { "en": "A4 portrait · 210 × 297 mm", "de": "A4 Hochformat · 210 × 297 mm" } },
   "layout": {
     "routePadding": 160,
     "route": { "strokeWidthRatio": 0.006667, "minStrokeWidth": 10, "linecap": "round", "linejoin": "round" },
@@ -13,6 +14,7 @@
       "routeTopPaddingRatio": 0.025
     },
     "statistics": {
+      "visibleStatistics": ["distance", "recordedTime", "pace", "elevationGain"],
       "columns": 2,
       "rowHeightRatio": 0.045,
       "minRowHeight": 104,
