@@ -60,8 +60,7 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
               )
             })()}
           </div>
-          {summary.year === currentYear && <div class="book-year-target">
-          {(() => {
+          {summary.year === currentYear && (() => {
             const achievedTargets = Math.floor(summary.finishedCount / 12)
             const nextTarget = (achievedTargets + 1) * 12
             const targetProgress = Math.min(100, (summary.finishedCount / nextTarget) * 100)
@@ -75,7 +74,6 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
               </div>
             )
           })()}
-          </div>}
         </div>
         {summary.books.map((book) => {
           const progress = getBookProgress(book)
