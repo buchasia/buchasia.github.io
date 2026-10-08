@@ -1,5 +1,5 @@
 ---
-import { getBookProgress, getBookStatus, getBookYearSummaries, type Book } from '../utils/books'
+import { getBookProgress, getBookRating, getBookStatus, getBookYearSummaries, type Book } from '../utils/books'
 import { t, type Lang } from '../utils/i18n'
 import { marked } from 'marked'
 
@@ -80,6 +80,8 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
         {summary.books.map((book) => {
           const progress = getBookProgress(book)
           const status = getBookStatus(book)
+          const rating = getBookRating(book)
+          const ratingLabel = rating === undefined ? '' : (lang === 'de' ? rating.toString().replace('.', ',') : rating.toString())
           const note = lang === 'de' ? book.noteDe : book.noteEn
           return (
             <article class="book-card" data-book data-genre={book.genre} data-format={book.format}>
@@ -87,7 +89,7 @@ const getReadingTargetMinutes = (minutes: number) => (Math.floor(minutes / 600) 
               <div class="book-heading">
                 <div>
                   <p class="book-status">{dict.status[status]}</p>
-                  <h3>{book.title}</h3>
+                  <h3>{book.title}{rating !== undefined && <span class="book-rating" role="img" aria-label={lang === 'de' ? `Bewertung: ${ratingLabel} von 5 Sternen` : `Rating: ${ratingLabel} out of 5 stars`} title={lang === 'de' ? `${ratingLabel} von 5 Sternen` : `${ratingLabel} out of 5 stars`}><span class="book-rating-stars" aria-hidden="true"><span class="book-rating-stars-base">★★★★★</span><span class="book-rating-stars-filled" style={`width:${(rating / 5) * 100}%`}>★★★★★</span></span></span>}</h3>
                   <p class="book-author">{book.author}</p>
                 </div>
               </div>
