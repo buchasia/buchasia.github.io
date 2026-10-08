@@ -12,6 +12,7 @@ export type Book = {
   totalPages: number
   currentPage: number
   readingMinutes?: number
+  rating?: number
   noteEn: string
   noteDe: string
 }
