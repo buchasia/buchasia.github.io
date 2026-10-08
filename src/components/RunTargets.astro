@@ -1,5 +1,5 @@
 ---
-import { formatDistance, formatDuration, formatElevation, getRunningTargetSnapshots, type AchievementMetric, type RunningTargetSnapshot, type Run } from '../utils/runs'
+import { formatDistance, formatDuration, formatElevation, getRunningTargetPaceStatus, getRunningTargetSnapshots, type AchievementMetric, type RunningTargetSnapshot, type Run } from '../utils/runs'
 import { t, type Lang } from '../utils/i18n'
 
 const { runs = [], lang = 'en' as Lang } = Astro.props as { runs?: Run[]; lang?: Lang }
@@ -31,15 +31,22 @@ const renderTarget = (target: RunningTargetSnapshot) => ({
   label: metricLabel(target.metric),
   current: formatMetric(target.metric, target.value),
   next: formatMetric(target.metric, target.nextTarget),
-  progress: Math.min(100, (target.value / target.nextTarget) * 100),
+  paceStatus: getRunningTargetPaceStatus(target.progress, target.expectedProgress),
 })
+
+const paceLabel = (status: ReturnType<typeof renderTarget>['paceStatus']) => status === 'ahead'
+  ? dict.runs.aheadOfPace
+  : status === 'behind'
+    ? dict.runs.behindPace
+    : dict.runs.onPace
+
 ---
 
 <section class="targets" aria-labelledby="targets-title">
   <div class="targets-heading"><h2 id="targets-title" class="section-label">{dict.runs.targets}</h2><a href={achievementsPath}>{dict.runs.runningAchievements} →</a></div>
   <div class="target-groups">
-    <div class="target-group"><h3>{dict.runs.thisMonth} · {periodLabel(monthlyTargets[0])}</h3><div class="target-grid">{monthlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><div class="target-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress} aria-label={`${item.label}: ${item.current} / ${item.next}`}><span style={`width:${item.progress}%`}></span></div><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
-    <div class="target-group"><h3>{dict.runs.thisYear} · {periodLabel(yearlyTargets[0])}</h3><div class="target-grid">{yearlyTargets.map(target => { const item = renderTarget(target); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><div class="target-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress} aria-label={`${item.label}: ${item.current} / ${item.next}`}><span style={`width:${item.progress}%`}></span></div><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
+    <div class="target-group"><div class="target-group-heading"><h3>{dict.runs.thisMonth} · {periodLabel(monthlyTargets[0])}</h3><div class="target-legend" aria-label={`${dict.runs.actual}; ${dict.runs.expectedByNow}`}><span><i class="legend-fill" aria-hidden="true"></i>{dict.runs.actual}</span><span><i class="legend-marker" aria-hidden="true"></i>{dict.runs.expectedByNow}</span></div></div><div class="target-grid">{monthlyTargets.map(target => { const item = renderTarget(target); const status = paceLabel(item.paceStatus); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><div class="target-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress} aria-label={`${item.label}: ${item.current} / ${item.next}; ${status}`}><span class="target-progress-fill" style={`width:${item.progress}%`}></span><span class="target-pace-marker" style={`left:${item.expectedProgress}%`} aria-hidden="true"></span></div><small class={`target-pace-status target-pace-status-${item.paceStatus}`}>{status}</small><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
+    <div class="target-group"><div class="target-group-heading"><h3>{dict.runs.thisYear} · {periodLabel(yearlyTargets[0])}</h3><div class="target-legend" aria-label={`${dict.runs.actual}; ${dict.runs.expectedByNow}`}><span><i class="legend-fill" aria-hidden="true"></i>{dict.runs.actual}</span><span><i class="legend-marker" aria-hidden="true"></i>{dict.runs.expectedByNow}</span></div></div><div class="target-grid">{yearlyTargets.map(target => { const item = renderTarget(target); const status = paceLabel(item.paceStatus); return <article class="target-card"><span>{item.label}</span><strong>{item.current} / {item.next}</strong><div class="target-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={item.progress} aria-label={`${item.label}: ${item.current} / ${item.next}; ${status}`}><span class="target-progress-fill" style={`width:${item.progress}%`}></span><span class="target-pace-marker" style={`left:${item.expectedProgress}%`} aria-hidden="true"></span></div><small class={`target-pace-status target-pace-status-${item.paceStatus}`}>{status}</small><small>{dict.runs.nextTarget}: {item.next}</small></article> })}</div></div>
   </div>
 </section>
 
@@ -49,13 +56,23 @@ const renderTarget = (target: RunningTargetSnapshot) => ({
   .targets-heading h2 { margin:0; }
   .targets-heading a { color:var(--accent); font-size:var(--font-size-small); }
   .target-groups { display:grid; gap:2rem; margin-top:1rem; }
-  .target-group h3 { margin:0 0 .75rem; font-size:var(--font-size-small); font-weight:500; color:var(--muted); }
+  .target-group-heading { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin:0 0 .75rem; }
+  .target-group h3 { margin:0; font-size:var(--font-size-small); font-weight:500; color:var(--muted); }
+  .target-legend { display:flex; gap:1rem; color:var(--muted); font-size:var(--font-size-label); }
+  .target-legend span { display:flex; align-items:center; gap:.35rem; }
+  .legend-fill { display:block; width:1rem; height:.4rem; background:var(--accent); }
+  .legend-marker { display:block; width:2px; height:.8rem; background:#e36b2c; }
   .target-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
   .target-card { display:flex; flex-direction:column; gap:.45rem; padding:.75rem; border:1px solid var(--line); }
   .target-card span,.target-card small { color:var(--muted); font-size:var(--font-size-small); }
   .target-card strong { font-size:1.05rem; font-weight:500; }
-  .target-progress { width:100%; height:.45rem; overflow:hidden; background:var(--wash); }
-  .target-progress span { display:block; height:100%; background:var(--accent); transform-origin:left; animation:target-progress-fill 560ms cubic-bezier(.22,.7,.35,1) both; }
+  .target-progress { position:relative; width:100%; height:.45rem; overflow:visible; background:var(--wash); }
+  .target-progress-fill { display:block; height:100%; background:var(--accent); transform-origin:left; animation:target-progress-fill 560ms cubic-bezier(.22,.7,.35,1) both; }
+  .target-pace-marker { position:absolute; top:-.25rem; width:2px; height:.95rem; background:#e36b2c; transform:translateX(-1px); }
+  .target-pace-status { display:block; font-size:var(--font-size-label); }
+  .target-card .target-pace-status-behind { color:#b23a2b; }
+  .target-card .target-pace-status-on { color:var(--muted); }
+  .target-card .target-pace-status-ahead { color:#27734a; }
   @keyframes target-progress-fill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
   @media (max-width:640px) { .target-grid { grid-template-columns:1fr; } }
   @media (prefers-reduced-motion:reduce) { .target-progress span { animation:none; } }
