@@ -65,6 +65,7 @@ describe('book shelf groups', () => {
     expect(groups.reading).toEqual([reading])
     expect(years.map((summary) => summary.year)).toEqual([2026, 2025])
     expect(years.map((summary) => summary.books)).toEqual([[newer], [older, alsoOlder]])
+    expect(years[0]).toEqual({ year: 2026, books: [newer], finishedCount: 1 })
     expect(years.flatMap((summary) => summary.books)).not.toContain(reading)
     expect(getBookYearSummaries([])).toEqual([])
   })
