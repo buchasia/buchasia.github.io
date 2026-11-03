@@ -14,9 +14,6 @@ const note = lang === 'de' ? book.noteDe : book.noteEn
 const dateFormatter = new Intl.DateTimeFormat(t(lang).dateLocale, { dateStyle: 'long', timeZone: 'UTC' })
 const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`))
 const formatLabel = (value: string) => value.replaceAll('-', ' ')
-const readingTime = book.readingMinutes === undefined
-  ? dict.noReadingTime
-  : `${Math.floor(book.readingMinutes / 60)}h ${book.readingMinutes % 60}m`
 ---
 <article class="book-detail">
   <a class="book-back" href={localizedPath(lang, '/books/')}>{dict.backToShelf}</a>
@@ -39,7 +36,6 @@ const readingTime = book.readingMinutes === undefined
         <div><dt>{dict.year}</dt><dd>{book.yearRead}</dd></div>
         {book.dateStarted && <div><dt>{dict.started}</dt><dd><time datetime={book.dateStarted}>{formatDate(book.dateStarted)}</time></dd></div>}
         {book.dateEnded && <div><dt>{dict.ended}</dt><dd><time datetime={book.dateEnded}>{formatDate(book.dateEnded)}</time></dd></div>}
-        <div><dt>{dict.readingTime}</dt><dd>{readingTime}</dd></div>
       </dl>
       <div class="book-progress">
         <div class="progress-track" role="progressbar" aria-label={dict.progress} aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress} aria-valuetext={`${book.currentPage} ${dict.of} ${book.totalPages} ${dict.pages} - ${progress}%`}><span style={`width:${progress}%`}></span></div>

@@ -11,7 +11,6 @@ export type Book = {
   dateEnded?: string
   totalPages: number
   currentPage: number
-  readingMinutes?: number
   rating?: number
   noteEn: string
   noteDe: string
@@ -41,7 +40,6 @@ export type BookYearSummary = {
   year: number
   books: Book[]
   finishedCount: number
-  readingMinutes: number
 }
 
 export const getBookProgress = (book: Book) =>
@@ -78,7 +76,6 @@ export const getBookYearSummaries = (books: Book[]): BookYearSummary[] => {
       year,
       books: yearBooks,
       finishedCount: yearBooks.filter((book) => getBookStatus(book) === 'finished').length,
-      readingMinutes: yearBooks.reduce((total, book) => total + (book.readingMinutes ?? 0), 0),
     }
   })
 }
