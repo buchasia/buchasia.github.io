@@ -1,0 +1,51 @@
+---
+import { marked } from 'marked'
+import BookCover from './BookCover.astro'
+import { getBookProgress, getBookRating, getBookStatus, type Book } from '../utils/books'
+import { localizedPath, t, type Lang } from '../utils/i18n'
+
+type Props = { book: Book; lang: Lang }
+const { book, lang } = Astro.props
+const dict = t(lang).books
+const progress = getBookProgress(book)
+const rating = getBookRating(book)
+const ratingLabel = rating === undefined ? '' : new Intl.NumberFormat(t(lang).dateLocale).format(rating)
+const note = lang === 'de' ? book.noteDe : book.noteEn
+const dateFormatter = new Intl.DateTimeFormat(t(lang).dateLocale, { dateStyle: 'long', timeZone: 'UTC' })
+const formatDate = (value: string) => dateFormatter.format(new Date(`${value}T00:00:00Z`))
+const formatLabel = (value: string) => value.replaceAll('-', ' ')
+const readingTime = book.readingMinutes === undefined
+  ? dict.noReadingTime
+  : `${Math.floor(book.readingMinutes / 60)}h ${book.readingMinutes % 60}m`
+---
+<article class="book-detail">
+  <a class="book-back" href={localizedPath(lang, '/books/')}>{dict.backToShelf}</a>
+  <header class="book-detail-header">
+    <div class="book-detail-cover"><BookCover book={book} lang={lang} eager /></div>
+    <div class="book-detail-info">
+      <p class="book-status">{dict.status[getBookStatus(book)]}</p>
+      <h1>{book.title}</h1>
+      <p class="book-author">{book.author}</p>
+      {rating !== undefined && (
+        <span class="book-rating" role="img" aria-label={dict.ratingLabel(ratingLabel)} title={dict.ratingLabel(ratingLabel)}>
+          <span class="book-rating-stars" aria-hidden="true"><span class="book-rating-stars-base">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="book-rating-stars-filled" style={`width:${(rating / 5) * 100}%`}>&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
+        </span>
+      )}
+      <dl class="book-meta">
+        <div><dt>{dict.genre}</dt><dd>{formatLabel(book.genre)}</dd></div>
+        <div><dt>{dict.format}</dt><dd>{formatLabel(book.format)}</dd></div>
+        <div><dt>{dict.language}</dt><dd>{book.language}</dd></div>
+        <div><dt>{dict.isbn}</dt><dd>{book.isbn}</dd></div>
+        <div><dt>{dict.year}</dt><dd>{book.yearRead}</dd></div>
+        {book.dateStarted && <div><dt>{dict.started}</dt><dd><time datetime={book.dateStarted}>{formatDate(book.dateStarted)}</time></dd></div>}
+        {book.dateEnded && <div><dt>{dict.ended}</dt><dd><time datetime={book.dateEnded}>{formatDate(book.dateEnded)}</time></dd></div>}
+        <div><dt>{dict.readingTime}</dt><dd>{readingTime}</dd></div>
+      </dl>
+      <div class="book-progress">
+        <div class="progress-track" role="progressbar" aria-label={dict.progress} aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress} aria-valuetext={`${book.currentPage} ${dict.of} ${book.totalPages} ${dict.pages} - ${progress}%`}><span style={`width:${progress}%`}></span></div>
+        <span>{book.currentPage} {dict.of} {book.totalPages} {dict.pages} &middot; {progress}%</span>
+      </div>
+    </div>
+  </header>
+  {note && <section class="book-note" aria-label={dict.notes} set:html={marked.parse(note, { async: false })}></section>}
+</article>

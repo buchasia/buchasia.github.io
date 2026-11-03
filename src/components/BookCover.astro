@@ -1,0 +1,41 @@
+---
+import type { Book } from '../utils/books'
+import { t, type Lang } from '../utils/i18n'
+
+type Props = { book: Book; lang: Lang; eager?: boolean }
+const { book, lang, eager = false } = Astro.props
+---
+<span class="book-cover" data-book-cover>
+  <span class="book-cover-fallback" hidden={Boolean(book.coverUrl)}>
+    <strong>{book.title}</strong>
+    <span>{book.author}</span>
+  </span>
+  {book.coverUrl && <img src={book.coverUrl} alt={t(lang).books.coverAlt(book.title)} width="160" height="224" loading={eager ? 'eager' : 'lazy'} decoding="async" />}
+</span>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-book-cover]').forEach((cover) => {
+    const image = cover.querySelector('img')
+    const fallback = cover.querySelector<HTMLElement>('.book-cover-fallback')
+    if (!image || !fallback) return
+    const showFallback = () => {
+      image.hidden = true
+      fallback.hidden = false
+    }
+    const checkImage = () => {
+      if (image.naturalWidth <= 1) showFallback()
+    }
+    image.addEventListener('error', showFallback)
+    image.addEventListener('load', checkImage)
+    if (image.complete) checkImage()
+  })
+</script>
+
+<style>
+  .book-cover { position:relative; display:block; width:100%; height:100%; }
+  .book-cover img { display:block; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
+  .book-cover img[hidden], .book-cover-fallback[hidden] { display:none; }
+  .book-cover-fallback { display:flex; flex-direction:column; justify-content:space-between; gap:16px; width:100%; height:100%; padding:20px 14px 20px 20px; border:1px solid var(--line); border-left:6px solid var(--accent); background:var(--wash); color:var(--ink); overflow-wrap:anywhere; }
+  .book-cover-fallback strong { font-family:'Source Serif 4', serif; font-size:1rem; line-height:1.35; }
+  .book-cover-fallback > span { color:var(--muted); font-size:var(--font-size-small); }
+</style>

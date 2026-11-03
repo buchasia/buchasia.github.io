@@ -32,6 +32,9 @@ const dictionaries = {
     books: {
       eyebrow: 'Reading', title: 'Books', intro: 'A small record of what I have read and what I am reading.', genre: 'Genre', format: 'Format', language: 'Language', isbn: 'ISBN', finishedBooks: 'Finished books', annualTarget: 'Next target', achievedTargets: 'Targets achieved', allGenres: 'All genres', allFormats: 'All formats', started: 'Started', ended: 'Ended', progress: 'Progress', readingTime: 'Reading time', readingTarget: 'Next time target', readingTargetsAchieved: 'Time targets achieved', noReadingTime: 'Not recorded', of: 'of', empty: 'No books match these filters.',
       status: { finished: 'Finished', reading: 'Currently reading', notStarted: 'Not started' },
+      currentlyReading: 'Currently reading', collection: 'Book collection', backToShelf: 'Back to bookshelf', year: 'Reading year', pages: 'pages', notes: 'Reading notes', emptyShelf: 'No books recorded yet.',
+      coverAlt: (title: string) => `Cover of ${title}`,
+      ratingLabel: (rating: string) => `Rating: ${rating} out of 5 stars`,
     },
     about: {
       eyebrow: 'About',
@@ -82,6 +85,9 @@ const dictionaries = {
     books: {
       eyebrow: 'Lesen', title: 'Bücher', intro: 'Eine kleine Übersicht über gelesene und aktuell gelesene Bücher.', genre: 'Genre', format: 'Format', language: 'Sprache', isbn: 'ISBN', finishedBooks: 'Gelesene Bücher', annualTarget: 'Nächstes Ziel', achievedTargets: 'Erreichte Ziele', allGenres: 'Alle Genres', allFormats: 'Alle Formate', started: 'Begonnen', ended: 'Beendet', progress: 'Fortschritt', readingTime: 'Lesezeit', readingTarget: 'Nächstes Zeitziel', readingTargetsAchieved: 'Erreichte Zeitziele', noReadingTime: 'Nicht erfasst', of: 'von', empty: 'Keine Bücher passen zu diesen Filtern.',
       status: { finished: 'Gelesen', reading: 'Wird gerade gelesen', notStarted: 'Noch nicht begonnen' },
+      currentlyReading: 'Ich lese gerade', collection: 'Büchersammlung', backToShelf: 'Zurück zum Bücherregal', year: 'Lesejahr', pages: 'Seiten', notes: 'Lesenotizen', emptyShelf: 'Noch keine Bücher erfasst.',
+      coverAlt: (title: string) => `Buchcover von ${title}`,
+      ratingLabel: (rating: string) => `Bewertung: ${rating} von 5 Sternen`,
     },
     about: {
       eyebrow: 'Über mich',

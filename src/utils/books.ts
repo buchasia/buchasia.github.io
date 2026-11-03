@@ -19,6 +19,24 @@ export type Book = {
 
 export type BookStatus = 'finished' | 'reading' | 'notStarted'
 
+export const getBookIsbn = (book: Book): string => {
+  const isbn = (book.isbn ?? '').replace(/[-\s]/g, '').toUpperCase()
+  if (!/^(?:\d{13}|\d{9}[\dX])$/.test(isbn)) {
+    throw new Error(`Book "${book.title}" needs a valid ISBN-10 or ISBN-13 for its detail page.`)
+  }
+  return isbn
+}
+
+export const getBookEntries = (books: Book[]) => {
+  const seen = new Set<string>()
+  return books.map((book) => {
+    const isbn = getBookIsbn(book)
+    if (seen.has(isbn)) throw new Error(`Duplicate book ISBN ${isbn}: "${book.title}".`)
+    seen.add(isbn)
+    return { isbn, book }
+  })
+}
+
 export type BookYearSummary = {
   year: number
   books: Book[]
@@ -63,4 +81,14 @@ export const getBookYearSummaries = (books: Book[]): BookYearSummary[] => {
       readingMinutes: yearBooks.reduce((total, book) => total + (book.readingMinutes ?? 0), 0),
     }
   })
+}
+
+export const getBookShelfGroups = (books: Book[]) => {
+  const reading: Book[] = []
+  const remaining: Book[] = []
+  sortBooks(books).forEach((book) => {
+    if (getBookStatus(book) === 'reading') reading.push(book)
+    else remaining.push(book)
+  })
+  return { reading, remaining }
 }

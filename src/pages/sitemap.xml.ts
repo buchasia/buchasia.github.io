@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro'
+import books from '../../content/data/books.json'
+import { getBookEntries } from '../utils/books'
 import { getBlogPosts, getPostSlug } from '../utils/posts'
 import { fetchRuns, getRunYear } from '../utils/runs'
 
@@ -11,6 +13,9 @@ export const GET: APIRoute = async () => {
   const years = [...new Set((await fetchRuns()).map(getRunYear))]
   const paths = [
     ...pages,
+    '/books/',
+    '/de/books/',
+    ...getBookEntries(books).flatMap(({ isbn }) => [`/books/${isbn}/`, `/de/books/${isbn}/`]),
     ...years.map((year) => `/runs/${year}/`),
     ...years.map((year) => `/de/runs/${year}/`),
     ...en.map((p) => `/posts/${getPostSlug(p)}/`),
