@@ -1,0 +1,15 @@
+---
+import books from '../../../content/data/books.json'
+import BookDetailPage from '../../components/BookDetailPage.astro'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getBookEntries } from '../../utils/books'
+
+export function getStaticPaths() {
+  return getBookEntries(books).map(({ isbn, book }) => ({ params: { isbn }, props: { book, isbn } }))
+}
+
+const { book, isbn } = Astro.props
+---
+<BaseLayout title={book.title} description={`${book.title} by ${book.author}. Reading progress and notes.`} lang="en" altPath={`/books/${isbn}/`}>
+  <BookDetailPage book={book} lang="en" />
+</BaseLayout>
