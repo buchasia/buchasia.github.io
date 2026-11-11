@@ -18,11 +18,11 @@ const de = lang === 'de'
   <p class="route-preview-meta" data-preview-meta aria-live="polite"></p>
 </section>
 <script>
-  import { getArtworkDimensions, DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
+  import { DEFAULT_ARTWORK_SETTINGS, type ArtworkSettings } from '../utils/artworkSettings'
   import { getPosterLayout } from '../utils/artworkLayout'
   import { getArtworkTemplate, DEFAULT_ARTWORK_TEMPLATE, type ArtworkTemplate } from '../utils/artworkTemplates'
   import { calculateGpxStatistics, formatGpxDateTime, formatGpxDistance, formatGpxDuration, formatGpxElevation, formatGpxPace, type GpxDistanceUnit } from '../utils/gpxStatistics'
-  import { DEFAULT_VISIBLE_STATISTICS, type GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
+  import type { GpxVisibleStatistic } from '../utils/gpxVisibleStatistics'
   import { projectRoute } from '../utils/routeProjection'
   import type { ValidatedGpx } from '../utils/gpxValidationTypes'
   import type { GpxRouteSelectionOption } from '../utils/gpxRouteSelection'
@@ -42,7 +42,7 @@ const de = lang === 'de'
     let selection: SelectionDetail | undefined
     let template: ArtworkTemplate = getArtworkTemplate(DEFAULT_ARTWORK_TEMPLATE)
     let settings: ArtworkSettings = { ...DEFAULT_ARTWORK_SETTINGS }
-    let visibleStatistics = new Set<GpxVisibleStatistic>(DEFAULT_VISIBLE_STATISTICS)
+    let visibleStatistics = new Set<GpxVisibleStatistic>(template.definition.layout.statistics.visibleStatistics)
     const svgNamespace = 'http://www.w3.org/2000/svg'
     const unavailable = locale === 'de' ? '—' : '—'
     const labels = locale === 'de'
@@ -61,7 +61,7 @@ const de = lang === 'de'
     }
     const render = () => {
       if (!selection || !svg || !artwork || !description) return
-      const dimensions = getArtworkDimensions(settings)
+      const dimensions = template.definition.output
       const appearance = template.definition.appearance
       const templateLayout = template.definition.layout
       const statisticsLayout = templateLayout.statistics
@@ -82,7 +82,7 @@ const de = lang === 'de'
       const declaredShadowEntries = Object.entries(declaredShadows) as [ShadowTarget, NonNullable<typeof declaredShadows[ShadowTarget]>][]
       const defs = create('defs', {})
       let backgroundFill = typeof appearance.background === 'string' ? appearance.background : 'transparent'
-      if (typeof appearance.background !== 'string') {
+      if (typeof appearance.background !== 'string' && appearance.background.kind === 'linear-gradient') {
         const gradientId = 'artwork-background-gradient'
         const gradient = create('linearGradient', { id: gradientId, x1: '0%', y1: '0%', x2: '100%', y2: '100%', gradientTransform: `rotate(${appearance.background.angle} 0.5 0.5)` })
         appearance.background.stops.forEach(stop => gradient.appendChild(create('stop', { offset: `${stop.position}%`, 'stop-color': stop.color })))
@@ -102,6 +102,17 @@ const de = lang === 'de'
       if (defs.childElementCount) artwork.appendChild(defs)
       const background = create('rect', { x: '0', y: '0', width: String(dimensions.widthPx), height: String(dimensions.heightPx), fill: backgroundFill })
       artwork.appendChild(background)
+      if (typeof appearance.background !== 'string' && appearance.background.kind === 'image') {
+        artwork.appendChild(create('image', {
+          x: '0',
+          y: '0',
+          width: String(dimensions.widthPx),
+          height: String(dimensions.heightPx),
+          href: appearance.background.src,
+          opacity: String(appearance.background.opacity),
+          preserveAspectRatio: appearance.background.fit === 'cover' ? 'xMidYMid slice' : 'xMidYMid meet',
+        }))
+      }
       const shadowAttributes = (target: ShadowTarget): Record<string, string> => {
         const id = shadowIds.get(target)
         return id ? { filter: `url(#${id})` } : {}
@@ -179,11 +190,14 @@ const de = lang === 'de'
       description.textContent = summary
       svg.setAttribute('aria-label', summary)
       setStatus('', true)
-      if (meta) meta.textContent = `${template.label} · ${settings.size.toUpperCase()} ${settings.orientation} · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
+      if (meta) meta.textContent = `${template.label} · ${dimensions.widthPx} × ${dimensions.heightPx} px · ${unit === 'metric' ? 'km / m' : 'mi / ft'}`
     }
     document.addEventListener('gpxselectionchange', event => { selection = (event as CustomEvent<SelectionDetail>).detail; render() })
-    document.addEventListener('gpxvisiblemetricschange', event => { visibleStatistics = new Set((event as CustomEvent<string[]>).detail as GpxVisibleStatistic[]); render() })
-    document.addEventListener('artworktemplatechange', event => { template = (event as CustomEvent<ArtworkTemplate>).detail; render() })
+    document.addEventListener('artworktemplatechange', event => {
+      template = (event as CustomEvent<ArtworkTemplate>).detail
+      visibleStatistics = new Set<GpxVisibleStatistic>(template.definition.layout.statistics.visibleStatistics)
+      render()
+    })
     document.addEventListener('artworksettingschange', event => { settings = (event as CustomEvent<ArtworkSettings>).detail; render() })
   })
 </script>

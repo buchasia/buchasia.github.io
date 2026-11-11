@@ -7,6 +7,20 @@ describe('artwork template definitions', () => {
     expect(validateArtworkTemplateDefinition(stats)).toBe(true)
   })
 
+  it('accepts an image background', () => {
+    const imageBackground = structuredClone(stats) as Record<string, unknown>
+    const appearance = imageBackground.appearance as Record<string, unknown>
+    appearance.background = { kind: 'image', src: '/images/route-paper.png', opacity: 0.75, fit: 'cover' }
+    expect(validateArtworkTemplateDefinition(imageBackground)).toBe(true)
+  })
+
+  it('rejects an invalid image background', () => {
+    const imageBackground = structuredClone(stats) as Record<string, unknown>
+    const appearance = imageBackground.appearance as Record<string, unknown>
+    appearance.background = { kind: 'image', src: '', opacity: 1.2, fit: 'stretch' }
+    expect(validateArtworkTemplateDefinition(imageBackground)).toBe(false)
+  })
+
   it('rejects unsupported paths and invalid shadow values', () => {
     const invalid = structuredClone(stats) as Record<string, unknown>
     const settings = invalid.settings as Record<string, unknown>
@@ -17,6 +31,28 @@ describe('artwork template definitions', () => {
     shadows.statistics.opacity = 0.2
     const editor = invalid.editor as Array<Record<string, unknown>>
     editor.push({ id: 'unsafe', type: 'text', path: '__proto__.polluted', label: 'Unsafe', maxLength: 10 })
+    expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
+  })
+
+  it('rejects invalid visible statistic keys', () => {
+    const invalid = structuredClone(stats) as Record<string, unknown>
+    const layout = invalid.layout as Record<string, unknown>
+    const statistics = layout.statistics as Record<string, unknown>
+    statistics.visibleStatistics = ['distance', 'not-a-statistic']
+    expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
+  })
+
+  it('rejects unsupported output dimensions', () => {
+    const invalid = structuredClone(stats) as Record<string, unknown>
+    const output = invalid.output as Record<string, unknown>
+    output.widthPx = 100
+    expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
+  })
+
+  it('requires a localized output size description', () => {
+    const invalid = structuredClone(stats) as Record<string, unknown>
+    const output = invalid.output as Record<string, unknown>
+    delete output.sizeDescription
     expect(validateArtworkTemplateDefinition(invalid)).toBe(false)
   })
 })

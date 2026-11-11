@@ -1,11 +1,15 @@
-export const TEMPLATE_SCHEMA = 'run-template-definition/v1' as const
-export const TEMPLATE_VERSION = 1 as const
+import type { GpxVisibleStatistic } from './gpxVisibleStatistics'
+
+export const TEMPLATE_SCHEMA = 'run-template-definition/v2' as const
+export const TEMPLATE_VERSION = 2 as const
 
 export type LocalizedText = string | { en: string; de: string }
 export type ArtworkShadowTarget = 'route' | 'title' | 'statistics' | 'scale' | 'footer'
 
 export type ArtworkGradientStop = { color: string; position: number }
-export type ArtworkBackground = string | { kind: 'linear-gradient'; angle: number; stops: ArtworkGradientStop[] }
+export type ArtworkBackground = string
+  | { kind: 'linear-gradient'; angle: number; stops: ArtworkGradientStop[] }
+  | { kind: 'image'; src: string; opacity: number; fit: 'cover' | 'contain' }
 export type ArtworkAppearance = {
   background: ArtworkBackground
   routeColor: string
@@ -46,6 +50,7 @@ export type TemplateLayout = {
     routeTopPaddingRatio: number
   }
   statistics: {
+    visibleStatistics: GpxVisibleStatistic[]
     columns: number
     rowHeightRatio: number
     minRowHeight: number
@@ -66,6 +71,7 @@ export type ArtworkTemplateDefinition = {
   id: string
   name: LocalizedText
   description: LocalizedText
+  output: { widthPx: number; heightPx: number; sizeDescription: LocalizedText }
   layout: TemplateLayout
   appearance: ArtworkAppearance
   settings: { shadows: Partial<Record<ArtworkShadowTarget, ArtworkShadow>> }
@@ -87,6 +93,11 @@ const isGradient = (value: unknown): value is ArtworkBackground => isRecord(valu
   && isFiniteNumber(value.angle) && value.angle >= 0 && value.angle < 360
   && Array.isArray(value.stops) && value.stops.length >= 2 && value.stops.length <= 8
   && value.stops.every(stop => isRecord(stop) && isColor(stop.color) && isFiniteNumber(stop.position) && stop.position >= 0 && stop.position <= 100)
+const isImage = (value: unknown): value is ArtworkBackground => isRecord(value)
+  && value.kind === 'image'
+  && typeof value.src === 'string' && value.src.trim().length > 0
+  && isFiniteNumber(value.opacity) && value.opacity >= 0 && value.opacity <= 1
+  && (value.fit === 'cover' || value.fit === 'contain')
 
 const validateShadow = (value: unknown): value is ArtworkShadow => isRecord(value)
   && typeof value.enabled === 'boolean'
@@ -97,11 +108,13 @@ const validateShadow = (value: unknown): value is ArtworkShadow => isRecord(valu
   && isFiniteNumber(value.opacity) && value.opacity >= 0 && value.opacity <= 1
 
 const isRatio = (value: unknown) => isFiniteNumber(value) && value >= 0 && value <= 1
+const statisticKeys = new Set<GpxVisibleStatistic>(['distance', 'recordedTime', 'pace', 'elevationGain', 'elevationLoss', 'elevationRange', 'startTime', 'endTime'])
 const isPositiveNumber = (value: unknown) => isFiniteNumber(value) && value > 0
+const isOutputDimension = (value: unknown) => Number.isInteger(value) && typeof value === 'number' && value >= 320 && value <= 10000
 const isLayout = (value: unknown): value is TemplateLayout => {
   if (!isRecord(value) || !isPositiveNumber(value.routePadding) || !isRecord(value.route) || !isRatio(value.route.strokeWidthRatio) || !isPositiveNumber(value.route.minStrokeWidth) || !['round', 'butt', 'square'].includes(String(value.route.linecap)) || !['round', 'bevel', 'miter'].includes(String(value.route.linejoin))) return false
   if (!isRecord(value.header) || !isRecord(value.header.title) || !isRatio(value.header.title.xRatio) || !isRatio(value.header.title.yRatio) || !isRatio(value.header.title.sizeRatio) || ![400, 500, 600, 700].includes(Number(value.header.title.weight)) || !['start', 'middle'].includes(String(value.header.title.anchor)) || !isRecord(value.header.rule) || !isRatio(value.header.rule.x1Ratio) || !isRatio(value.header.rule.x2Ratio) || !isRatio(value.header.rule.yWithTitleRatio) || !isRatio(value.header.rule.yWithoutTitleRatio) || !isRatio(value.header.rule.strokeWidthRatio) || !isRatio(value.header.rule.opacity) || !isRatio(value.header.routeTopPaddingRatio)) return false
-  if (!isRecord(value.statistics) || !isPositiveNumber(value.statistics.columns) || !isRatio(value.statistics.rowHeightRatio) || !isPositiveNumber(value.statistics.minRowHeight) || !isFiniteNumber(value.statistics.blockTopPadding) || value.statistics.blockTopPadding < 0 || !isRatio(value.statistics.bottomPaddingRatio)) return false
+  if (!isRecord(value.statistics) || !Array.isArray(value.statistics.visibleStatistics) || value.statistics.visibleStatistics.length < 1 || new Set(value.statistics.visibleStatistics).size !== value.statistics.visibleStatistics.length || !value.statistics.visibleStatistics.every(statistic => typeof statistic === 'string' && statisticKeys.has(statistic as GpxVisibleStatistic)) || !isPositiveNumber(value.statistics.columns) || !isRatio(value.statistics.rowHeightRatio) || !isPositiveNumber(value.statistics.minRowHeight) || !isFiniteNumber(value.statistics.blockTopPadding) || value.statistics.blockTopPadding < 0 || !isRatio(value.statistics.bottomPaddingRatio)) return false
   if (!isRecord(value.statistics.rule) || !isRatio(value.statistics.rule.x1Ratio) || !isRatio(value.statistics.rule.x2Ratio) || !isRatio(value.statistics.rule.strokeWidthRatio) || !isRatio(value.statistics.rule.opacity)) return false
   if (!isRecord(value.statistics.panel) || typeof value.statistics.panel.enabled !== 'boolean' || !isRatio(value.statistics.panel.xRatio) || !isRatio(value.statistics.panel.widthRatio) || !isFiniteNumber(value.statistics.panel.yOffset) || value.statistics.panel.yOffset < 0 || !isFiniteNumber(value.statistics.panel.bottomOffset) || value.statistics.panel.bottomOffset < 0 || !isRatio(value.statistics.panel.opacity)) return false
   if (!(value.statistics.primaryMetric === null || typeof value.statistics.primaryMetric === 'string') || !isRecord(value.statistics.primary) || !isRatio(value.statistics.primary.labelSizeRatio) || !isRatio(value.statistics.primary.valueSizeRatio) || !isRatio(value.statistics.primary.valueYOffsetRatio) || !isRatio(value.statistics.primary.supportingOffsetRatio)) return false
@@ -112,9 +125,9 @@ const isLayout = (value: unknown): value is TemplateLayout => {
 
 export const validateArtworkTemplateDefinition = (value: unknown): value is ArtworkTemplateDefinition => {
   if (!isRecord(value) || value.$schema !== TEMPLATE_SCHEMA || value.version !== TEMPLATE_VERSION) return false
-  if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description)) return false
+  if (typeof value.id !== 'string' || !/^[a-z0-9-]+$/.test(value.id) || !isLocalizedText(value.name) || !isLocalizedText(value.description) || !isRecord(value.output) || !isOutputDimension(value.output.widthPx) || !isOutputDimension(value.output.heightPx) || !isLocalizedText(value.output.sizeDescription)) return false
   if (!isLayout(value.layout)) return false
-  if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
+  if (!isRecord(value.appearance) || !(isColor(value.appearance.background) || isGradient(value.appearance.background) || isImage(value.appearance.background)) || !isColor(value.appearance.routeColor) || !isColor(value.appearance.textColor) || !isColor(value.appearance.statisticColor) || !isColor(value.appearance.footerColor) || value.appearance.titleFontFamily !== 'Source Serif 4' || value.appearance.bodyFontFamily !== 'DM Sans' || ![600, 700].includes(Number(value.appearance.titleFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.bodyFontWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticLabelWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.statisticValueWeight)) || ![400, 500, 600, 700].includes(Number(value.appearance.scaleWeight))) return false
   if (!isRecord(value.settings) || !isRecord(value.settings.shadows) || !Array.isArray(value.editor)) return false
   for (const [target, shadow] of Object.entries(value.settings.shadows)) if (!targets.has(target as ArtworkShadowTarget) || !validateShadow(shadow)) return false
   const ids = new Set<string>()
