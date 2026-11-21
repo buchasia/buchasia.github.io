@@ -1,5 +1,22 @@
 [
   {
+    "title": "Later",
+    "author": "Stephen King",
+    "isbn": "9781789096491",
+    "rating": 4.0,
+    "yearRead": 2026,
+    "genre": "horror",
+    "format": "paperback",
+    "language": "English",
+    "coverUrl": "https://covers.openlibrary.org/b/isbn/9781789096491-M.jpg",
+    "dateStarted": "2026-11-17",
+    "dateEnded": "2026-11-21",
+    "totalPages": 272,
+    "currentPage": 272,
+    "noteEn": "I had bought this book some years ago and forgotten about it. I found it and started reading it, and from the very beginning the story hooked me. The story is narrated by a boy named Jamie, who can see dead people shortly after they die. The whole plot is based on the fact that the dead cannot lie when asked a question.\n\nI liked how this idea was used. Overall, it is a good book, and I enjoyed reading it. The characters in the book are really well developed, and I liked how the story brings them together into a solid narrative.",
+    "noteDe": "Ich hatte dieses Buch vor einigen Jahren gekauft und dann vergessen. Als ich es wiederfand und zu lesen begann, hat mich die Geschichte von Anfang an gefesselt. Erzählt wird sie aus Sicht eines Jungen namens Jamie, der kurz nach ihrem Tod tote Menschen sehen kann. Die gesamte Handlung basiert darauf, dass Tote nicht lügen können, wenn man ihnen eine Frage stellt.\n\nMir hat gefallen, wie diese Idee verwendet wurde. Insgesamt ist es ein gutes Buch, das mir gefallen hat. Die Figuren sind sehr gut ausgearbeitet, und mir hat gefallen, wie die Geschichte sie zu einer stimmigen Gesamterzählung zusammenführt."
+  },
+  {
     "title": "Invisible Women",
     "author": "Caroline Criado Perez",
     "isbn": "9781784706289",
