@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 import books from '../../content/data/books.json'
-import { getBookEntries } from '../utils/books'
+import library from '../../content/data/library.json'
+import { getBookEntries, joinLibraryAndReading, type LibraryBook, type ReadingBook } from '../utils/books'
 import { getBlogPosts, getPostSlug } from '../utils/posts'
 import { fetchRuns, getRunYear } from '../utils/runs'
 
@@ -15,7 +16,7 @@ export const GET: APIRoute = async () => {
     ...pages,
     '/books/',
     '/de/books/',
-    ...getBookEntries(books).flatMap(({ isbn }) => [`/books/${isbn}/`, `/de/books/${isbn}/`]),
+    ...getBookEntries(joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])).filter(({ book }) => book.totalPages > 0).flatMap(({ isbn }) => [`/books/${isbn}/`, `/de/books/${isbn}/`]),
     ...years.map((year) => `/runs/${year}/`),
     ...years.map((year) => `/de/runs/${year}/`),
     ...en.map((p) => `/posts/${getPostSlug(p)}/`),

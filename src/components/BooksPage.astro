@@ -1,33 +1,212 @@
 ---
 import BookCover from './BookCover.astro'
-import { getBookEntries, getBookIsbn, getBookShelfGroups, getBookYearSummaries, type Book } from '../utils/books'
+import library from '../../content/data/library.json'
+import reading from '../../content/data/books.json'
+import { getBookEntries, getBookIsbn, getBookRating, getBookShelfGroups, getBookStatus, getBookYearSummaries, joinLibraryAndReading, sortOwnedLibrary, type LibraryBook, type ReadingBook } from '../utils/books'
 import { localizedPath, t, type Lang } from '../utils/i18n'
 
-type Props = { lang: Lang; books: Book[] }
+type Props = { lang: Lang; books: ReadingBook[] }
 const { lang, books } = Astro.props
 const dict = t(lang).books
-getBookEntries(books)
-const { reading, remaining } = getBookShelfGroups(books)
+const mergedBooks = sortOwnedLibrary(joinLibraryAndReading(library as LibraryBook[], reading as ReadingBook[]))
+const readingBooks = mergedBooks.filter((book) => book.totalPages > 0)
+getBookEntries(readingBooks)
+const { reading: currentlyReading, remaining } = getBookShelfGroups(readingBooks)
 const shelves = [
-  { books: reading, label: dict.currentlyReading },
+  { books: currentlyReading, label: dict.currentlyReading },
   ...getBookYearSummaries(remaining).reverse().map((summary) => ({ books: summary.books, label: String(summary.year) })),
 ]
+const getLanguageFlag = (language?: string) => {
+  switch (language?.trim().toLowerCase()) {
+    case 'english':
+    case 'en':
+      return 'gb'
+    case 'german':
+    case 'deutsch':
+    case 'de':
+      return 'de'
+    case 'hindi':
+    case 'hi':
+      return 'in'
+    default:
+      return ''
+  }
+}
 ---
 <section class="books-page">
+  <p class="eyebrow">{dict.eyebrow}</p>
   <h1>{dict.title}</h1>
-  {books.length === 0 && <p class="books-empty">{dict.emptyShelf}</p>}
-  {shelves.filter((shelf) => shelf.books.length > 0).map((shelf) => (
-    <section class="bookshelf-section" aria-label={shelf.label || dict.collection}>
-      {shelf.label && <h2>{shelf.label}</h2>}
-      <ul class="bookshelf">
-        {shelf.books.map((book) => (
-          <li>
-            <a class="bookshelf-book" href={localizedPath(lang, `/books/${getBookIsbn(book)}/`)} aria-label={`${book.title} - ${book.author}`} title={`${book.title} - ${book.author}`}>
-              <BookCover book={book} lang={lang} />
-            </a>
+  <div class="books-tabs" role="tablist" aria-label={dict.title}>
+    <button type="button" role="tab" id="reading-tab" aria-controls="reading-panel" aria-selected="true" data-books-tab="reading">{dict.readingShelf}</button>
+    <button type="button" role="tab" id="owned-library-tab" aria-controls="owned-library-panel" aria-selected="false" data-books-tab="owned-library">{dict.ownedLibrary}</button>
+  </div>
+  <div id="reading-panel" role="tabpanel" aria-labelledby="reading-tab" data-books-panel="reading">
+    {books.length === 0 && <p class="books-empty">{dict.emptyShelf}</p>}
+    {shelves.filter((shelf) => shelf.books.length > 0).map((shelf) => (
+      <section class="bookshelf-section" aria-label={shelf.label || dict.collection}>
+        {shelf.label && <h2>{shelf.label}</h2>}
+        <ul class="bookshelf">
+          {shelf.books.map((book) => (
+            <li>
+              <a class="bookshelf-book" href={localizedPath(lang, `/books/${getBookIsbn(book)}/`)} aria-label={`${book.title} - ${book.author}`} title={`${book.title} - ${book.author}`}>
+                <BookCover book={book} lang={lang} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+  <section id="owned-library-panel" class="owned-library" role="tabpanel" aria-labelledby="owned-library-tab" data-books-panel="owned-library" hidden>
+    <h2 id="owned-library-heading">{dict.ownedLibrary}</h2>
+    <label class="library-search">
+      <span>{dict.searchLibrary}</span>
+      <input type="search" data-library-search placeholder={dict.searchPlaceholder} autocomplete="off" />
+    </label>
+    <p class="search-status" data-library-status data-owned-count-template={dict.ownedCountTemplate}>{dict.ownedCount(mergedBooks.length)}</p>
+    <ul class="library-list" data-library-list>
+      {mergedBooks.map((book) => {
+        const rating = getBookRating(book)
+        const status = getBookStatus(book)
+        const isRecorded = status !== 'notStarted'
+        const ratingLabel = rating === undefined ? '' : new Intl.NumberFormat(t(lang).dateLocale).format(rating)
+        const content = (
+          <>
+            <span class="library-cover"><BookCover book={book} lang={lang} /></span>
+            <span class="library-details">
+              <strong class="library-title">
+                <span>{book.title}</span>
+                {book.language && getLanguageFlag(book.language) && (
+                  <span class={`library-language library-language-${getLanguageFlag(book.language)}`} role="img" aria-label={book.language} title={book.language}>
+                    {getLanguageFlag(book.language) === 'gb' && (
+                      <svg viewBox="0 0 30 20" aria-hidden="true">
+                        <rect width="30" height="20" fill="#012169" />
+                        <path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4" />
+                        <path d="M0 0l30 20M30 0L0 20" stroke="#c8102e" stroke-width="2" />
+                        <path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6" />
+                        <path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="3" />
+                      </svg>
+                    )}
+                    {getLanguageFlag(book.language) === 'de' && (
+                      <svg viewBox="0 0 30 20" aria-hidden="true">
+                        <rect width="30" height="7" fill="#000" />
+                        <rect y="7" width="30" height="6" fill="#dd0000" />
+                        <rect y="13" width="30" height="7" fill="#ffce00" />
+                      </svg>
+                    )}
+                    {getLanguageFlag(book.language) === 'in' && (
+                      <svg viewBox="0 0 30 20" aria-hidden="true">
+                        <rect width="30" height="7" fill="#ff9933" />
+                        <rect y="7" width="30" height="6" fill="#fff" />
+                        <rect y="13" width="30" height="7" fill="#138808" />
+                        <circle cx="15" cy="10" r="2" fill="none" stroke="#000080" stroke-width=".8" />
+                      </svg>
+                    )}
+                  </span>
+                )}
+              </strong>
+              <span>{book.author}</span>
+              {isRecorded && <span>{dict.status[status]}</span>}
+              {rating !== undefined && (
+                <span class="library-rating" role="img" aria-label={dict.ratingLabel(ratingLabel)} title={dict.ratingLabel(ratingLabel)}>
+                  <span class="library-rating-stars" aria-hidden="true">
+                    <span class="library-rating-stars-base">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                    <span class="library-rating-stars-filled" style={`width:${(rating / 5) * 100}%`}>&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                  </span>
+                </span>
+              )}
+              {!isRecorded && <span>{dict.unread}</span>}
+              <span>{book.isbn}</span>
+            </span>
+          </>
+        )
+        return (
+          <li data-library-item data-title={book.title} data-author={book.author} data-isbn={getBookIsbn(book)} data-language={book.language ?? ''}>
+            {isRecorded
+              ? <a href={localizedPath(lang, `/books/${getBookIsbn(book)}/`)}>{content}</a>
+              : <span class="library-item-owned">{content}</span>}
           </li>
-        ))}
-      </ul>
-    </section>
-  ))}
+        )
+      })}
+    </ul>
+    <p class="books-empty" data-library-empty hidden>{dict.noInventoryMatches}</p>
+  </section>
 </section>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-books-tab]'))
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-books-panel]'))
+  const activateTab = (name: string, updateHash = true) => {
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.booksTab === name
+      tab.setAttribute('aria-selected', String(selected))
+      tab.tabIndex = selected ? 0 : -1
+    })
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.booksPanel !== name
+    })
+    if (updateHash) history.replaceState(null, '', name === 'owned-library' ? '#owned-library' : '#reading')
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activateTab(tab.dataset.booksTab ?? 'reading'))
+    tab.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
+      event.preventDefault()
+      const nextIndex = event.key === 'ArrowRight' ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length
+      tabs[nextIndex]?.focus()
+      activateTab(tabs[nextIndex]?.dataset.booksTab ?? 'reading')
+    })
+  })
+  activateTab(location.hash === '#owned-library' ? 'owned-library' : 'reading', false)
+
+  const search = document.querySelector<HTMLInputElement>('[data-library-search]')
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-library-item]'))
+  const status = document.querySelector<HTMLElement>('[data-library-status]')
+  const empty = document.querySelector<HTMLElement>('[data-library-empty]')
+
+  const filterLibrary = () => {
+    const query = search?.value.trim().toLowerCase().replace(/[-\s]/g, '') ?? ''
+    let matches = 0
+    items.forEach((item) => {
+      const haystack = `${item.dataset.title} ${item.dataset.author} ${item.dataset.isbn}`
+        .toLowerCase()
+        .replace(/[-\s]/g, '')
+      const matchesQuery = !query || haystack.includes(query)
+      const visible = matchesQuery
+      item.hidden = !visible
+      if (visible) matches++
+    })
+    if (status) status.textContent = (status.dataset.ownedCountTemplate ?? '{count}').replace('{count}', String(matches))
+    if (empty) empty.hidden = matches !== 0
+  }
+
+  search?.addEventListener('input', filterLibrary)
+</script>
+
+<style>
+  .books-tabs { display:flex; gap:8px; width:100%; margin:0 0 12px; border-bottom:1px solid var(--line); }
+  .books-tabs button { margin-bottom:-1px; padding:10px 14px; border:1px solid transparent; border-bottom-color:var(--line); background:transparent; color:var(--muted); cursor:pointer; font:inherit; }
+  .books-tabs button[aria-selected="true"] { border-color:var(--line); border-bottom-color:var(--wash); color:var(--ink); }
+  [data-books-panel][hidden] { display:none; }
+  .owned-library { width:100%; margin:24px 0 0; }
+  .owned-library h2 { margin-bottom:12px; }
+  .library-search { display:grid; gap:8px; max-width:420px; color:var(--muted); font-size:var(--font-size-small); }
+  .library-search input { width:100%; padding:12px 14px; border:1px solid var(--line); background:var(--wash); color:var(--ink); }
+  .library-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:20px 0 0; padding:0; list-style:none; }
+  .library-list li, .library-list a, .library-item-owned { min-width:0; }
+  .library-list a, .library-item-owned { display:grid; grid-template-columns:72px minmax(0,1fr); gap:14px; align-items:start; color:var(--ink); text-decoration:none; }
+  .library-list a:hover strong { color:var(--accent); }
+  .library-cover { display:block; width:72px; height:100px; }
+  .library-details { display:grid; gap:5px; min-width:0; color:var(--muted); font-size:var(--font-size-small); overflow-wrap:anywhere; }
+  .library-details strong { color:var(--ink); font-family:'Source Serif 4',serif; font-size:1rem; }
+  .library-title { display:flex; align-items:center; gap:8px; min-width:0; }
+  .library-title > span:first-child { overflow-wrap:anywhere; }
+  .library-language { display:inline-flex; flex:0 0 auto; width:15px; height:10px; overflow:hidden; border:1px solid var(--line); border-radius:1px; box-shadow:0 1px 2px #0005; }
+  .library-language svg { display:block; width:100%; height:100%; }
+  .library-rating { display:inline-block; width:max-content; margin-top:2px; line-height:1; }
+  .library-rating-stars { position:relative; display:inline-block; letter-spacing:0; line-height:1; }
+  .library-rating-stars-base { color:var(--line); }
+  .library-rating-stars-filled { position:absolute; top:0; left:0; overflow:hidden; color:var(--accent); white-space:nowrap; }
+  @media (max-width:640px) { .library-list { grid-template-columns:minmax(0,1fr); } }
+</style>

@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Later",
+    "author": "Stephen King",
+    "isbn": "9781789096491",
+    "genre": "horror",
+    "format": "paperback",
+    "language": "English"
+  },
+  {
+    "title": "Invisible Women",
+    "author": "Caroline Criado Perez",
+    "isbn": "9781784706289",
+    "genre": "non-fiction",
+    "format": "paperback",
+    "language": "English"
+  },
+  {
+    "title": "Alice in Borderland, Vol. 1",
+    "author": "Haro Aso",
+    "isbn": "9781974728374",
+    "genre": "mystery",
+    "format": "manga",
+    "language": "English"
+  },
+  {
+    "title": "Book Lovers",
+    "author": "Emily Henry",
+    "isbn": "9780593334836",
+    "genre": "romance",
+    "format": "paperback",
+    "language": "English"
+  },
+  {
+    "title": "Strange Pictures",
+    "author": "Uketsu",
+    "isbn": "9781805335610",
+    "genre": "mystery",
+    "format": "paperback",
+    "language": "English"
+  }
+]

@@ -1,16 +1,18 @@
 ---
 import type { Book } from '../utils/books'
+import { getBookIsbn } from '../utils/books'
 import { t, type Lang } from '../utils/i18n'
 
 type Props = { book: Book; lang: Lang; eager?: boolean }
 const { book, lang, eager = false } = Astro.props
+const coverUrl = book.coverUrl ?? (book.isbn ? `/images/books/${getBookIsbn(book)}.jpg` : undefined)
 ---
 <span class="book-cover" data-book-cover>
-  <span class="book-cover-fallback" hidden={Boolean(book.coverUrl)}>
+  <span class="book-cover-fallback" hidden={Boolean(coverUrl)}>
     <strong>{book.title}</strong>
     <span>{book.author}</span>
   </span>
-  {book.coverUrl && <img src={book.coverUrl} alt={t(lang).books.coverAlt(book.title)} width="160" height="224" loading={eager ? 'eager' : 'lazy'} decoding="async" />}
+  {coverUrl && <img src={coverUrl} data-cover-url={book.coverUrl} data-isbn={book.isbn ? getBookIsbn(book) : undefined} alt={t(lang).books.coverAlt(book.title)} width="160" height="224" loading={eager ? 'eager' : 'lazy'} decoding="async" />}
 </span>
 
 <script>
@@ -18,7 +20,19 @@ const { book, lang, eager = false } = Astro.props
     const image = cover.querySelector('img')
     const fallback = cover.querySelector<HTMLElement>('.book-cover-fallback')
     if (!image || !fallback) return
+    const isbn = image.dataset.isbn
+    const candidates = image.dataset.coverUrl
+      ? [image.dataset.coverUrl]
+      : isbn
+        ? [`.jpg`, `.jpeg`, `.png`, `.webp`].map((extension) => `/images/books/${isbn}${extension}`)
+        : []
+    let candidateIndex = candidates.indexOf(image.getAttribute('src') ?? '')
     const showFallback = () => {
+      candidateIndex++
+      if (candidateIndex < candidates.length) {
+        image.src = candidates[candidateIndex]
+        return
+      }
       image.hidden = true
       fallback.hidden = false
     }

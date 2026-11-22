@@ -7,6 +7,7 @@
     "build": "astro check && astro build",
     "test": "vitest run",
     "preview": "astro preview",
+    "import-library": "node scripts/import-library.mjs",
     "share-localized-images": "node scripts/share-localized-images.mjs",
     "check:shared-images": "node scripts/share-localized-images.mjs --check"
   },
