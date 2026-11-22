@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import books from '../../content/data/books.json'
-import { getBookEntries, getBookIsbn, getBookProgress, getBookRating, getBookShelfGroups, getBookStatus, getBookYearSummaries } from './books'
+import library from '../../content/data/library.json'
+import { getBookEntries, getBookIsbn, getLibraryEntries, getBookProgress, getBookRating, getBookShelfGroups, getBookStatus, getBookYearSummaries, joinLibraryAndReading, searchLibrary, sortOwnedLibrary, type LibraryBook, type ReadingBook } from './books'
 
 const book = (overrides: Partial<Parameters<typeof getBookProgress>[0]> = {}) => ({
   title: 'Example', author: 'Author', yearRead: 2026, genre: 'fiction', format: 'novel', language: 'English',
@@ -47,10 +48,11 @@ describe('book ISBN routes', () => {
   })
 
   it('generates one unique route per recorded book without changing its data', () => {
-    const entries = getBookEntries(books)
+    const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
+    const entries = getBookEntries(merged.filter((book) => book.totalPages > 0))
     expect(entries).toHaveLength(books.length)
     expect(new Set(entries.map((entry) => entry.isbn)).size).toBe(books.length)
-    expect(entries[0].book).toBe(books[0])
+    expect(entries.map((entry) => entry.isbn)).toContain('9781789096491')
   })
 })
 
@@ -93,10 +95,65 @@ describe('book shelf groups', () => {
   })
 
   it('records Invisible Women as currently reading at page 22, started 31 October 2026', () => {
-    const entry = getBookEntries(books).find((entry) => entry.isbn === '9781784706289')
+    const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
+    const entry = getBookEntries(merged).find((entry) => entry.isbn === '9781784706289')
     expect(entry?.book).toMatchObject({ title: 'Invisible Women', currentPage: 22, totalPages: 432, dateStarted: '2026-10-31' })
-    expect(getBookShelfGroups(books).reading).toEqual([entry!.book])
+    expect(getBookShelfGroups(merged).reading).toEqual([entry!.book])
     expect(getBookStatus(entry!.book)).toBe('reading')
     expect(getBookProgress(entry!.book)).toBe(5)
+  })
+})
+
+describe('owned library', () => {
+  it('joins canonical inventory metadata with reading records by normalized ISBN', () => {
+    const entries = getLibraryEntries(library as LibraryBook[])
+    const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
+    expect(entries).toHaveLength(library.length)
+    expect(merged).toHaveLength(library.length)
+    expect(merged.find((book) => book.isbn === '9781789096491')).toMatchObject({
+      title: 'Later',
+      rating: 4,
+      dateEnded: '2026-11-21',
+    })
+    expect(merged.find((book) => book.isbn === '9780241335536')).toMatchObject({
+      title: 'Heroes of Olympus: The Son of Neptune',
+      author: 'Rick Riordan',
+      language: 'English',
+      totalPages: 0,
+      currentPage: 0,
+    })
+  })
+
+  it('searches title, author, and ISBN and rejects duplicate library ISBNs', () => {
+    const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
+    expect(searchLibrary(merged, 'Stephen King').map((book) => book.title)).toEqual(['Later'])
+    expect(searchLibrary(merged, '978 1784706289').map((book) => book.title)).toEqual(['Invisible Women'])
+    expect(searchLibrary(merged, 'borderland').map((book) => book.title)).toEqual(expect.arrayContaining([
+      'Alice in Borderland, Vol. 1',
+      'Alice in Borderland: Doppelband-Edition 2',
+    ]))
+    expect(() => getLibraryEntries([
+      library[0] as LibraryBook,
+      { ...(library[0] as LibraryBook), isbn: '978-1-7890-9649-1', title: 'Duplicate' },
+    ])).toThrow('Duplicate library ISBN')
+  })
+
+  it('sorts the owned library alphabetically by title and includes new language editions', () => {
+    const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
+    const sorted = sortOwnedLibrary(merged)
+    expect(sorted.map((book) => book.title)).toEqual(sorted.map((book) => book.title).sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' })))
+    expect(sorted.find((book) => book.isbn === '9783551623843')).toMatchObject({
+      title: 'Alice in Borderland: Doppelband-Edition 2',
+      author: 'Haro Aso',
+      language: 'German',
+    })
+  })
+
+  it('rejects duplicate reading records instead of silently overwriting one', () => {
+    const reading = books[0] as ReadingBook
+    expect(() => joinLibraryAndReading(library as LibraryBook[], [
+      reading,
+      { ...reading, isbn: '978-1-7890-9649-1' },
+    ])).toThrow('Duplicate reading ISBN')
   })
 })

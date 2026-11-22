@@ -1,16 +1,17 @@
 ---
 import type { Book } from '../utils/books'
+import { getBookIsbn } from '../utils/books'
 import { t, type Lang } from '../utils/i18n'
 
 type Props = { book: Book; lang: Lang; eager?: boolean }
 const { book, lang, eager = false } = Astro.props
+const coverUrl = book.coverUrl ?? (book.isbn ? `/images/books/${getBookIsbn(book)}.jpg` : undefined)
 ---
 <span class="book-cover" data-book-cover>
-  <span class="book-cover-fallback" hidden={Boolean(book.coverUrl)}>
-    <strong>{book.title}</strong>
-    <span>{book.author}</span>
+  <span class="book-cover-fallback" hidden={Boolean(coverUrl)}>
+    <strong>{t(lang).books.coverComingSoon}</strong>
   </span>
-  {book.coverUrl && <img src={book.coverUrl} alt={t(lang).books.coverAlt(book.title)} width="160" height="224" loading={eager ? 'eager' : 'lazy'} decoding="async" />}
+  {coverUrl && <img src={coverUrl} data-cover-url={book.coverUrl} data-isbn={book.isbn ? getBookIsbn(book) : undefined} alt={t(lang).books.coverAlt(book.title)} width="160" height="224" loading={eager ? 'eager' : 'lazy'} decoding="async" />}
 </span>
 
 <script>
@@ -18,7 +19,19 @@ const { book, lang, eager = false } = Astro.props
     const image = cover.querySelector('img')
     const fallback = cover.querySelector<HTMLElement>('.book-cover-fallback')
     if (!image || !fallback) return
+    const isbn = image.dataset.isbn
+    const candidates = image.dataset.coverUrl
+      ? [image.dataset.coverUrl]
+      : isbn
+        ? [`.jpg`, `.jpeg`, `.png`, `.webp`].map((extension) => `/images/books/${isbn}${extension}`)
+        : []
+    let candidateIndex = candidates.indexOf(image.getAttribute('src') ?? '')
     const showFallback = () => {
+      candidateIndex++
+      if (candidateIndex < candidates.length) {
+        image.src = candidates[candidateIndex]
+        return
+      }
       image.hidden = true
       fallback.hidden = false
     }
@@ -35,7 +48,7 @@ const { book, lang, eager = false } = Astro.props
   .book-cover { position:relative; display:block; width:100%; height:100%; }
   .book-cover img { display:block; width:100%; height:100%; object-fit:contain; object-position:center bottom; }
   .book-cover img[hidden], .book-cover-fallback[hidden] { display:none; }
-  .book-cover-fallback { display:flex; flex-direction:column; justify-content:space-between; gap:16px; width:100%; height:100%; padding:20px 14px 20px 20px; border:1px solid var(--line); border-left:6px solid var(--accent); background:var(--wash); color:var(--ink); overflow-wrap:anywhere; }
-  .book-cover-fallback strong { font-family:'Source Serif 4', serif; font-size:1rem; line-height:1.35; }
+  .book-cover-fallback { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; width:100%; height:100%; padding:10px 6px; border:1px solid var(--line); border-left:6px solid var(--accent); background:var(--wash); color:var(--ink); overflow-wrap:anywhere; }
+  .book-cover-fallback strong { width:100%; font-family:'Source Serif 4', serif; font-size:.7rem; line-height:1.25; text-align:center; }
   .book-cover-fallback > span { color:var(--muted); font-size:var(--font-size-small); }
 </style>

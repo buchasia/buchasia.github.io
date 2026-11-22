@@ -16,12 +16,35 @@ export type Book = {
   noteDe: string
 }
 
+export type LibraryBook = {
+  title: string
+  author: string
+  isbn: string
+  genre?: string
+  format?: string
+  language?: string
+  edition?: string
+  coverUrl?: string
+}
+
+export type ReadingBook = {
+  isbn: string
+  yearRead: number
+  dateStarted?: string
+  dateEnded?: string
+  totalPages: number
+  currentPage: number
+  rating?: number
+  noteEn: string
+  noteDe: string
+}
+
 export type BookStatus = 'finished' | 'reading' | 'notStarted'
 
-export const getBookIsbn = (book: Book): string => {
+export const getBookIsbn = (book: { isbn?: string; title?: string }): string => {
   const isbn = (book.isbn ?? '').replace(/[-\s]/g, '').toUpperCase()
   if (!/^(?:\d{13}|\d{9}[\dX])$/.test(isbn)) {
-    throw new Error(`Book "${book.title}" needs a valid ISBN-10 or ISBN-13 for its detail page.`)
+    throw new Error(`Book "${book.title ?? isbn}" needs a valid ISBN-10 or ISBN-13 for its detail page.`)
   }
   return isbn
 }
@@ -35,6 +58,56 @@ export const getBookEntries = (books: Book[]) => {
     return { isbn, book }
   })
 }
+
+export const getLibraryEntries = (books: LibraryBook[]) => {
+  const seen = new Set<string>()
+  return books.map((book) => {
+    const isbn = getBookIsbn(book)
+    if (seen.has(isbn)) throw new Error(`Duplicate library ISBN ${isbn}: "${book.title}".`)
+    seen.add(isbn)
+    return { isbn, book }
+  })
+}
+
+export const joinLibraryAndReading = (library: LibraryBook[], reading: ReadingBook[]): Book[] => {
+  const readingByIsbn = new Map<string, ReadingBook>()
+  for (const book of reading) {
+    const isbn = getBookIsbn(book)
+    if (readingByIsbn.has(isbn)) throw new Error(`Duplicate reading ISBN ${isbn}: "${isbn}".`)
+    readingByIsbn.set(isbn, book)
+  }
+  return getLibraryEntries(library).map(({ isbn, book }) => {
+    const progress = readingByIsbn.get(isbn)
+    return {
+      ...book,
+      isbn,
+      yearRead: progress?.yearRead ?? 0,
+      genre: book.genre ?? '',
+      format: book.format ?? '',
+      language: book.language ?? '',
+      dateStarted: progress?.dateStarted,
+      dateEnded: progress?.dateEnded,
+      totalPages: progress?.totalPages ?? 0,
+      currentPage: progress?.currentPage ?? 0,
+      rating: progress?.rating,
+      noteEn: progress?.noteEn ?? '',
+      noteDe: progress?.noteDe ?? '',
+    }
+  })
+}
+
+export const searchLibrary = (books: Book[], query: string): Book[] => {
+  const normalizedQuery = query.trim().toLowerCase().replace(/[-\s]/g, '')
+  if (!normalizedQuery) return books
+  return books.filter((book) => {
+    const isbn = getBookIsbn(book)
+    return `${book.title} ${book.author}`.toLowerCase().includes(query.trim().toLowerCase())
+      || isbn.toLowerCase().includes(normalizedQuery)
+  })
+}
+
+export const sortOwnedLibrary = (books: Book[]): Book[] =>
+  [...books].sort((a, b) => a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }))
 
 export type BookYearSummary = {
   year: number

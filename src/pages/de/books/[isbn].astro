@@ -1,11 +1,13 @@
 ---
 import books from '../../../../content/data/books.json'
+import library from '../../../../content/data/library.json'
 import BookDetailPage from '../../../components/BookDetailPage.astro'
 import BaseLayout from '../../../layouts/BaseLayout.astro'
-import { getBookEntries } from '../../../utils/books'
+import { getBookEntries, joinLibraryAndReading, type LibraryBook, type ReadingBook } from '../../../utils/books'
 
 export function getStaticPaths() {
-  return getBookEntries(books).map(({ isbn, book }) => ({ params: { isbn }, props: { book, isbn } }))
+  const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
+  return getBookEntries(merged).filter(({ book }) => book.totalPages > 0).map(({ isbn, book }) => ({ params: { isbn }, props: { book, isbn } }))
 }
 
 const { book, isbn } = Astro.props
