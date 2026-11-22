@@ -40,11 +40,43 @@
     "language": "English"
   },
   {
-    "title": "The Heroes of Olympus: The Son of Neptune",
+    "title": "Heroes of Olympus: The Son of Neptune",
     "author": "Rick Riordan",
     "isbn": "9780241335536",
     "genre": "fantasy",
     "format": "paperback",
     "language": "English"
+  },
+  {
+    "title": "The Blood of Olympus",
+    "author": "Rick Riordan",
+    "isbn": "9780241335567",
+    "genre": "fantasy",
+    "format": "paperback",
+    "language": "English"
+  },
+  {
+    "title": "Heroes of Olympus: The Mark of Athena",
+    "author": "Rick Riordan",
+    "isbn": "9780241335543",
+    "genre": "fantasy",
+    "format": "paperback",
+    "language": "English"
+  },
+  {
+    "title": "Heroes of Olympus: The House of Hades",
+    "author": "Rick Riordan",
+    "isbn": "9780241335550",
+    "genre": "fantasy",
+    "format": "paperback",
+    "language": "English"
+  },
+  {
+    "title": "Alice in Borderland: Doppelband-Edition 2",
+    "author": "Haro Aso",
+    "isbn": "9783551623843",
+    "genre": "manga",
+    "format": "paperback",
+    "language": "German"
   }
 ]
