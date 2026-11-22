@@ -38,5 +38,13 @@
     "genre": "mystery",
     "format": "paperback",
     "language": "English"
+  },
+  {
+    "title": "The Heroes of Olympus: The Son of Neptune",
+    "author": "Rick Riordan",
+    "isbn": "9780241335536",
+    "genre": "fantasy",
+    "format": "paperback",
+    "language": "English"
   }
 ]
