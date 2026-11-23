@@ -165,5 +165,63 @@
     "language": "German",
     "edition": "1st edition",
     "numberOfPages": 161
+  },
+  {
+    "title": "Remote Mob Programming: At home, but not alone.",
+    "author": "Simon Harrer, Jochen Christ, Martin Huber",
+    "isbn": "9783982112602",
+    "genre": "technology",
+    "format": "paperback",
+    "language": "English",
+    "numberOfPages": 34
+  },
+  {
+    "title": "GitHub Actions in Action: Continuous Integration and Delivery for DevOps",
+    "author": "Michael Kaufmann, Rob Bos, Marcel de Vries",
+    "isbn": "9781633437302",
+    "genre": "technology",
+    "format": "paperback",
+    "language": "English",
+    "edition": "1st edition",
+    "numberOfPages": 256
+  },
+  {
+    "title": "Die Schule der magischen Tiere, Band 8: Voll verknallt!",
+    "author": "Margit Auer",
+    "isbn": "9783551652782",
+    "genre": "children",
+    "format": "hardcover",
+    "language": "German",
+    "edition": "1st edition",
+    "numberOfPages": 215
+  },
+  {
+    "title": "Pokémon – Die ersten Abenteuer 1: Rot, Blau, Gelb",
+    "author": "Hidenori Kusaka and Mato",
+    "isbn": "9783957986368",
+    "genre": "manga",
+    "format": "paperback",
+    "language": "German",
+    "edition": "1st edition",
+    "numberOfPages": 208
+  },
+  {
+    "title": "Daughter of the Deep",
+    "author": "Rick Riordan",
+    "isbn": "9780241538203",
+    "genre": "fantasy",
+    "format": "paperback",
+    "language": "English",
+    "edition": "Reprint",
+    "numberOfPages": 384
+  },
+  {
+    "title": "The Gruffalo",
+    "author": "Julia Donaldson",
+    "isbn": "9781509830398",
+    "genre": "children",
+    "format": "board book",
+    "language": "English",
+    "numberOfPages": 32
   }
 ]
