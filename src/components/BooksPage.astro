@@ -9,7 +9,7 @@ type Props = { lang: Lang; books: ReadingBook[] }
 const { lang, books } = Astro.props
 const dict = t(lang).books
 const mergedBooks = sortOwnedLibrary(joinLibraryAndReading(library as LibraryBook[], reading as ReadingBook[]))
-const readingBooks = mergedBooks.filter((book) => book.totalPages > 0)
+const readingBooks = mergedBooks.filter((book) => book.yearRead > 0)
 getBookEntries(readingBooks)
 const { reading: currentlyReading, remaining } = getBookShelfGroups(readingBooks)
 const shelves = [

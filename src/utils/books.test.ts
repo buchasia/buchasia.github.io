@@ -49,7 +49,7 @@ describe('book ISBN routes', () => {
 
   it('generates one unique route per recorded book without changing its data', () => {
     const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
-    const entries = getBookEntries(merged.filter((book) => book.totalPages > 0))
+    const entries = getBookEntries(merged.filter((book) => book.yearRead > 0))
     expect(entries).toHaveLength(books.length)
     expect(new Set(entries.map((entry) => entry.isbn)).size).toBe(books.length)
     expect(entries.map((entry) => entry.isbn)).toContain('9781789096491')
@@ -119,7 +119,7 @@ describe('owned library', () => {
       title: 'Heroes of Olympus: The Son of Neptune',
       author: 'Rick Riordan',
       language: 'English',
-      totalPages: 0,
+      totalPages: 519,
       currentPage: 0,
     })
   })

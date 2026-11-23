@@ -25,6 +25,7 @@ export type LibraryBook = {
   language?: string
   edition?: string
   coverUrl?: string
+  numberOfPages?: number
 }
 
 export type ReadingBook = {
@@ -32,7 +33,6 @@ export type ReadingBook = {
   yearRead: number
   dateStarted?: string
   dateEnded?: string
-  totalPages: number
   currentPage: number
   rating?: number
   noteEn: string
@@ -87,7 +87,7 @@ export const joinLibraryAndReading = (library: LibraryBook[], reading: ReadingBo
       language: book.language ?? '',
       dateStarted: progress?.dateStarted,
       dateEnded: progress?.dateEnded,
-      totalPages: progress?.totalPages ?? 0,
+      totalPages: book.numberOfPages ?? 0,
       currentPage: progress?.currentPage ?? 0,
       rating: progress?.rating,
       noteEn: progress?.noteEn ?? '',
