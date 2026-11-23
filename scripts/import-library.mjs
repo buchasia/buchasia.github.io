@@ -67,6 +67,7 @@ for (const record of records) {
     ...(record.language ? { language: record.language } : {}),
     ...(record.edition ? { edition: record.edition } : {}),
     ...(record.coverUrl ? { coverUrl: record.coverUrl } : {}),
+    ...(record.numberOfPages ? { numberOfPages: Number(record.numberOfPages) } : {}),
   })
 }
 

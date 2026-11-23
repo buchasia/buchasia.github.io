@@ -5,7 +5,8 @@
     "isbn": "9781789096491",
     "genre": "horror",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 272
   },
   {
     "title": "Invisible Women",
@@ -13,7 +14,8 @@
     "isbn": "9781784706289",
     "genre": "non-fiction",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 432
   },
   {
     "title": "Alice in Borderland, Vol. 1",
@@ -21,7 +23,8 @@
     "isbn": "9781974728374",
     "genre": "mystery",
     "format": "manga",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 344
   },
   {
     "title": "Book Lovers",
@@ -29,7 +32,8 @@
     "isbn": "9780593334836",
     "genre": "romance",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 416
   },
   {
     "title": "Strange Pictures",
@@ -37,7 +41,8 @@
     "isbn": "9781805335610",
     "genre": "mystery",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 240
   },
   {
     "title": "Heroes of Olympus: The Son of Neptune",
@@ -45,7 +50,8 @@
     "isbn": "9780241335536",
     "genre": "fantasy",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 519
   },
   {
     "title": "Heroes of Olympus: The Blood of Olympus",
@@ -53,7 +59,8 @@
     "isbn": "9780241335567",
     "genre": "fantasy",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 544
   },
   {
     "title": "Heroes of Olympus: The Mark of Athena",
@@ -61,7 +68,8 @@
     "isbn": "9780241335543",
     "genre": "fantasy",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 608
   },
   {
     "title": "Heroes of Olympus: The House of Hades",
@@ -69,7 +77,8 @@
     "isbn": "9780241335550",
     "genre": "fantasy",
     "format": "paperback",
-    "language": "English"
+    "language": "English",
+    "numberOfPages": 608
   },
   {
     "title": "Alice in Borderland: Doppelband-Edition 2",
@@ -77,6 +86,84 @@
     "isbn": "9783551623843",
     "genre": "manga",
     "format": "paperback",
-    "language": "German"
+    "language": "German",
+    "numberOfPages": 338
+  },
+  {
+    "title": "Monster! Und andere Geschichten",
+    "author": "Gustavo Duarte",
+    "isbn": "9783833234132",
+    "genre": "comic",
+    "format": "hardcover",
+    "language": "German",
+    "numberOfPages": 160
+  },
+  {
+    "title": "Exam Ref DP-600 Implementing Analytics Solutions Using Microsoft Fabric",
+    "author": "Daniil Maslyuk",
+    "isbn": "9780135336021",
+    "genre": "technology",
+    "format": "paperback",
+    "language": "English",
+    "edition": "1st edition",
+    "numberOfPages": 336
+  },
+  {
+    "title": "Founders at Work: Stories of Startups' Early Days",
+    "author": "Jessica Livingston",
+    "isbn": "9781590597149",
+    "genre": "technology",
+    "format": "hardcover",
+    "language": "English",
+    "edition": "1st edition",
+    "numberOfPages": 472
+  },
+  {
+    "title": "ABAP in the Cloud: Development and Operations with SAP BTP, ABAP Environment",
+    "author": "Gairik Acharya",
+    "isbn": "9781493220632",
+    "genre": "technology",
+    "format": "hardcover",
+    "language": "English",
+    "edition": "1st edition",
+    "numberOfPages": 316
+  },
+  {
+    "title": "One Piece, Band 1: Das Abenteuer beginnt",
+    "author": "Eiichiro Oda",
+    "isbn": "9783551745811",
+    "genre": "manga",
+    "format": "paperback",
+    "language": "German",
+    "edition": "German edition",
+    "numberOfPages": 205
+  },
+  {
+    "title": "It Ends with Us",
+    "author": "Colleen Hoover",
+    "isbn": "9781501110368",
+    "genre": "romance",
+    "format": "paperback",
+    "language": "English",
+    "numberOfPages": 384
+  },
+  {
+    "title": "The Sun and the Star: The Nico Di Angelo Adventures",
+    "author": "Rick Riordan and Mark Oshiro",
+    "isbn": "9780241627709",
+    "genre": "fantasy",
+    "format": "paperback",
+    "language": "English",
+    "numberOfPages": 496
+  },
+  {
+    "title": "Stitch und der Samurai 1",
+    "author": "Hiroto Wada",
+    "isbn": "9783551803696",
+    "genre": "manga",
+    "format": "paperback",
+    "language": "German",
+    "edition": "1st edition",
+    "numberOfPages": 161
   }
 ]

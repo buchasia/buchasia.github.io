@@ -7,7 +7,7 @@ import { getBookEntries, joinLibraryAndReading, type LibraryBook, type ReadingBo
 
 export function getStaticPaths() {
   const merged = joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])
-  return getBookEntries(merged).filter(({ book }) => book.totalPages > 0).map(({ isbn, book }) => ({ params: { isbn }, props: { book, isbn } }))
+  return getBookEntries(merged).filter(({ book }) => book.yearRead > 0).map(({ isbn, book }) => ({ params: { isbn }, props: { book, isbn } }))
 }
 
 const { book, isbn } = Astro.props

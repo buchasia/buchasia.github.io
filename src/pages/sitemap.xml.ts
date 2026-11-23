@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
     ...pages,
     '/books/',
     '/de/books/',
-    ...getBookEntries(joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])).filter(({ book }) => book.totalPages > 0).flatMap(({ isbn }) => [`/books/${isbn}/`, `/de/books/${isbn}/`]),
+    ...getBookEntries(joinLibraryAndReading(library as LibraryBook[], books as ReadingBook[])).filter(({ book }) => book.yearRead > 0).flatMap(({ isbn }) => [`/books/${isbn}/`, `/de/books/${isbn}/`]),
     ...years.map((year) => `/runs/${year}/`),
     ...years.map((year) => `/de/runs/${year}/`),
     ...en.map((p) => `/posts/${getPostSlug(p)}/`),
